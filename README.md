@@ -374,4 +374,3 @@ Hệ thống dùng Web UI React/Vite, API Express/TypeScript và PostgreSQL; có
 - Liên hệ: [Email](mailto:trungnghia180205@gmail.com) / [LinkedIn](https://www.linkedin.com/in/nguyen-trung-nghia-366842157/)
 
 </details>
-# Smart_Queue_Presentation
