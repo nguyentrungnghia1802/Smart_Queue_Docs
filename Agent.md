@@ -28,7 +28,7 @@ Build a complete 23-slide HTML presentation deck (`presentation/index.html`) bas
 - [x] **Slide 15 — Branch Manager Workspace**
 - [x] **Slide 16 — Multi-Queue per Branch**
 - [x] **Slide 17 — Queue Configuration**
-- [ ] **Slide 18 — Branch Stock**
+- [x] **Slide 18 — Branch Stock**
 - [ ] **Slide 19 — Customer Journey with LINE**
 - [ ] **Slide 20 — Booking & Ticket**
 - [ ] **Slide 21 — Công nghệ LINE nổi bật**

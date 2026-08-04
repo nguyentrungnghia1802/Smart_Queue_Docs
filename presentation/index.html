@@ -759,6 +759,52 @@
         </div>
       </section>
 
+      <!-- Slide 18 -->
+      <section class="slide" id="slide-18">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 18 — Branch Stock</span>
+            <h1 class="slide-title">Stock thuộc về từng chi nhánh</h1>
+            <p class="slide-subtitle">Quản lý vòng đời tồn kho từ Reserve ➔ Release ➔ Consume</p>
+          </div>
+          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Stock Control</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Hỗ trợ 2 chế độ kho: Tồn kho hữu hạn (Finite) & Không giới hạn (Unlimited)</li>
+              <li><strong>Reserve (Giữ kho)</strong>: Tự động khóa số lượng ngay khi khách Booking</li>
+              <li><strong>Release (Khôi phục)</strong>: Tự động hoàn trả kho khi Ticket bị Hủy/Vắng mặt</li>
+              <li><strong>Consume (Khấu trừ)</strong>: Trừ tồn kho thực tế khi Staff hoàn tất phục vụ</li>
+              <li>Ngăn chặn triệt để tình trạng bán vượt quá số lượng (Overselling)</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Branch Stock Management</div>
+              </div>
+              <div class="browser-content">
+                <img src="../docs/images/guide/25-branch-stock.png" alt="Branch Stock">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Stock được quản lý theo từng Branch.<br><br>
+          Cùng một sản phẩm trong Catalog chung có thể còn hàng ở Branch A nhưng hết hàng ở Branch B.<br><br>
+          Khi Booking thành công, Stock được Reserve.<br><br>
+          Khi Cancel, Stock được Release.<br><br>
+          Khi phục vụ hoàn thành, Stock được Consume.<br><br>
+          Điều này giúp giảm nguy cơ bán quá số lượng.
+        </div>
+      </section>
+
     </div>
 
     <!-- Progress Bar -->
@@ -767,7 +813,7 @@
     <!-- Fixed Controls Overlay -->
     <div id="deck-controls">
       <button class="control-btn" id="prev-btn" title="Slide trước (←)">←</button>
-      <span class="slide-counter" id="slide-counter">01 / 17</span>
+      <span class="slide-counter" id="slide-counter">01 / 18</span>
       <button class="control-btn" id="next-btn" title="Slide tiếp (→)">→</button>
       <button class="control-btn" id="notes-btn" title="Mở Speaker Notes (P)">📝</button>
       <button class="control-btn" id="fullscreen-btn" title="Toàn màn hình (F)">⛶</button>
