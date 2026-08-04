@@ -31,6 +31,6 @@ Build a complete 23-slide HTML presentation deck (`presentation/index.html`) bas
 - [x] **Slide 18 — Branch Stock**
 - [x] **Slide 19 — Customer Journey with LINE**
 - [x] **Slide 20 — Booking & Ticket**
-- [ ] **Slide 21 — Công nghệ LINE nổi bật**
+- [x] **Slide 21 — Công nghệ LINE nổi bật**
 - [ ] **Slide 22 — Staff Operation**
 - [ ] **Slide 23 — Tính khả thi và hướng phát triển**
