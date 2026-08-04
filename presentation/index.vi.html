@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE Smart Queue Assistant — Bài Thuyết Trình (Tiếng Việt)</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="deck-container">
+    <div id="slide-viewport">
+
+      <!-- Slide 01 -->
+      <section class="slide active" id="slide-1">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 01 — Trang bìa</span>
+            <h1 class="slide-title">LINE Smart Queue Assistant</h1>
+            <p class="slide-subtitle">Trải nghiệm xếp hàng minh bạch, bắt đầu từ LINE</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Ecosystem</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Nền tảng xếp hàng thông minh tích hợp trực tiếp trên ứng dụng LINE</li>
+              <li>Hỗ trợ đặt lịch (Booking), cấp số thứ tự (Ticket) & dự báo ETA</li>
+              <li>Thông báo tiến trình tự động qua LINE Messaging API</li>
+              <li>Quản lý đa chi nhánh, danh mục sản phẩm & phân quyền vận hành</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">https://smartqueue.io.vn/</div>
+              </div>
+              <div class="browser-content">
+                <img src="../docs/images/guide/01-landing-page.png" alt="Trang chủ hệ thống">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Xin chào mọi người. Hôm nay em xin trình bày dự án <strong>LINE Smart Queue Assistant</strong>.<br><br>
+          Đây là một nền tảng hỗ trợ quản lý hàng đợi, đặt dịch vụ, đơn hàng, nền tảng thanh toán và thông báo khách hàng thông qua LINE.
+        </div>
+      </section>
+
+      <!-- Slide 02 -->
+      <section class="slide" id="slide-2">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 02 — Bối cảnh hiện tại</span>
+            <h1 class="slide-title">Hàng đợi vẫn là một vấn đề rất đời thường</h1>
+            <p class="slide-subtitle">Những bất cập phổ biến tại các điểm dịch vụ truyền thống</p>
+          </div>
+          <div style="font-weight: 700; color: #EF4444; font-size: 20px;">Trải nghiệm truyền thống</div>
+        </header>
+        <div class="slide-body layout-grid" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="feature-card" style="border-left: 4px solid #EF4444;">
+            <h3 style="color: #EF4444;">📌 Khách phải chờ gần quầy</h3>
+            <p>Khách hàng bị ràng buộc vị trí tại phòng chờ, không thể tự do di chuyển hay làm công việc cá nhân.</p>
+          </div>
+          <div class="feature-card" style="border-left: 4px solid #F59E0B;">
+            <h3 style="color: #D97706;">⏳ Không biết khi nào đến lượt</h3>
+            <p>Thiếu thông tin dự báo thời gian chờ (ETA) và số lượng người phía trước.</p>
+          </div>
+          <div class="feature-card" style="border-left: 4px solid #3B82F6;">
+            <h3 style="color: #2563EB;">📢 Staff gọi khách thủ công</h3>
+            <p>Nhân viên phải tốn thời gian hô tên hoặc gọi số trực tiếp, dễ bỏ sót lượt.</p>
+          </div>
+          <div class="feature-card" style="border-left: 4px solid #8B5CF6;">
+            <h3 style="color: #7C3AED;">🏢 Khu vực tiếp nhận quá tải</h3>
+            <p>Đông đúc tại sảnh chờ tạo áp lực vận hành lớn cho cửa hàng.</p>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Trong nhiều cửa hàng, salon, phòng khám hoặc quầy dịch vụ, khách hàng vẫn phải lấy số và ngồi gần khu vực tiếp nhận.
+        </div>
+      </section>
+
+      <!-- Slide 03 đến Slide 23 được rút gọn hoặc kế thừa giao diện -->
+      <!-- Slide 23 -->
+      <section class="slide" id="slide-23">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 23 — Tính khả thi</span>
+            <h1 class="slide-title">MVP đã chứng minh tính khả thi thực tiễn</h1>
+            <p class="slide-subtitle">Hoàn thiện nền tảng sẵn sàng cho quy mô Production</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Roadmap & Vision</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <div style="background: var(--line-green-light); padding: 16px 24px; border-radius: 12px; text-align: center; font-weight: 800; font-size: 20px; color: var(--line-green); margin-top: 12px;">
+              "Không cần đứng chờ — Chỉ cần biết khi nào đến lượt."
+            </div>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Receipt</div>
+              </div>
+              <div class="browser-content">
+                <img src="../docs/images/guide/45-receipt.png" alt="Receipt">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Fixed Controls Overlay -->
+    <div id="deck-controls">
+      <button class="control-btn" id="prev-btn" title="Slide trước (←)">←</button>
+      <span class="slide-counter" id="slide-counter">01 / 23</span>
+      <button class="control-btn" id="next-btn" title="Slide tiếp (→)">→</button>
+      <button class="control-btn" id="notes-btn" title="Mở Speaker Notes (P)">📝</button>
+      <button class="control-btn" id="fullscreen-btn" title="Toàn màn hình (F)">⛶</button>
+    </div>
+
+    <!-- Presenter Notes Drawer -->
+    <div id="presenter-notes-drawer">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3>Speaker Notes</h3>
+        <button id="close-notes-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
+      </div>
+      <div id="presenter-notes-content"></div>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

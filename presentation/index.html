@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LINE Smart Queue Assistant — Slide Deck</title>
+  <title>LINE Smart Queue Assistant — プレゼンテーション</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,19 +17,19 @@
       <section class="slide active" id="slide-1">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 01 — Trang bìa</span>
+            <span class="slide-tag">Slide 01 — 表紙</span>
             <h1 class="slide-title">LINE Smart Queue Assistant</h1>
-            <p class="slide-subtitle">Trải nghiệm xếp hàng minh bạch, bắt đầu từ LINE</p>
+            <p class="slide-subtitle">LINEで始める、見える・離れられる受付体験</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Ecosystem</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Nền tảng xếp hàng thông minh tích hợp trực tiếp trên ứng dụng LINE</li>
-              <li>Hỗ trợ đặt lịch (Booking), cấp số thứ tự (Ticket) & dự báo ETA</li>
-              <li>Thông báo tiến trình tự động qua LINE Messaging API</li>
-              <li>Quản lý đa chi nhánh, danh mục sản phẩm & phân quyền vận hành</li>
+              <li>LINEアプリ上で直接動くスマート順番待ち・予約・決済基盤</li>
+              <li>受付番号発行、待ち人数＆目安時間（ETA）のリアルタイム表示</li>
+              <li>LINE Messaging API による自動プッシュ通知配信</li>
+              <li>複数店舗、共通商品カタログ、権限ベースの運用ダッシュボード</li>
             </ul>
           </div>
           <div class="media-container">
@@ -43,15 +43,15 @@
                 <div class="browser-address-bar">https://smartqueue.io.vn/</div>
               </div>
               <div class="browser-content">
-                <img src="../docs/images/guide/01-landing-page.png" alt="Trang chủ hệ thống">
+                <img src="../docs/images/guide/01-landing-page.png" alt="公開トップページ">
               </div>
             </div>
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Xin chào mọi người. Hôm nay em xin trình bày dự án <strong>LINE Smart Queue Assistant</strong>.<br><br>
-          Đây là một nền tảng hỗ trợ quản lý hàng đợi, đặt dịch vụ, đơn hàng, nền tảng thanh toán và thông báo khách hàng thông qua LINE.<br><br>
-          Trong phần trình bày này, em sẽ tập trung vào sản phẩm, bài toán thực tế, giải pháp, kiến trúc công nghệ, luồng hoạt động và tính khả thi của hệ thống.
+          皆様、本日は <strong>LINE Smart Queue Assistant</strong> のプレゼンテーションをご覧いただきありがとうございます。<br><br>
+          本プロダクトは、店舗、サロン、クリニック等の対面サービスにおいて、受付、予約、注文、決済、顧客通知をLINE上で一貫して提供するスマート順番待ちプラットフォームです。<br><br>
+          本発表では、製品コンセプト、解決する課題、技術構成、詳細な運用フローおよび今後の展開についてご説明いたします。
         </div>
       </section>
 
@@ -59,34 +59,34 @@
       <section class="slide" id="slide-2">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 02 — Bối cảnh hiện tại</span>
-            <h1 class="slide-title">Hàng đợi vẫn là một vấn đề rất đời thường</h1>
-            <p class="slide-subtitle">Những bất cập phổ biến tại các điểm dịch vụ truyền thống</p>
+            <span class="slide-tag">Slide 02 — 現在の背景</span>
+            <h1 class="slide-title">対面サービスにおける順番待ちの日常的な課題</h1>
+            <p class="slide-subtitle">従来の受付体験における課題点と不透明さ</p>
           </div>
-          <div style="font-weight: 700; color: #EF4444; font-size: 20px;">Trải nghiệm truyền thống</div>
+          <div style="font-weight: 700; color: #EF4444; font-size: 20px;">従来体験の課題</div>
         </header>
         <div class="slide-body layout-grid" style="grid-template-columns: repeat(2, 1fr);">
           <div class="feature-card" style="border-left: 4px solid #EF4444;">
-            <h3 style="color: #EF4444;">📌 Khách phải chờ gần quầy</h3>
-            <p>Khách hàng bị ràng buộc vị trí tại phòng chờ, không thể tự do di chuyển hay làm công việc cá nhân vì sợ lỡ lượt gọi.</p>
+            <h3 style="color: #EF4444;">📌 受付付近から離れられない</h3>
+            <p>発券後に待合エリアで待機を余儀なくされ、呼出し聞き逃しの不安から自由に行動できません。</p>
           </div>
           <div class="feature-card" style="border-left: 4px solid #F59E0B;">
-            <h3 style="color: #D97706;">⏳ Không biết khi nào đến lượt</h3>
-            <p>Thiếu thông tin dự báo thời gian chờ (ETA) và số lượng người phía trước khiến khách rơi vào trạng thái mệt mỏi, thụ động.</p>
+            <h3 style="color: #D97706;">⏳ 待ち時間・順番が不透明</h3>
+            <p>目安時間（ETA）や前方の待ち人数が分からず、ストレスや問い合わせが発生します。</p>
           </div>
           <div class="feature-card" style="border-left: 4px solid #3B82F6;">
-            <h3 style="color: #2563EB;">📢 Staff gọi khách thủ công</h3>
-            <p>Nhân viên phải tốn thời gian hô tên hoặc gọi số loa đài trực tiếp, dễ bỏ sót khách vắng mặt tạm thời.</p>
+            <h3 style="color: #2563EB;">📢 手動・口頭での呼出し</h3>
+            <p>スタッフがマイクや大声で呼び出す必要があり、業務負担と聞き逃しリスクが生じます。</p>
           </div>
           <div class="feature-card" style="border-left: 4px solid #8B5CF6;">
-            <h3 style="color: #7C3AED;">🏢 Khu vực tiếp nhận quá tải</h3>
-            <p>Đông đúc tại sảnh chờ tạo áp lực vận hành lớn cho cửa hàng, ảnh hưởng tiêu cực đến hình ảnh thương hiệu.</p>
+            <h3 style="color: #7C3AED;">🏢 待合スペースの過密化</h3>
+            <p>混雑した待合エリアは店舗の快適性を損ない、ブランドイメージ低下に繋がります。</p>
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Trong nhiều cửa hàng, salon, phòng khám hoặc quầy dịch vụ, khách hàng vẫn phải lấy số và ngồi gần khu vực tiếp nhận.<br><br>
-          Vấn đề không chỉ nằm ở thời gian chờ, mà còn ở việc khách không biết còn bao lâu nữa mới đến lượt.<br><br>
-          Điều này khiến khách khó rời khỏi khu vực chờ, còn nhân viên phải liên tục gọi khách và kiểm tra trạng thái thủ công.
+          多くの店舗やサロン、クリニックでは、お客様が受付で番号札を受け取り、待合エリアで待機し続ける必要があります。<br><br>
+          問題は待ち時間そのものだけでなく、「あとどれくらいで呼ばれるか分からない」という不透明さにあります。<br><br>
+          これによりお客様は受付を離れられず、スタッフも手動での呼び出しや問い合わせ対応に追われることになります。
         </div>
       </section>
 
@@ -94,34 +94,34 @@
       <section class="slide" id="slide-3">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 03 — Vấn đề gặp phải</span>
-            <h1 class="slide-title">Hàng đợi không chỉ là “số thứ tự”</h1>
-            <p class="slide-subtitle">Sự đứt gãy giữa các nghiệp vụ vận hành thực tế</p>
+            <span class="slide-tag">Slide 03 — 直面する課題</span>
+            <h1 class="slide-title">順番待ちは「番号の発行」だけではない</h1>
+            <p class="slide-subtitle">運用現場における個別システムの分断と課題</p>
           </div>
-          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Vấn đề vận hành</div>
+          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">現場運用の分断</div>
         </header>
         <div class="slide-body layout-grid" style="grid-template-columns: repeat(2, 1fr);">
           <div class="feature-card">
-            <h3 style="color: #0F172A;">📊 Wait time không minh bạch</h3>
-            <p>Thời gian chờ thay đổi liên tục nhưng khách hàng không nhận được cập nhật realtime.</p>
+            <h3 style="color: #0F172A;">📊 待ち時間が不透明</h3>
+            <p>現場の状況は刻一刻と変化するものの、リアルタイムな予想待ち時間が提示されません。</p>
           </div>
           <div class="feature-card">
-            <h3 style="color: #0F172A;">🧩 Nghiệp vụ tách rời</h3>
-            <p>Queue, Order, Stock, Payment và Staff được xử lý trên các ứng dụng riêng rạc, không đồng bộ.</p>
+            <h3 style="color: #0F172A;">🧩 業務システムが分断</h3>
+            <p>受付、注文、在庫、決済、スタッフ割り当てが独立しており、二重入力の手間が発生します。</p>
           </div>
           <div class="feature-card">
-            <h3 style="color: #0F172A;">🔔 Khách dễ bỏ lỡ lượt</h3>
-            <p>Không có kênh push notification tức thời đến thiết bị cá nhân của khách hàng.</p>
+            <h3 style="color: #0F172A;">🔔 順番を逃すリスク</h3>
+            <p>顧客の個人端末へ直接呼出し通知を送信する手段がなく、離脱が発生します。</p>
           </div>
           <div class="feature-card">
-            <h3 style="color: #0F172A;">📉 Dữ liệu vận hành bị phân tán</h3>
-            <p>Khó theo dõi tổng thể lịch sử phục vụ, thời gian xử lý trung bình và doanh thu theo chi nhánh.</p>
+            <h3 style="color: #0F172A;">📉 運用データが集計不能</h3>
+            <p>平均対応時間、売上、離脱率などの運用データが一元管理されていません。</p>
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Nếu chỉ nhìn đơn giản, một hệ thống xếp hàng chỉ cần phát số và gọi số.<br><br>
-          Nhưng trong vận hành thực tế, hàng đợi liên quan đến nhiều nghiệp vụ khác: Khách đặt dịch vụ nào? Có cần thanh toán trước không? Sản phẩm còn hàng không? Nhân viên nào đang phục vụ? Khi nào cần gửi thông báo?<br><br>
-          Khi các phần này bị tách rời, doanh nghiệp khó vận hành nhất quán và khó theo dõi dữ liệu.
+          単純に見れば、順番待ちシステムは番号を発行して呼び出すだけで足るように思えます。<br><br>
+          しかし実際の店舗運用では、お客様の選択したメニュー、事前決済の有無、在庫状況、担当スタッフ、通知タイミングなど、多くの業務が絡み合っています。<br><br>
+          これらが個別システムに分断されていると、店舗の円滑な運用やデータ分析が困難になります。
         </div>
       </section>
 
@@ -129,33 +129,33 @@
       <section class="slide" id="slide-4">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 04 — Insight sản phẩm</span>
-            <h1 class="slide-title">Khách không cần “đứng chờ” — Họ cần “biết khi nào quay lại”</h1>
-            <p class="slide-subtitle">Chủ động hóa thời gian nhờ trải nghiệm di động thông minh</p>
+            <span class="slide-tag">Slide 04 — インサイト</span>
+            <h1 class="slide-title">お客様は「並びたい」のではない — 「いつ戻るか」を知りたい</h1>
+            <p class="slide-subtitle">スマートなモバイル体験による時間の主導権回復</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">User Insight</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Nhận Ticket & số thứ tự ngay trên điện thoại thông minh</li>
-              <li>Theo dõi trực quan số người đang chờ phía trước</li>
-              <li>Biết ước tính thời gian phục vụ dự kiến (ETA)</li>
-              <li>Nhận thông báo push LINE chuẩn xác khi sắp đến lượt</li>
+              <li>手元のスマートフォンで即座に受付番号・チケットを取得</li>
+              <li>前方に何人待っているかをリアルタイムで可視化</li>
+              <li>過去データに基づく目安待ち時間（ETA）を算出し提示</li>
+              <li>順番が近づいたタイミングでLINE自動通知を正確に配信</li>
             </ul>
           </div>
           <div class="media-container">
             <div class="feature-card" style="background: linear-gradient(135deg, #06C755 0%, #05B24C 100%); color: white; padding: 36px; text-align: center;">
               <div style="font-size: 48px; margin-bottom: 12px;">📱</div>
-              <h3 style="color: white; font-size: 24px; justify-content: center;">Trải nghiệm Tự do</h3>
-              <p style="color: #E6F9EE; font-size: 18px; margin-top: 12px;">Khách có thể đi cà phê, mua sắm hoặc dạo quanh cửa hàng mà vẫn hoàn toàn làm chủ lượt xếp hàng của mình.</p>
+              <h3 style="color: white; font-size: 24px; justify-content: center;">「待ち時間」を「自由時間」へ</h3>
+              <p style="color: #E6F9EE; font-size: 18px; margin-top: 12px;">カフェや買い物、別の用事を済ませながら、自分の順番を安心して確認・コントロールできます。</p>
             </div>
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Insight chính của dự án là khách hàng không nhất thiết phải đứng chờ tại quầy.<br><br>
-          Điều họ thực sự cần là biết mình đang ở đâu trong hàng đợi và được nhắc khi gần đến lượt.<br><br>
-          Với LINE, khách đã có sẵn ứng dụng trên điện thoại, vì vậy trải nghiệm Queue có thể được đưa trực tiếp vào một nền tảng quen thuộc.
+          本プロジェクトのコアインサイトは、お客様は必ずしも受付の目の前に居続ける必要はないということです。<br><br>
+          本当に必要なのは「自分が今どの順番にいて、いつ戻ればよいか」を把握することです。<br><br>
+          LINEという日常的なアプリを活用することで、使い慣れたスマホ画面上でこの安心感を提供できます。
         </div>
       </section>
 
@@ -163,21 +163,21 @@
       <section class="slide" id="slide-5">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 05 — Giải pháp đưa ra</span>
+            <span class="slide-tag">Slide 05 — 解決ソリューション</span>
             <h1 class="slide-title">LINE-first Smart Queue Platform</h1>
-            <p class="slide-subtitle">Nền tảng xếp hàng số hóa từ trải nghiệm LINE đến vận hành Dashboard</p>
+            <p class="slide-subtitle">LINE受付から店舗運用ダッシュボードまでを一本化</p>
           </div>
-          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Giải pháp Tổng thể</div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">ソリューション概要</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Quét QR cố định của Chi nhánh bằng ứng dụng LINE</li>
-              <li>Đăng nhập tức thì với LINE Login (không cần tài khoản mới)</li>
-              <li>Tự do chọn Queue & chọn dịch vụ/sản phẩm mong muốn</li>
-              <li>Nhận Ticket điện tử hiển thị ETA và số người phía trước</li>
-              <li>Nhận thông báo tự động qua LINE Messaging API</li>
-              <li>Staff tiếp nhận và xử lý mượt mà trên Workspace riêng</li>
+              <li>店舗の固定QRコードをLINEアプリで読み取りスタート</li>
+              <li>LINE Login でアカウント登録なしの超高速ログイン</li>
+              <li>目的の受付キューおよびサービス・商品をスムーズに選択</li>
+              <li>ETA・前方待ち人数がわかるデジタルチケットを取得</li>
+              <li>LINE Messaging API による自動プッシュ通知を受信</li>
+              <li>店舗スタッフは専用の役割別ダッシュボードで対応</li>
             </ul>
           </div>
           <div class="media-container">
@@ -190,10 +190,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Giải pháp được đề xuất là một nền tảng quản lý hàng đợi theo hướng LINE-first.<br><br>
-          Khách quét QR của chi nhánh, xác thực bằng LINE, chọn Queue, chọn sản phẩm hoặc dịch vụ, sau đó nhận Ticket.<br><br>
-          Khi trạng thái thay đổi, hệ thống gửi thông báo qua LINE Messaging API.<br><br>
-          Về phía doanh nghiệp, mỗi vai trò có một workspace riêng để quản lý và vận hành.
+          提案する解決策は、LINE-firstのアプローチを採用したスマート順番待ちプラットフォームです。<br><br>
+          お客様は店舗のQRを読み取り、LINE認証を経て、キューや商品・サービスを選択しデジタルチケットを受け取ります。<br><br>
+          ステータスが更新されるとLINE Messaging APIから自動通知が届き、店舗側は役割ごとの専用ダッシュボードで効率的に運用できます。
         </div>
       </section>
 
@@ -201,41 +200,41 @@
       <section class="slide" id="slide-6">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 06 — Hệ thống là gì?</span>
+            <span class="slide-tag">Slide 06 — システム概要</span>
             <h1 class="slide-title">LINE Smart Queue Assistant</h1>
-            <p class="slide-subtitle">Nền tảng hỗ trợ toàn bộ vòng đời dịch vụ và vận hành doanh nghiệp</p>
+            <p class="slide-subtitle">導入申込みから店舗運用・顧客体験までを一貫サポート</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Platform Scope</div>
         </header>
         <div class="slide-body layout-grid" style="grid-template-columns: repeat(3, 1fr);">
           <div class="feature-card">
             <h3>🏢 Business Onboarding</h3>
-            <p>Doanh nghiệp tự đăng ký thông tin, chọn quy mô, gói cước và theo dõi trạng thái xét duyệt.</p>
+            <p>法人がWebから申請、プラン選択、デモ決済を行い、管理者の審査を受ける申込みフロー。</p>
           </div>
           <div class="feature-card">
             <h3>🌐 Multi-branch</h3>
-            <p>Quản lý đa chi nhánh độc lập, mỗi chi nhánh có QR riêng, lịch hoạt động và nhân sự riêng.</p>
+            <p>複数拠点を独立管理。支店ごとに独自の固定QRコード、営業時間、スタッフを割り当て。</p>
           </div>
           <div class="feature-card">
             <h3>📦 Product Catalog</h3>
-            <p>Định nghĩa tập trung sản phẩm/dịch vụ cấp Doanh nghiệp, quản lý kho hàng (Stock) theo chi nhánh.</p>
+            <p>組織共通のサービス・商品カタログを1箇所で管理。実在庫（Stock）は支店別で管理。</p>
           </div>
           <div class="feature-card">
             <h3>🎫 Booking & Ticket</h3>
-            <p>Cấp số thứ tự di động, tính toán ETA động dựa trên năng lực và số lượng khách hàng chờ.</p>
+            <p>LINEから即時発券。混雑状況と平均サービス時間に基づき動的なETAをリアルタイム算出。</p>
           </div>
           <div class="feature-card">
             <h3>👨‍🍳 Staff Operation</h3>
-            <p>Workspace vận hành mượt mà cho nhân viên: Gọi số, Phục vụ, Hoàn tất, Thu tiền & In biên nhận.</p>
+            <p>スタッフ専用画面：呼出し・対応開始・完了、現地での残金会計、領収書発行を一画面処理。</p>
           </div>
           <div class="feature-card">
             <h3>💬 LINE Notification</h3>
-            <p>Tự động đẩy thông báo nhắc nhở đến ứng dụng LINE của khách hàng tại từng cột mốc quan trọng.</p>
+            <p>発券完了・5人待ち・呼出し・対応完了・キャンセル等のステータス変化をLINEで自動送信。</p>
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          LINE Smart Queue Assistant không chỉ là một màn hình lấy số thứ tự.<br><br>
-          Đây là một hệ thống quản lý từ lúc doanh nghiệp đăng ký sử dụng, Admin phê duyệt, Owner thiết lập doanh nghiệp, Branch Manager cấu hình Queue, cho đến khi Customer đặt dịch vụ và Staff hoàn thành phục vụ.
+          LINE Smart Queue Assistantは、単なる発券画面にとどまりません。<br><br>
+          法人の利用申込み、管理者による審査、オーナーによる組織設定、支店長によるキュー・在庫設定、 possessed、 Customerの予約とスタッフの対応完了まで、全運用サイクルをサポートする包括的なシステムです。
         </div>
       </section>
 
@@ -243,37 +242,35 @@
       <section class="slide" id="slide-7">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 07 — Công nghệ nổi bật</span>
-            <h1 class="slide-title">Kiến trúc & Công nghệ cốt lõi</h1>
-            <p class="slide-subtitle">Hệ thống SaaS hiện đại, an toàn và tối ưu trải nghiệm</p>
+            <span class="slide-tag">Slide 07 — 注目テクノロジー</span>
+            <h1 class="slide-title">アーキテクチャ & コア技術</h1>
+            <p class="slide-subtitle">信頼性の高いモダンSaaS技術スタックとLINE密連携</p>
           </div>
           <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Tech Architecture</div>
         </header>
         <div class="slide-body layout-grid" style="grid-template-columns: repeat(2, 1fr);">
           <div class="feature-card" style="border-top: 4px solid #61DAFB;">
             <h3>⚛️ Frontend Web UI</h3>
-            <p><strong>React + Vite</strong>: Tối ưu tốc độ tải trang, Responsive hoàn hảo trên mọi thiết bị di động & máy tính bàn.</p>
+            <p><strong>React + Vite</strong>: 爆速のページロードとスムーズな画面遷移。スマホからPCまで完全レスポンシブ対応。</p>
           </div>
           <div class="feature-card" style="border-top: 4px solid #3178C6;">
             <h3>🛡️ Backend API</h3>
-            <p><strong>Express + TypeScript</strong>: Kiến trúc RESTful chuẩn mực, kiểm soát kiểu dữ liệu nghiêm ngặt và phân quyền chặt chẽ.</p>
+            <p><strong>Express + TypeScript</strong>: 堅牢なRESTful API設計、厳格なデータ型チェックとマルチテナント権限管理。</p>
           </div>
           <div class="feature-card" style="border-top: 4px solid #336791;">
             <h3>🗄️ Database</h3>
-            <p><strong>PostgreSQL</strong>: Đảm bảo tính toàn vẹn dữ liệu ACID cho mô hình đa doanh nghiệp, đa chi nhánh và hàng nghìn Ticket.</p>
+            <p><strong>PostgreSQL</strong>: ACID一貫性を保持し、複数店舗・大量トランザクションを安全かつ確実に一元管理。</p>
           </div>
           <div class="feature-card" style="border-top: 4px solid #06C755;">
             <h3>🟢 LINE Ecosystem</h3>
-            <p><strong>LIFF + LINE Login + Messaging API</strong>: Tích hợp sâu vào LINE, xác thực không mật khẩu và đẩy thông báo tự động.</p>
+            <p><strong>LIFF + LINE Login + Messaging API</strong>: LINE内アプリ直接起動、ワンタップ認証、自動通知の高度な統合。</p>
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Về mặt công nghệ, dự án được xây dựng với định hướng hiện đại và linh hoạt:<br><br>
-          Frontend sử dụng React kết hợp với Vite giúp tối ưu tốc độ tải trang và mang lại trải nghiệm người dùng mượt mà.<br><br>
-          Backend được viết bằng Express và TypeScript, đảm bảo tính chặt chẽ về mặt dữ liệu, kiểu dữ liệu và phân quyền.<br><br>
-          Cơ sở dữ liệu PostgreSQL chịu trách nhiệm lưu trữ thông tin Organization, Branch, Queue và Ticket một cách an toàn và nhất quán.<br><br>
-          Điểm nổi bật nhất là việc tích hợp sâu với LINE Ecosystem: LIFF và LINE Login giúp khách hàng truy cập ngay trên ứng dụng LINE mà không cần tạo tài khoản mới. LINE Messaging API tự động gửi thông báo theo các cột mốc quan trọng trong hàng đợi.<br><br>
-          Toàn bộ hệ thống cũng được đóng gói bằng Docker Compose để dễ dàng triển khai và kiểm thử cô lập.
+          技術構成において、本システムは最新かつ柔軟なスタックを採用しています。<br><br>
+          フロントエンドはReactとViteを組み合わせ、圧倒的な読み込み速度とスムーズなUI操作を実現。バックエンドはExpressとTypeScriptで構築され、データ型と権限の安全性を確保しています。<br><br>
+          データベースにはPostgreSQLを採用し、複数組織・支店・大量のチケットデータを確実に管理します。<br><br>
+          最大の特長はLINEエコシステムとの深い連携であり、LIFFとLINE Loginによるアプリ内シームレス認証と、Messaging APIによる自動通知を実現しています。
         </div>
       </section>
 
@@ -281,9 +278,9 @@
       <section class="slide" id="slide-8">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 08 — Đối tượng sử dụng</span>
-            <h1 class="slide-title">Một hệ thống — Nhiều vai trò</h1>
-            <p class="slide-subtitle">Phân quyền bảo mật chặt chẽ từ Admin đến Khách hàng</p>
+            <span class="slide-tag">Slide 08 — 利用ロール</span>
+            <h1 class="slide-title">1つのシステム — 役割に応じたマルチワークスペース</h1>
+            <p class="slide-subtitle">管理者からエンドユーザーまで厳格な権限管理</p>
           </div>
           <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Role Matrix</div>
         </header>
@@ -292,30 +289,30 @@
             <table class="role-table">
               <thead>
                 <tr>
-                  <th>Vai trò</th>
-                  <th>Trách nhiệm chính</th>
+                  <th>ロール</th>
+                  <th>主な責任と操作範囲</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><strong>Platform Admin</strong></td>
-                  <td>Kiểm duyệt đăng ký doanh nghiệp, quản lý hệ thống</td>
+                  <td>法人利用申請の確認・審査・承認および組織データ生成</td>
                 </tr>
                 <tr>
                   <td><strong>Organization Owner</strong></td>
-                  <td>Cấu hình Doanh nghiệp, Catalog sản phẩm & quản lý Chi nhánh</td>
+                  <td>組織設定、共通商品・サービスカタログ管理、支店・Manager招待</td>
                 </tr>
                 <tr>
                   <td><strong>Branch Manager</strong></td>
-                  <td>Quản lý Queue, Lịch hoạt động, Kho hàng & Staff chi nhánh</td>
+                  <td>担当支店の営業時間、キュー、商品割り当て、在庫、スタッフ管理</td>
                 </tr>
                 <tr>
                   <td><strong>Staff</strong></td>
-                  <td>Vận hành lượt gọi số, Phục vụ, Thu tiền & In biên nhận</td>
+                  <td>当日の呼出し、対応開始・完了、キャンセル、No-show、領収書発行</td>
                 </tr>
                 <tr>
                   <td><strong>Customer</strong></td>
-                  <td>Quét QR, Đặt chỗ & Theo dõi số lượt trên ứng dụng LINE</td>
+                  <td>QR読み取り、LINEでの受付予約、チケット・履歴確認、通知受信</td>
                 </tr>
               </tbody>
             </table>
@@ -337,12 +334,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Hệ thống được thiết kế theo nhiều vai trò.<br><br>
-          Platform Admin quản lý toàn bộ nền tảng.<br><br>
-          Organization Owner quản lý doanh nghiệp, danh mục sản phẩm và chi nhánh.<br><br>
-          Branch Manager quản lý Queue, Stock, Staff và QR của chi nhánh.<br><br>
-          Staff vận hành Ticket trong ngày.<br><br>
-          Customer sử dụng LINE để đặt dịch vụ và theo dõi trạng thái.
+          システムは厳格なロールベースで設計されています。<br><br>
+          Platform Adminはプラットフォーム全体を管理。Organization Ownerは組織設定や商品カタログを管理します。<br><br>
+          Branch Managerは割り当てられた支店のキューや在庫、スタッフを管理し、Staffは日々の受付業務を担当します。CustomerはLINEを通じて快適に利用します。
         </div>
       </section>
 
@@ -350,9 +344,9 @@
       <section class="slide" id="slide-9">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 09 — Luồng tổng thể</span>
+            <span class="slide-tag">Slide 09 — 全体フロー</span>
             <h1 class="slide-title">End-to-End Business Flow</h1>
-            <p class="slide-subtitle">Quy trình vận hành 9 bước nối liền Doanh nghiệp & Khách hàng</p>
+            <p class="slide-subtitle">法人申込みから店舗運用・LINE通知までの9ステップ</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">System Flow</div>
         </header>
@@ -360,56 +354,55 @@
           <div class="process-flow">
             <div class="process-step">
               <span class="process-step-num">Step 01</span>
-              <span class="process-step-title">Business Register</span>
+              <span class="process-step-title">法人申込み</span>
             </div>
             <span class="process-arrow">➔</span>
             <div class="process-step">
               <span class="process-step-num">Step 02</span>
-              <span class="process-step-title">Admin Approval</span>
+              <span class="process-step-title">管理者審査</span>
             </div>
             <span class="process-arrow">➔</span>
             <div class="process-step">
               <span class="process-step-num">Step 03</span>
-              <span class="process-step-title">Owner Activation</span>
+              <span class="process-step-title">オーナー有効化</span>
             </div>
             <span class="process-arrow">➔</span>
             <div class="process-step">
               <span class="process-step-num">Step 04</span>
-              <span class="process-step-title">Catalog + Branch</span>
+              <span class="process-step-title">カタログ＋支店</span>
             </div>
             <span class="process-arrow">➔</span>
             <div class="process-step">
               <span class="process-step-num">Step 05</span>
-              <span class="process-step-title">Queue + QR</span>
+              <span class="process-step-title">キュー＋QR準備</span>
             </div>
           </div>
           <div class="process-flow" style="justify-content: center;">
             <div class="process-step" style="background: var(--line-green-light); border-color: var(--line-green);">
               <span class="process-step-num">Step 06</span>
-              <span class="process-step-title" style="color: var(--line-green);">LINE Booking</span>
+              <span class="process-step-title" style="color: var(--line-green);">LINE 予約</span>
             </div>
             <span class="process-arrow">➔</span>
             <div class="process-step" style="background: var(--line-green-light); border-color: var(--line-green);">
               <span class="process-step-num">Step 07</span>
-              <span class="process-step-title" style="color: var(--line-green);">Ticket Issued</span>
+              <span class="process-step-title" style="color: var(--line-green);">チケット発行</span>
             </div>
             <span class="process-arrow">➔</span>
             <div class="process-step">
               <span class="process-step-num">Step 08</span>
-              <span class="process-step-title">Staff Service</span>
+              <span class="process-step-title">スタッフ対応</span>
             </div>
             <span class="process-arrow">➔</span>
             <div class="process-step">
               <span class="process-step-num">Step 09</span>
-              <span class="process-step-title">Receipt + LINE Push</span>
+              <span class="process-step-title">領収書・LINE通知</span>
             </div>
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Đây là luồng tổng thể của hệ thống.<br><br>
-          Điểm đáng chú ý là Admin Approval chỉ tạo Organization và Owner ở trạng thái được mời.<br><br>
-          Branch và Queue không tự động được tạo ở bước này.<br><br>
-          Sau đó Owner và Branch Manager sẽ tiếp tục cấu hình hệ thống theo nhu cầu thực tế của doanh nghiệp.
+          これがシステムの全体フローです。<br><br>
+          重要なポイントとして、管理者の承認時点では組織と招待状態のオーナーのみが作成され、支店やキューは自動作成されません。<br><br>
+          その後、オーナーおよび支店長が実際の店舗運用に合わせて段階的に設定を進めます。
         </div>
       </section>
 
@@ -418,18 +411,18 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 10 — Business Onboarding</span>
-            <h1 class="slide-title">Doanh nghiệp tự đăng ký sử dụng</h1>
-            <p class="slide-subtitle">Quy trình nộp đơn minh bạch không cần tạo trước mật khẩu</p>
+            <h1 class="slide-title">法人がWebから直接利用申請</h1>
+            <p class="slide-subtitle">初期パスワード入力なしの透明性の高い申請フォーム</p>
           </div>
           <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Step 1 — Register</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Cung cấp thông tin pháp lý doanh nghiệp & Email đại diện</li>
-              <li>Lựa chọn quy mô điểm dịch vụ và Gói cước đăng ký</li>
-              <li>Thực hiện bước Demo Payment để kích hoạt đơn xin gia nhập</li>
-              <li>Đơn đăng ký được gửi đến Platform Admin xử lý</li>
+              <li>法人名、屋号、登録番号、連絡先、住所を入力</li>
+              <li>想定拠点数と月間顧客数から最適なプラン（Starter/Standard/Scale）を選択</li>
+              <li>デモ環境では Demo Payment を完了し審査待ちとして送信</li>
+              <li>申請時点ではパスワード未設定でセキュリティを担保</li>
             </ul>
           </div>
           <div class="media-container">
@@ -440,7 +433,7 @@
                   <div class="browser-dot yellow"></div>
                   <div class="browser-dot green"></div>
                 </div>
-                <div class="browser-address-bar">Registration Form</div>
+                <div class="browser-address-bar">Business Registration Form</div>
               </div>
               <div class="browser-content">
                 <img src="../docs/images/guide/03-business-registration-form.png" alt="Business Registration Form">
@@ -449,10 +442,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Doanh nghiệp bắt đầu từ trang public và gửi đơn đăng ký.<br><br>
-          Ở bước này, doanh nghiệp chưa tạo mật khẩu.<br><br>
-          Họ chỉ cung cấp thông tin doanh nghiệp, email liên hệ, quy mô sử dụng và Plan.<br><br>
-          Sau khi gửi đơn, Admin sẽ kiểm tra và quyết định phê duyệt hoặc từ chối.
+          法人の導入は公開ページの申込みフォームから始まります。<br><br>
+          この段階ではパスワードを設定せず、法人情報、連絡先、想定規模、希望プランのみを入力します。<br><br>
+          送信後、申請は管理者による審査ステータスとなります。
         </div>
       </section>
 
@@ -461,18 +453,18 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 11 — Admin Approval</span>
-            <h1 class="slide-title">Platform Admin kiểm soát Onboarding</h1>
-            <p class="slide-subtitle">Duyệt hồ sơ & Khởi tạo Organization chính chủ</p>
+            <h1 class="slide-title">Platform Admin による申請審査</h1>
+            <p class="slide-subtitle">管理画面からの厳格な検証と承認フロー</p>
           </div>
           <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Step 2 — Approval</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Truy cập danh sách đơn đăng ký chờ xét duyệt trên Admin Portal</li>
-              <li>Kiểm tra chi tiết hồ sơ doanh nghiệp & kết quả Demo Payment</li>
-              <li>Thực hiện thao tác Phê duyệt (Approve) hoặc Từ chối (Reject)</li>
-              <li>Hệ thống tự động tạo Organization & gửi thư mời cho Owner</li>
+              <li>審査待ち申請一覧から法人情報およびデモ決済結果を確認</li>
+              <li>ワンクリックで Approve（承認）または Reject（却下）を実行</li>
+              <li>承認時に Organization および招待状態の Owner アカウントを生成</li>
+              <li>無許可の自動登録を防ぎ、プラットフォームの健全性を維持</li>
             </ul>
           </div>
           <div class="media-container">
@@ -492,9 +484,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Admin có thể xem chi tiết từng đơn đăng ký.<br><br>
-          Khi Approve, hệ thống tạo Organization và tài khoản Owner ở trạng thái Invited.<br><br>
-          Đây là bước kiểm soát quan trọng để đảm bảo doanh nghiệp được xét duyệt trước khi bắt đầu sử dụng nền tảng.
+          プラットフォーム管理者は届いた申請の細部を確認します。<br><br>
+          承認を実行すると、組織データと招待状態のオーナーアカウントが自動生成されます。<br><br>
+          未検証の利用を防ぎ、安全なプラットフォーム運用を担保する重要なステップです。
         </div>
       </section>
 
@@ -503,18 +495,18 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 12 — Owner Activation</span>
-            <h1 class="slide-title">Owner tự kích hoạt tài khoản</h1>
-            <p class="slide-subtitle">Bảo mật tuyệt đối — Owner tự khởi tạo mật khẩu cá nhân</p>
+            <h1 class="slide-title">オーナーによるアカウント有効化</h1>
+            <p class="slide-subtitle">メールリンク経由で自らパスワードを安全設定</p>
           </div>
           <div style="font-weight: 700; color: #10B981; font-size: 20px;">Step 3 — Activation</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Nhận Email thông báo phê duyệt kèm liên kết kích hoạt an toàn</li>
-              <li>Chủ doanh nghiệp (Owner) tự thiết lập mật khẩu bảo mật</li>
-              <li>Chính thức chuyển trạng thái Organization sang "Active"</li>
-              <li>Bắt đầu thiết lập Catalog sản phẩm & Chi nhánh đầu tiên</li>
+              <li>承認完了後にオーナー宛てへ有効化メールを自動送信</li>
+              <li>一回限りの安全なリンクからオーナー自身でパスワードを登録</li>
+              <li>Organization のステータスを正式に Active へ切り替え</li>
+              <li>管理者が仮パスワードを発行しない安心のセキュリティ構造</li>
             </ul>
           </div>
           <div class="media-container">
@@ -534,9 +526,8 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Sau khi Admin Approve, Owner nhận email kích hoạt và tự đặt mật khẩu.<br><br>
-          Admin không tự tạo mật khẩu thay cho Owner.<br><br>
-          Cách này phù hợp hơn với quy trình thực tế, đồng thời giảm rủi ro chia sẻ thông tin đăng nhập.
+          承認後、オーナーは専用メールリンクから自らパスワードを設定します。<br><br>
+          管理者が初期パスワードを発行・共有しない設計により、セキュリティリスクを大幅に低減しています。
         </div>
       </section>
 
@@ -545,19 +536,18 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 13 — Product / Service Catalog</span>
-            <h1 class="slide-title">Catalog thuộc về Organization</h1>
-            <p class="slide-subtitle">Quản lý giá, mã SP & dịch vụ nhất quán giữa các chi nhánh</p>
+            <h1 class="slide-title">カタログは Organization 単位で管理</h1>
+            <p class="slide-subtitle">商品定義の一元化と支店在庫の明確な分離</p>
           </div>
           <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Catalog Management</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Sản phẩm & Dịch vụ được tạo 1 lần và dùng chung toàn hệ thống</li>
-              <li>Mã SP/DV sinh tự động giúp quản lý chính xác và chuyên nghiệp</li>
-              <li>Thiết lập linh hoạt giá tiền, đơn vị tính và thời gian phục vụ</li>
-              <li>Thiết lập thanh toán trước (Require Prepayment) theo nhu cầu</li>
-              <li>Tách biệt hoàn toàn giữa định nghĩa Catalog và Tồn kho Branch</li>
+              <li>全支店で共有される商品・サービスマスタを統一登録</li>
+              <li>自動採番コード（商品/サービス識別コード）による正確な管理</li>
+              <li>標準価格、所要時間、事前決済（Require Prepayment）の設定</li>
+              <li>カタログ定義と各支店の物理在庫（Stock）を完全に分離</li>
             </ul>
           </div>
           <div class="media-container">
@@ -577,9 +567,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Một điểm thiết kế quan trọng là Product và Service được quản lý ở cấp Organization.<br><br>
-          Điều này giúp doanh nghiệp giữ định nghĩa sản phẩm, giá và thời gian phục vụ nhất quán giữa các chi nhánh.<br><br>
-          Trong khi đó, Stock được quản lý riêng tại từng Branch.
+          設計上の重要なポイントは、商品・サービスが組織レベルで管理される点です。<br><br>
+          これにより、全支店で価格やサービス時間の定義を一貫して保つことができます。<br><br>
+          一方で、各商品の実在庫（Stock）は各支店で個別に管理されます。
         </div>
       </section>
 
@@ -588,18 +578,18 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 14 — Branch Management</span>
-            <h1 class="slide-title">Một doanh nghiệp có nhiều chi nhánh</h1>
-            <p class="slide-subtitle">Quản lý mạng lưới chi nhánh vật lý dễ dàng và độc lập</p>
+            <h1 class="slide-title">1つの組織で複数支店を管理</h1>
+            <p class="slide-subtitle">多店舗展開に対応する柔軟なマルチブランチ構造</p>
           </div>
           <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Branch Structure</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Owner tạo chi nhánh (Branch) đại diện cho từng cơ sở vật lý</li>
-              <li>Gửi thư mời Branch Manager trực tiếp quản lý vận hành cơ sở</li>
-              <li>Tự động tạo mã QR cố định riêng biệt cho mỗi Chi nhánh</li>
-              <li>Thiết lập khung giờ mở cửa/đóng cửa độc lập theo từng địa bàn</li>
+              <li>オーナーが実店舗に対応する支店（Branch）を自在に登録</li>
+              <li>各支店の責任者として Branch Manager を個別に招待</li>
+              <li>支店ごとに独立した固定QRコードおよびアクセス権限を発行</li>
+              <li>営業時間・定休日（Business Calendar）を拠点で個別に設定</li>
             </ul>
           </div>
           <div class="media-container">
@@ -619,9 +609,8 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Owner có thể tạo các chi nhánh và mời Branch Manager.<br><br>
-          Mỗi Branch đại diện cho một địa điểm vật lý, có địa chỉ, lịch hoạt động, Manager và QR riêng.<br><br>
-          Điều này phù hợp với các doanh nghiệp có nhiều cửa hàng hoặc nhiều điểm phục vụ.
+          オーナーは実店舗に対応する支店を作成し、支店長を招待できます。<br><br>
+          各支店は独自の住所、営業時間、支店長、固定QRコードを持ち、多店舗展開を行う事業者に適した構造となっています。
         </div>
       </section>
 
@@ -630,19 +619,19 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 15 — Branch Manager Workspace</span>
-            <h1 class="slide-title">Chi nhánh vận hành độc lập</h1>
-            <p class="slide-subtitle">Không gian làm việc tập trung dành riêng cho Quản lý chi nhánh</p>
+            <h1 class="slide-title">支店ごとの独立した運用空間</h1>
+            <p class="slide-subtitle">担当店舗の現場データ・設定に限定された安全な管理画面</p>
           </div>
           <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Manager Portal</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Quản lý toàn bộ danh sách Hàng chờ (Queue) trong chi nhánh</li>
-              <li>Chủ động cấu hình Lịch hoạt động & ngày nghỉ lễ (Calendar)</li>
-              <li>Theo dõi Tồn kho (Stock) sản phẩm thực tế tại kho chi nhánh</li>
-              <li>Mời Nhân viên (Staff) & phân quyền vận hành trong ngày</li>
-              <li>Xuất mã Branch QR cố định để đặt tại quầy tiếp đón</li>
+              <li>Queue Management: 受付並び列の作成・編集・状態切り替え</li>
+              <li>Business Calendar: 臨時休業日や特別営業時間の登録</li>
+              <li>Stock Management: 自店舗の実在庫数の更新と補充設定</li>
+              <li>Staff Management: 現場スタッフの招待とシフト権限管理</li>
+              <li>Branch QR: 店舗設置用の専用固定QRコードの出力</li>
             </ul>
           </div>
           <div class="media-container">
@@ -662,9 +651,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Branch Manager chỉ quản lý chi nhánh được phân công.<br><br>
-          Họ có thể cấu hình Queue, lịch hoạt động, Stock, Staff và QR của Branch.<br><br>
-          Việc giới hạn phạm vi theo Branch giúp tránh truy cập nhầm hoặc thao tác dữ liệu của chi nhánh khác.
+          支店長は割り当てられた店舗のみを管理します。<br><br>
+          キュー、営業時間、在庫、スタッフ、QRコードを店舗の状況に合わせて柔軟に調整できます。<br><br>
+          権限を支店内に限定することで、他店舗のデータ誤操作を防ぎます。
         </div>
       </section>
 
@@ -673,18 +662,18 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 16 — Multi-Queue per Branch</span>
-            <h1 class="slide-title">Một QR — Nhiều Queue</h1>
-            <p class="slide-subtitle">Linh hoạt phân luồng dịch vụ chỉ với duy nhất một điểm quét QR</p>
+            <h1 class="slide-title">1つの固定QR — 複数のキュー</h1>
+            <p class="slide-subtitle">QR貼り替え不要で柔軟なサービス分流を実現</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Queue Architecture</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Tạo nhiều Queue linh hoạt: Thường (General), Ưu tiên (Priority), Chuyên biệt</li>
-              <li>Mỗi Queue được thiết lập danh mục Dịch vụ/Sản phẩm tương ứng</li>
-              <li>Chi nhánh chỉ cần in và dán duy nhất một mã QR cố định</li>
-              <li>Thêm, bớt hoặc đóng Queue chủ động mà không làm hỏng QR đã in</li>
+              <li>1つの店舗に「一般受付」「優先受付」「サービス専用」等を複数設置</li>
+              <li>キューごとに提供する商品・サービス（Queue Catalog）を指定</li>
+              <li>店頭に掲示するQRコードは常に1つ固定で印刷・掲示の負担軽減</li>
+              <li>キューの追加・削除を行っても店頭のQRコードを変更する必要なし</li>
             </ul>
           </div>
           <div class="media-container">
@@ -704,11 +693,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Một Branch có thể có nhiều Queue.<br><br>
-          Ví dụ, một salon có thể có Queue cho cắt tóc, Queue cho nhuộm tóc hoặc Queue ưu tiên.<br><br>
-          Tuy nhiên, Branch vẫn chỉ cần một QR cố định.<br><br>
-          Sau khi quét QR, Customer sẽ chọn Queue phù hợp.<br><br>
-          Việc thêm hoặc xóa Queue không làm thay đổi Branch QR.
+          1つの支店内に複数のキュー（並び列）を作成できます。<br><br>
+          たとえば「カット用」「カラー用」「優先受付」などを分けることが可能です。<br><br>
+          店舗に掲示するQRコードは1つで済み、お客様が読み取り後に希望のキューを選択します。
         </div>
       </section>
 
@@ -717,19 +704,19 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 17 — Queue Configuration</span>
-            <h1 class="slide-title">Queue không chỉ có tên và trạng thái</h1>
-            <p class="slide-subtitle">Cấu hình tham số hàng chờ chuyên sâu đáp ứng đa dạng kịch bản</p>
+            <h1 class="slide-title">キューの柔軟な動作設定</h1>
+            <p class="slide-subtitle">現場の運用ルールを細部まで再現できる豊富なパラメータ</p>
           </div>
           <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Queue Settings</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Trạng thái đa dạng: Open (Mở), Closed (Đóng), Paused (Tạm dừng), Archived</li>
-              <li>Giới hạn sức chứa (Capacity) kiểm soát tải phục vụ trong ngày</li>
-              <li>Thiết lập Tiền tố Ticket (Prefix) như A-, B-, P- giúp phân biệt dịch vụ</li>
-              <li>Khai báo Thời gian phục vụ trung bình (Average Service Time) chuẩn xác</li>
-              <li>Thiết lập Quy tắc xử lý khách vắng mặt (Absence Policy) & Gán Catalog</li>
+              <li>ステータス制御: Open（受付中）/ Closed / Paused / Archived</li>
+              <li>1日の上限受け入れ数（Capacity）制限で混雑を制御</li>
+              <li>チケット番号の識別前置詞（Ticket Prefix: A-, B-, P-等）設定</li>
+              <li>動的ETA計算用の平均サービス時間（Average Service Time）定義</li>
+              <li>不在時ルール（Absence Policy）および対応商品の個別割り当て</li>
             </ul>
           </div>
           <div class="media-container">
@@ -749,13 +736,8 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Queue có nhiều cấu hình phục vụ vận hành thực tế:<br><br>
-          * Trạng thái (Open/Closed/Paused/Archived)<br>
-          * Sức chứa (Capacity)<br>
-          * Prefix của Ticket<br>
-          * Thời gian phục vụ trung bình<br>
-          * Chính sách xử lý khách vắng mặt<br><br>
-          Branch Manager cũng lựa chọn Product hoặc Service nào được phép đặt trong Queue đó.
+          キューには実際の運用に即した詳細設定が備わっています。<br><br>
+          受付状態、1日の受け入れ上限、チケット番号の接頭辞、平均対応時間、不在時の保留ルールなどを細かくチューニングできます。
         </div>
       </section>
 
@@ -764,19 +746,19 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 18 — Branch Stock</span>
-            <h1 class="slide-title">Stock thuộc về từng chi nhánh</h1>
-            <p class="slide-subtitle">Quản lý vòng đời tồn kho từ Reserve ➔ Release ➔ Consume</p>
+            <h1 class="slide-title">支店ごとの在庫コントロール</h1>
+            <p class="slide-subtitle">Reserve ➔ Release ➔ Consume の自動在庫ライフサイクル</p>
           </div>
           <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Stock Control</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Hỗ trợ 2 chế độ kho: Tồn kho hữu hạn (Finite) & Không giới hạn (Unlimited)</li>
-              <li><strong>Reserve (Giữ kho)</strong>: Tự động khóa số lượng ngay khi khách Booking</li>
-              <li><strong>Release (Khôi phục)</strong>: Tự động hoàn trả kho khi Ticket bị Hủy/Vắng mặt</li>
-              <li><strong>Consume (Khấu trừ)</strong>: Trừ tồn kho thực tế khi Staff hoàn tất phục vụ</li>
-              <li>Ngăn chặn triệt để tình trạng bán vượt quá số lượng (Overselling)</li>
+              <li>有限在庫（Finite）と無制限在庫（Unlimited）の双方に対応</li>
+              <li><strong>Reserve（確保）</strong>: 客のBooking完了時に即座に仮確保</li>
+              <li><strong>Release（解放）</strong>: キャンセル・No-show時に自動で在庫復元</li>
+              <li><strong>Consume（消費）</strong>: スタッフの接客完了時に実在庫を確定減算</li>
+              <li>過剰予約（Overselling）を根本から防止する安全設計</li>
             </ul>
           </div>
           <div class="media-container">
@@ -796,12 +778,8 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Stock được quản lý theo từng Branch.<br><br>
-          Cùng một sản phẩm trong Catalog chung có thể còn hàng ở Branch A nhưng hết hàng ở Branch B.<br><br>
-          Khi Booking thành công, Stock được Reserve.<br><br>
-          Khi Cancel, Stock được Release.<br><br>
-          Khi phục vụ hoàn thành, Stock được Consume.<br><br>
-          Điều này giúp giảm nguy cơ bán quá số lượng.
+          在庫は支店ごとに管理されます。同一商品であっても支店Aでは在庫あり、支店Bでは完売という状況に対応します。<br><br>
+          予約時にReserve、キャンセル時にRelease、対応完了時にConsumeというライフサイクルで、過剰予約を防止します。
         </div>
       </section>
 
@@ -810,19 +788,19 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 19 — Customer Journey with LINE</span>
-            <h1 class="slide-title">Khách dùng LINE để đặt dịch vụ</h1>
-            <p class="slide-subtitle">Trải nghiệm di động nhanh chóng — 0% rào cản tạo tài khoản</p>
+            <h1 class="slide-title">LINEからのシームレスな受付体験</h1>
+            <p class="slide-subtitle">離脱率ゼロを目指すシンプルなユーザーフロー</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Customer Flow</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Quét mã QR cố định của Chi nhánh bằng ứng dụng LINE quen thuộc</li>
-              <li>Đăng nhập tự động mượt mà qua LINE Login</li>
-              <li>Dễ dàng lựa chọn Queue phù hợp với nhu cầu</li>
-              <li>Xem danh mục và chọn sản phẩm/dịch vụ trực quan</li>
-              <li>Tạo lượt đặt chỗ (Booking) & nhận số Ticket di động lập tức</li>
+              <li>店頭の固定QRコードを使い慣れたLINEカメラでスキャン</li>
+              <li>LINE Login による即時認証（会員登録・メール入力不要）</li>
+              <li>希望の受付キューおよびカタログメニューを選択</li>
+              <li>必要な連絡先を入力し、ワンタップでBooking（予約）完了</li>
+              <li>発行されたデジタルチケットをスマホ上でリアルタイム確認</li>
             </ul>
           </div>
           <div class="media-container">
@@ -835,9 +813,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Ở phía Customer, trải nghiệm bắt đầu bằng việc quét QR bằng LINE.<br><br>
-          Khách không cần tạo tài khoản email và mật khẩu riêng.<br><br>
-          Sau khi xác thực LINE, khách chọn Queue, xem Catalog của Queue, chọn dịch vụ, nhập thông tin và tạo Booking.
+          お客様視点では、店舗のQRコードをLINEで読み取ることから始まります。<br><br>
+          メールアドレスやパスワードの新規登録は不要です。<br><br>
+          LINE認証後、キューとメニューを選び、簡単な情報入力で即座に予約が完了します。
         </div>
       </section>
 
@@ -846,19 +824,18 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 20 — Booking & Ticket</span>
-            <h1 class="slide-title">Ticket là trung tâm trải nghiệm khách hàng</h1>
-            <p class="slide-subtitle">Minh bạch thông tin — Giúp khách hàng hoàn toàn làm chủ thời gian</p>
+            <h1 class="slide-title">チケットは顧客体験の中心</h1>
+            <p class="slide-subtitle">必要な情報がすべて揃うデジタルステータス画面</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Digital Ticket</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li><strong>Ticket Code & Order Number</strong>: Mã số lượt & Mã đơn dịch vụ rõ ràng</li>
-              <li><strong>People Ahead</strong>: Đếm lùi thời gian thực số lượng người chờ phía trước</li>
-              <li><strong>ETA (Estimated Time)</strong>: Tính toán chính xác thời gian ước tính phục vụ</li>
-              <li><strong>Selected Items</strong>: Chi tiết sản phẩm & dịch vụ đã lựa chọn</li>
-              <li><strong>Payment Status</strong>: Hiển thị minh bạch số tiền đã trả & cần thanh toán thêm</li>
+              <li><strong>Ticket Code & Order Number</strong>: 明確な受付番号と注文コード</li>
+              <li><strong>People Ahead</strong>: リアルタイムでカウントダウンされる前方待ち人数</li>
+              <li><strong>ETA (Estimated Time)</strong>: 過去データに基づき算出される呼出し目安時間</li>
+              <li><strong>Selected Items & Payment</strong>: 選択メニュー明細と支払済み/未払状況</li>
             </ul>
           </div>
           <div class="media-container">
@@ -871,14 +848,8 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Sau khi Booking thành công, khách nhận Ticket.<br><br>
-          Ticket không chỉ là số thứ tự mà còn hiển thị:<br>
-          * Order Number<br>
-          * Số người phía trước<br>
-          * ETA<br>
-          * Danh sách Product hoặc Service<br>
-          * Thông tin thanh toán<br><br>
-          Đây là nơi khách theo dõi toàn bộ trạng thái của mình.
+          予約完了後、お客様のスマホ上にデジタルチケットが表示されます。<br><br>
+          番号だけでなく、前方に何人待っているか、あと何分で呼ばれるか（ETA）、注文内容、決済状況を一画面でリアルタイムに確認できます。
         </div>
       </section>
 
@@ -886,19 +857,19 @@
       <section class="slide" id="slide-21">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 21 — Công nghệ LINE nổi bật</span>
-            <h1 class="slide-title">LINE tạo ra điểm khác biệt cho sản phẩm</h1>
-            <p class="slide-subtitle">Sức mạnh từ bộ ba công nghệ cốt lõi của LINE Ecosystem</p>
+            <span class="slide-tag">Slide 21 — LINE連携機能</span>
+            <h1 class="slide-title">LINE連携がもたらす製品価値</h1>
+            <p class="slide-subtitle">LINEエコシステムテクノロジーの高度な統合</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Integration</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li><strong>LIFF</strong>: Nhúng Web App trực tiếp bên trong giao diện ứng dụng LINE</li>
-              <li><strong>LINE Login</strong>: Xác thực danh tính Customer tức thì, không tạo password</li>
-              <li><strong>Messaging API</strong>: Đẩy Push Notification nhắc lượt tự động theo event</li>
-              <li><strong>Branch QR</strong>: Mã quét vật lý cố định kết nối thế giới thực và số hóa</li>
+              <li><strong>LIFF</strong>: LINEアプリ内でブラウザ切り替えなくWeb Appを直接起動</li>
+              <li><strong>LINE Login</strong>: ワンタップで確実な顧客認証を行い離脱を最小化</li>
+              <li><strong>Messaging API</strong>: 発券・呼出し・直前通知・完了を自動プッシュ配信</li>
+              <li><strong>Branch QR</strong>: リアルな店舗空間とデジタル体験をつなぐ唯一の起点</li>
             </ul>
           </div>
           <div class="media-container">
@@ -911,12 +882,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Điểm công nghệ nổi bật nhất là tích hợp LINE.<br><br>
-          LIFF giúp mở ứng dụng trực tiếp trong LINE.<br><br>
-          LINE Login giúp xác thực khách mà không cần tài khoản riêng.<br><br>
-          Messaging API giúp hệ thống gửi thông báo về trạng thái hàng đợi.<br><br>
-          Đây là những công nghệ trực tiếp giải quyết bài toán khách không biết khi nào đến lượt.<br><br>
-          LINE Login và Messaging API là hai capability riêng biệt. Việc khách đăng nhập LINE thành công không đồng nghĩa rằng Push Notification chắc chắn được gửi thành công.
+          製品の最大の差別化要因はLINEエコシステムとの密な連携です。<br><br>
+          LIFFによりアプリ切替なしで操作でき、LINE Loginにより離脱率を激減させます。<br><br>
+          Messaging APIによる通知機能が、「いつ呼ばれるか分からない」ストレスを根本から解決します。
         </div>
       </section>
 
@@ -925,19 +893,18 @@
         <header class="slide-header">
           <div>
             <span class="slide-tag">Slide 22 — Staff Operation</span>
-            <h1 class="slide-title">Staff xử lý Queue trên một Workspace</h1>
-            <p class="slide-subtitle">Vận hành lượt phục vụ nhanh chóng và trực quan trên một màn hình</p>
+            <h1 class="slide-title">スタッフ専用の一元化ワークスペース</h1>
+            <p class="slide-subtitle">現場の混乱を防ぎ、円滑な接客をサポートするワン画面運用</p>
           </div>
           <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Staff Workspace</div>
         </header>
         <div class="slide-body layout-split left-wide">
           <div class="content-text">
             <ul class="content-list">
-              <li>Theo dõi Active Ticket theo thời gian thực tại quầy tiếp đón</li>
-              <li>Chuyển trạng thái linh hoạt: <strong>Waiting ➔ Called ➔ Serving ➔ Served</strong></li>
-              <li>Xử lý nhanh ngoại lệ: Lùi lượt (Defer), Hủy (Cancel), Vắng mặt (No-show)</li>
-              <li>Thu nốt phần tiền còn lại của Order & Cập nhật trạng thái thanh toán</li>
-              <li>Xuất và in Biên nhận (Receipt) trực tiếp cho khách hàng</li>
+              <li>リアルタイムで更新される本日の Active Ticket 一覧画面</li>
+              <li>直感的なステータス遷移: <strong>Waiting ➔ Called ➔ Serving ➔ Served</strong></li>
+              <li>例外処理への迅速な対応: 不在保留（Defer）、キャンセル、No-show</li>
+              <li>現場での残金会計処理および領収書（Receipt）の即時印刷発行</li>
             </ul>
           </div>
           <div class="media-container">
@@ -957,10 +924,8 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          Staff Workspace giúp nhân viên vận hành hàng đợi trong ngày.<br><br>
-          Staff có thể xem thông tin khách, Order, Payment, Ticket Status và các thao tác phục vụ trên cùng một màn hình.<br><br>
-          Luồng chính là: Waiting ➔ Called ➔ Serving ➔ Served.<br><br>
-          Ngoài ra, hệ thống còn hỗ trợ xử lý khách vắng mặt, hủy Ticket, thu phần tiền còn lại và in biên nhận.
+          スタッフワークスペースは、現場のスタッフが迷わず操作できるように設計されています。<br><br>
+          「呼出 ➔ 対応開始 ➔ 対応完了」の基本フローに加え、不在・保留の繰り越し処理、現地での残金会計、領収書発行まで一画面で完結します。
         </div>
       </section>
 
@@ -968,9 +933,9 @@
       <section class="slide" id="slide-23">
         <header class="slide-header">
           <div>
-            <span class="slide-tag">Slide 23 — Tính khả thi và hướng phát triển</span>
-            <h1 class="slide-title">MVP đã chứng minh tính khả thi thực tiễn</h1>
-            <p class="slide-subtitle">Hoàn thiện nền tảng sẵn sàng cho quy mô Production</p>
+            <span class="slide-tag">Slide 23 — 実現可能性と展望</span>
+            <h1 class="slide-title">MVPによる実現可能性の実証と次のステップ</h1>
+            <p class="slide-subtitle">本番商用環境を見据えた確実なプロダクト進化</p>
           </div>
           <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Roadmap & Vision</div>
         </header>
@@ -978,28 +943,28 @@
           <div class="content-text">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
               <div class="feature-card" style="border-left: 4px solid var(--line-green);">
-                <h3 style="color: var(--line-green);">✅ Đã hoàn thành (MVP)</h3>
+                <h3 style="color: var(--line-green);">✅ 実装済み機能 (MVP)</h3>
                 <ul style="font-size: 15px; color: #334155; line-height: 1.6; list-style: disc; padding-left: 18px;">
-                  <li>Luồng End-to-end hoàn chỉnh</li>
-                  <li>Multi-role Dashboard bảo mật</li>
-                  <li>LINE LIFF Booking & QR Ticket</li>
-                  <li>Staff Workspace & In biên nhận</li>
-                  <li>Hỗ trợ 3 ngôn ngữ: JP / VI / EN</li>
+                  <li>一気通貫コアフロー完了</li>
+                  <li>マルチロール対応Dashboard</li>
+                  <li>LINE LIFF 予約 & チケット</li>
+                  <li>スタッフ受付画面 & 領収書</li>
+                  <li>日・ベト・英 3言語対応</li>
                 </ul>
               </div>
               <div class="feature-card" style="border-left: 4px solid #3B82F6;">
-                <h3 style="color: #2563EB;">🚀 Bước tiếp theo</h3>
+                <h3 style="color: #2563EB;">🚀 今後の拡張計画</h3>
                 <ul style="font-size: 15px; color: #334155; line-height: 1.6; list-style: disc; padding-left: 18px;">
-                  <li>Tích hợp Payment Gateway thật</li>
-                  <li>Google Routes / Location API</li>
-                  <li>Kiểm thử LINE thiết bị thật</li>
-                  <li>Production Hardening & Backup</li>
-                  <li>Monitoring & Tối ưu hiệu năng</li>
+                  <li>本番決済ゲートウェイ統合</li>
+                  <li>Google Routes / 位置情報連携</li>
+                  <li>実機LINE環境での受入検証</li>
+                  <li>本番環境セキュリティ強化</li>
+                  <li>本番監視・バックアップ体制</li>
                 </ul>
               </div>
             </div>
             <div style="background: var(--line-green-light); padding: 16px 24px; border-radius: 12px; text-align: center; font-weight: 800; font-size: 20px; color: var(--line-green); margin-top: 12px;">
-              "Không cần đứng chờ — Chỉ cần biết khi nào đến lượt."
+              「並んで待つ必要はありません — 自分の順番がわかるだけで十分です。」
             </div>
           </div>
           <div class="media-container">
@@ -1019,11 +984,9 @@
           </div>
         </div>
         <div class="speaker-notes-data" style="display:none;">
-          MVP hiện đã chứng minh được tính khả thi của sản phẩm.<br><br>
-          Luồng chính từ Business Onboarding đến Customer Booking và Staff Operation đã được triển khai.<br><br>
-          Các phần còn lại chủ yếu là tích hợp Production như: Payment Provider thật, Location API, Kiểm thử LINE trên thiết bị thật, Monitoring, Backup và Restore, Kiểm thử tải quy mô Production.<br><br>
-          Đây là hướng phát triển tiếp theo để đưa hệ thống gần hơn với một sản phẩm thực tế.<br><br>
-          Thông điệp kết thúc: <strong>Không cần đứng chờ — chỉ cần biết khi nào đến lượt.</strong>
+          本MVPは、コンセプトの実現可能性を十分に証明しています。<br><br>
+          法人登録から顧客のLINE予約、スタッフの現場対応までのコアフローが完成しており、今後は本番決済システムや位置情報APIの統合、本番監視体制の構築を進めてまいります。<br><br>
+          メッセージ: <strong>「並んで待つ必要はありません — 自分の順番がわかるだけで十分です。」</strong>
         </div>
       </section>
 
@@ -1034,17 +997,17 @@
 
     <!-- Fixed Controls Overlay -->
     <div id="deck-controls">
-      <button class="control-btn" id="prev-btn" title="Slide trước (←)">←</button>
+      <button class="control-btn" id="prev-btn" title="前のスライド (←)">←</button>
       <span class="slide-counter" id="slide-counter">01 / 23</span>
-      <button class="control-btn" id="next-btn" title="Slide tiếp (→)">→</button>
-      <button class="control-btn" id="notes-btn" title="Mở Speaker Notes (P)">📝</button>
-      <button class="control-btn" id="fullscreen-btn" title="Toàn màn hình (F)">⛶</button>
+      <button class="control-btn" id="next-btn" title="次のスライド (→)">→</button>
+      <button class="control-btn" id="notes-btn" title="発表者ノート (P)">📝</button>
+      <button class="control-btn" id="fullscreen-btn" title="フルスクリーン (F)">⛶</button>
     </div>
 
     <!-- Presenter Notes Drawer -->
     <div id="presenter-notes-drawer">
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3>Speaker Notes</h3>
+        <h3>発表者ノート (Speaker Notes)</h3>
         <button id="close-notes-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
       </div>
       <div id="presenter-notes-content"></div>
