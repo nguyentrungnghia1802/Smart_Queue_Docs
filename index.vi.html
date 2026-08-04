@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE Smart Queue Assistant — Bài Thuyết Trình (Tiếng Việt)</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="deck-container">
+    <div id="slide-viewport">
+
+      <!-- Slide 01 -->
+      <section class="slide active" id="slide-1">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 01 — Trang bìa</span>
+            <h1 class="slide-title">LINE Smart Queue Assistant</h1>
+            <p class="slide-subtitle">Trải nghiệm xếp hàng minh bạch, bắt đầu từ LINE</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Ecosystem</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Nền tảng xếp hàng thông minh tích hợp trực tiếp trên ứng dụng LINE</li>
+              <li>Hỗ trợ đặt lịch (Booking), cấp số thứ tự (Ticket) & dự báo ETA</li>
+              <li>Thông báo tiến trình tự động qua LINE Messaging API</li>
+              <li>Quản lý đa chi nhánh, danh mục sản phẩm & phân quyền vận hành</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">https://smartqueue.io.vn/</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/01-landing-page.png" alt="Trang chủ hệ thống">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Xin chào mọi người. Hôm nay em xin trình bày dự án <strong>LINE Smart Queue Assistant</strong>.<br><br>
+          Đây là một nền tảng hỗ trợ quản lý hàng đợi, đặt dịch vụ, đơn hàng, nền tảng thanh toán và thông báo khách hàng thông qua LINE.<br><br>
+          Trong phần trình bày này, em sẽ tập trung vào sản phẩm, bài toán thực tế, giải pháp, kiến trúc công nghệ, luồng hoạt động và tính khả thi của hệ thống.
+        </div>
+      </section>
+
+      <!-- Slide 02 -->
+      <section class="slide" id="slide-2">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 02 — Bối cảnh hiện tại</span>
+            <h1 class="slide-title">Hàng đợi vẫn là một vấn đề rất đời thường</h1>
+            <p class="slide-subtitle">Những bất cập phổ biến tại các điểm dịch vụ truyền thống</p>
+          </div>
+          <div style="font-weight: 700; color: #EF4444; font-size: 20px;">Trải nghiệm truyền thống</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="layout-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="feature-card" style="border-left: 4px solid #EF4444;">
+              <h3 style="color: #EF4444;">📌 Khách phải chờ gần quầy</h3>
+              <p>Khách hàng bị ràng buộc vị trí tại phòng chờ, không thể tự do di chuyển hay làm công việc cá nhân.</p>
+            </div>
+            <div class="feature-card" style="border-left: 4px solid #F59E0B;">
+              <h3 style="color: #D97706;">⏳ Không biết khi nào đến lượt</h3>
+              <p>Thiếu thông tin dự báo thời gian chờ (ETA) và số lượng người phía trước.</p>
+            </div>
+            <div class="feature-card" style="border-left: 4px solid #3B82F6;">
+              <h3 style="color: #2563EB;">📢 Staff gọi khách thủ công</h3>
+              <p>Nhân viên phải tốn thời gian hô tên hoặc gọi số trực tiếp, dễ bỏ sót lượt.</p>
+            </div>
+            <div class="feature-card" style="border-left: 4px solid #8B5CF6;">
+              <h3 style="color: #7C3AED;">🏢 Khu vực tiếp nhận quá tải</h3>
+              <p>Đông đúc tại sảnh chờ tạo áp lực vận hành lớn cho cửa hàng.</p>
+            </div>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Wait Time Context</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/02-japanese-waiting-context.png" alt="Bối cảnh hàng đợi">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Trong nhiều cửa hàng, salon, phòng khám hoặc quầy dịch vụ, khách hàng vẫn phải lấy số và ngồi gần khu vực tiếp nhận.<br><br>
+          Vấn đề không chỉ nằm ở thời gian chờ, mà còn ở việc khách không biết còn bao lâu nữa mới đến lượt.<br><br>
+          Điều này khiến khách khó rời khỏi khu vực chờ, còn nhân viên phải liên tục gọi khách và kiểm tra trạng thái thủ công.
+        </div>
+      </section>
+
+      <!-- Slide 03 -->
+      <section class="slide" id="slide-3">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 03 — Vấn đề gặp phải</span>
+            <h1 class="slide-title">Hàng đợi không chỉ là “số thứ tự”</h1>
+            <p class="slide-subtitle">Sự đứt gãy giữa các nghiệp vụ vận hành thực tế</p>
+          </div>
+          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Vấn đề vận hành</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="layout-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="feature-card">
+              <h3 style="color: #0F172A;">📊 Wait time không minh bạch</h3>
+              <p>Thời gian chờ thay đổi liên tục nhưng không có dự báo realtime.</p>
+            </div>
+            <div class="feature-card">
+              <h3 style="color: #0F172A;">🧩 Nghiệp vụ tách rời</h3>
+              <p>Queue, Order, Stock, Payment và Staff được xử lý riêng rạc.</p>
+            </div>
+            <div class="feature-card">
+              <h3 style="color: #0F172A;">🔔 Khách dễ bỏ lỡ lượt</h3>
+              <p>Không có kênh push notification tức thời đến điện thoại khách.</p>
+            </div>
+            <div class="feature-card">
+              <h3 style="color: #0F172A;">📉 Dữ liệu bị phân tán</h3>
+              <p>Khó tổng hợp báo cáo vận hành và hiệu suất phục vụ.</p>
+            </div>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Disjointed Systems Issue</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/03-japanese-disjointed-systems.png" alt="Nghiệp vụ đứt gãy">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Nếu chỉ nhìn đơn giản, một hệ thống xếp hàng chỉ cần phát số và gọi số.<br><br>
+          Nhưng trong vận hành thực tế, hàng đợi liên quan đến nhiều nghiệp vụ khác: Khách đặt dịch vụ nào? Có cần thanh toán trước không? Sản phẩm còn hàng không? Nhân viên nào đang phục vụ? Khi nào cần gửi thông báo?
+        </div>
+      </section>
+
+      <!-- Slide 04 -->
+      <section class="slide" id="slide-4">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 04 — Insight sản phẩm</span>
+            <h1 class="slide-title">Khách không cần “đứng chờ” — Họ cần “biết khi nào quay lại”</h1>
+            <p class="slide-subtitle">Chủ động hóa thời gian nhờ trải nghiệm di động thông minh</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">User Insight</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Nhận Ticket & số thứ tự ngay trên điện thoại thông minh</li>
+              <li>Theo dõi trực quan số người đang chờ phía trước</li>
+              <li>Biết ước tính thời gian phục vụ dự kiến (ETA)</li>
+              <li>Nhận thông báo push LINE chuẩn xác khi sắp đến lượt</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Smart Queue Customer Insight</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/04-japanese-smart-queue-insight.png" alt="Insight khách hàng">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Insight chính của dự án là khách hàng không nhất thiết phải đứng chờ tại quầy.<br><br>
+          Điều họ thực sự cần là biết mình đang ở đâu trong hàng đợi và được nhắc khi gần đến lượt.<br><br>
+          Với LINE, khách đã có sẵn ứng dụng trên điện thoại, vì vậy trải nghiệm Queue có thể được đưa trực tiếp vào một nền tảng quen thuộc.
+        </div>
+      </section>
+
+      <!-- Slide 05 -->
+      <section class="slide" id="slide-5">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 05 — Giải pháp đưa ra</span>
+            <h1 class="slide-title">LINE-first Smart Queue Platform</h1>
+            <p class="slide-subtitle">Nền tảng xếp hàng số hóa từ trải nghiệm LINE đến vận hành Dashboard</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Giải pháp Tổng thể</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Quét QR cố định của Chi nhánh bằng ứng dụng LINE</li>
+              <li>Đăng nhập tức thì với LINE Login (không cần tài khoản mới)</li>
+              <li>Tự do chọn Queue & chọn dịch vụ/sản phẩm mong muốn</li>
+              <li>Nhận Ticket điện tử hiển thị ETA và số người phía trước</li>
+              <li>Nhận thông báo tự động qua LINE Messaging API</li>
+              <li>Staff tiếp nhận và xử lý mượt mà trên Workspace riêng</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="phone-mockup">
+              <div class="phone-header-notch"></div>
+              <div class="phone-screen">
+                <img src="./docs/images/guide/36-customer-ticket-mobile.png" alt="Customer Ticket Mobile">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Giải pháp được đề xuất là một nền tảng quản lý hàng đợi theo hướng LINE-first.<br><br>
+          Khách quét QR của chi nhánh, xác thực bằng LINE, chọn Queue, chọn sản phẩm hoặc dịch vụ, sau đó nhận Ticket.
+        </div>
+      </section>
+
+      <!-- Slide 06 -->
+      <section class="slide" id="slide-6">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 06 — Hệ thống là gì?</span>
+            <h1 class="slide-title">LINE Smart Queue Assistant</h1>
+            <p class="slide-subtitle">Nền tảng hỗ trợ toàn bộ vòng đời dịch vụ và vận hành doanh nghiệp</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Platform Scope</div>
+        </header>
+        <div class="slide-body layout-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="feature-card">
+            <h3>🏢 Business Onboarding</h3>
+            <p>Doanh nghiệp tự đăng ký thông tin, chọn quy mô, gói cước và theo dõi trạng thái xét duyệt.</p>
+          </div>
+          <div class="feature-card">
+            <h3>🌐 Multi-branch</h3>
+            <p>Quản lý đa chi nhánh độc lập, mỗi chi nhánh có QR riêng, lịch hoạt động và nhân sự riêng.</p>
+          </div>
+          <div class="feature-card">
+            <h3>📦 Product Catalog</h3>
+            <p>Định nghĩa tập trung sản phẩm/dịch vụ cấp Doanh nghiệp, quản lý kho hàng (Stock) theo chi nhánh.</p>
+          </div>
+          <div class="feature-card">
+            <h3>🎫 Booking & Ticket</h3>
+            <p>Cấp số thứ tự di động, tính toán ETA động dựa trên năng lực và số lượng khách hàng chờ.</p>
+          </div>
+          <div class="feature-card">
+            <h3>👨‍🍳 Staff Operation</h3>
+            <p>Workspace vận hành mượt mà cho nhân viên: Gọi số, Phục vụ, Hoàn tất, Thu tiền & In biên nhận.</p>
+          </div>
+          <div class="feature-card">
+            <h3>💬 LINE Notification</h3>
+            <p>Tự động đẩy thông báo nhắc nhở đến ứng dụng LINE của khách hàng tại từng cột mốc quan trọng.</p>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          LINE Smart Queue Assistant không chỉ là một màn hình lấy số thứ tự. Đây là một hệ thống quản lý toàn diện từ Onboarding đến Staff Operation.
+        </div>
+      </section>
+
+      <!-- Slide 07 -->
+      <section class="slide" id="slide-7">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 07 — Công nghệ nổi bật</span>
+            <h1 class="slide-title">Kiến trúc & Công nghệ cốt lõi</h1>
+            <p class="slide-subtitle">Hệ thống SaaS hiện đại, an toàn và tối ưu trải nghiệm</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Tech Architecture</div>
+        </header>
+        <div class="slide-body layout-grid" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="feature-card" style="border-top: 4px solid #61DAFB;">
+            <h3>⚛️ Frontend Web UI</h3>
+            <p><strong>React + Vite</strong>: Tối ưu tốc độ tải trang, Responsive hoàn hảo trên mọi thiết bị di động & máy tính bàn.</p>
+          </div>
+          <div class="feature-card" style="border-top: 4px solid #3178C6;">
+            <h3>🛡️ Backend API</h3>
+            <p><strong>Express + TypeScript</strong>: Kiến trúc RESTful chuẩn mực, kiểm soát kiểu dữ liệu nghiêm ngặt và phân quyền chặt chẽ.</p>
+          </div>
+          <div class="feature-card" style="border-top: 4px solid #336791;">
+            <h3>🗄️ Database</h3>
+            <p><strong>PostgreSQL</strong>: Đảm bảo tính toàn vẹn dữ liệu ACID cho mô hình đa doanh nghiệp, đa chi nhánh và hàng nghìn Ticket.</p>
+          </div>
+          <div class="feature-card" style="border-top: 4px solid #06C755;">
+            <h3>🟢 LINE Ecosystem</h3>
+            <p><strong>LIFF + LINE Login + Messaging API</strong>: Tích hợp sâu vào LINE, xác thực không mật khẩu và đẩy thông báo tự động.</p>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Về mặt công nghệ, dự án được xây dựng với định hướng hiện đại và linh hoạt.
+        </div>
+      </section>
+
+      <!-- Slide 08 -->
+      <section class="slide" id="slide-8">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 08 — Đối tượng sử dụng</span>
+            <h1 class="slide-title">Một hệ thống — Nhiều vai trò</h1>
+            <p class="slide-subtitle">Phân quyền bảo mật chặt chẽ từ Admin đến Khách hàng</p>
+          </div>
+          <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Role Matrix</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div>
+            <table class="role-table">
+              <thead>
+                <tr>
+                  <th>Vai trò</th>
+                  <th>Trách nhiệm chính</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Platform Admin</strong></td>
+                  <td>Kiểm duyệt đăng ký doanh nghiệp, quản lý hệ thống</td>
+                </tr>
+                <tr>
+                  <td><strong>Organization Owner</strong></td>
+                  <td>Cấu hình Doanh nghiệp, Catalog sản phẩm & quản lý Chi nhánh</td>
+                </tr>
+                <tr>
+                  <td><strong>Branch Manager</strong></td>
+                  <td>Quản lý Queue, Lịch hoạt động, Kho hàng & Staff chi nhánh</td>
+                </tr>
+                <tr>
+                  <td><strong>Staff</strong></td>
+                  <td>Vận hành lượt gọi số, Phục vụ, Thu tiền & In biên nhận</td>
+                </tr>
+                <tr>
+                  <td><strong>Customer</strong></td>
+                  <td>Quét QR, Đặt chỗ & Theo dõi số lượt trên ứng dụng LINE</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Admin Dashboard</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/07-admin-dashboard.png" alt="Platform Admin Dashboard">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Hệ thống được thiết kế theo nhiều vai trò: Platform Admin, Organization Owner, Branch Manager, Staff, Customer.
+        </div>
+      </section>
+
+      <!-- Slide 09 -->
+      <section class="slide" id="slide-9">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 09 — Luồng tổng thể</span>
+            <h1 class="slide-title">End-to-End Business Flow</h1>
+            <p class="slide-subtitle">Quy trình vận hành 9 bước nối liền Doanh nghiệp & Khách hàng</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">System Flow</div>
+        </header>
+        <div class="slide-body" style="flex-direction: column; justify-content: center; gap: 24px;">
+          <div class="process-flow">
+            <div class="process-step">
+              <span class="process-step-num">Step 01</span>
+              <span class="process-step-title">Business Register</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 02</span>
+              <span class="process-step-title">Admin Approval</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 03</span>
+              <span class="process-step-title">Owner Activation</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 04</span>
+              <span class="process-step-title">Catalog + Branch</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 05</span>
+              <span class="process-step-title">Queue + QR</span>
+            </div>
+          </div>
+          <div class="process-flow" style="justify-content: center;">
+            <div class="process-step" style="background: var(--line-green-light); border-color: var(--line-green);">
+              <span class="process-step-num">Step 06</span>
+              <span class="process-step-title" style="color: var(--line-green);">LINE Booking</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step" style="background: var(--line-green-light); border-color: var(--line-green);">
+              <span class="process-step-num">Step 07</span>
+              <span class="process-step-title" style="color: var(--line-green);">Ticket Issued</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 08</span>
+              <span class="process-step-title">Staff Service</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 09</span>
+              <span class="process-step-title">Receipt + LINE Push</span>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Đây là luồng tổng thể của hệ thống từ Business Register đến Receipt + LINE Push.
+        </div>
+      </section>
+
+      <!-- Slide 10 -->
+      <section class="slide" id="slide-10">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 10 — Business Onboarding</span>
+            <h1 class="slide-title">Doanh nghiệp tự đăng ký sử dụng</h1>
+            <p class="slide-subtitle">Quy trình nộp đơn minh bạch không cần tạo trước mật khẩu</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Step 1 — Register</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Cung cấp thông tin pháp lý doanh nghiệp & Email đại diện</li>
+              <li>Lựa chọn quy mô điểm dịch vụ và Gói cước đăng ký</li>
+              <li>Thực hiện bước Demo Payment để kích hoạt đơn xin gia nhập</li>
+              <li>Đơn đăng ký được gửi đến Platform Admin xử lý</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Business Registration Form</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/03-business-registration-form.png" alt="Business Registration Form">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Doanh nghiệp bắt đầu từ trang public và gửi đơn đăng ký.
+        </div>
+      </section>
+
+      <!-- Slide 11 -->
+      <section class="slide" id="slide-11">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 11 — Admin Approval</span>
+            <h1 class="slide-title">Platform Admin kiểm soát Onboarding</h1>
+            <p class="slide-subtitle">Duyệt hồ sơ & Khởi tạo Organization chính chủ</p>
+          </div>
+          <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Step 2 — Approval</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Truy cập danh sách đơn đăng ký chờ xét duyệt trên Admin Portal</li>
+              <li>Kiểm tra chi tiết hồ sơ doanh nghiệp & kết quả Demo Payment</li>
+              <li>Thực hiện thao tác Phê duyệt (Approve) hoặc Từ chối (Reject)</li>
+              <li>Hệ thống tự động tạo Organization & gửi thư mời cho Owner</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Admin Application Detail</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/09-admin-application-detail.png" alt="Admin Application Detail">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Admin có thể xem chi tiết từng đơn đăng ký. Khi Approve, hệ thống tạo Organization và tài khoản Owner ở trạng thái Invited.
+        </div>
+      </section>
+
+      <!-- Slide 12 -->
+      <section class="slide" id="slide-12">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 12 — Owner Activation</span>
+            <h1 class="slide-title">Owner tự kích hoạt tài khoản</h1>
+            <p class="slide-subtitle">Bảo mật tuyệt đối — Owner tự khởi tạo mật khẩu cá nhân</p>
+          </div>
+          <div style="font-weight: 700; color: #10B981; font-size: 20px;">Step 3 — Activation</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Nhận Email thông báo phê duyệt kèm liên kết kích hoạt an toàn</li>
+              <li>Chủ doanh nghiệp (Owner) tự thiết lập mật khẩu bảo mật</li>
+              <li>Chính thức chuyển trạng thái Organization sang "Active"</li>
+              <li>Bắt đầu thiết lập Catalog sản phẩm & Chi nhánh đầu tiên</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Owner Activation</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/11-owner-activation.png" alt="Owner Activation">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Sau khi Admin Approve, Owner nhận email kích hoạt và tự đặt mật khẩu.
+        </div>
+      </section>
+
+      <!-- Slide 13 -->
+      <section class="slide" id="slide-13">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 13 — Product / Service Catalog</span>
+            <h1 class="slide-title">Catalog thuộc về Organization</h1>
+            <p class="slide-subtitle">Quản lý giá, mã SP & dịch vụ nhất quán giữa các chi nhánh</p>
+          </div>
+          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Catalog Management</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Sản phẩm & Dịch vụ được tạo 1 lần và dùng chung toàn hệ thống</li>
+              <li>Mã SP/DV sinh tự động giúp quản lý chính xác và chuyên nghiệp</li>
+              <li>Thiết lập linh hoạt giá tiền, đơn vị tính và thời gian phục vụ</li>
+              <li>Thiết lập thanh toán trước (Require Prepayment) theo nhu cầu</li>
+              <li>Tách biệt hoàn toàn giữa định nghĩa Catalog và Tồn kho Branch</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Owner Product Catalog</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/13-owner-product-catalog.png" alt="Owner Product Catalog">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Một điểm thiết kế quan trọng là Product và Service được quản lý ở cấp Organization.
+        </div>
+      </section>
+
+      <!-- Slide 14 -->
+      <section class="slide" id="slide-14">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 14 — Branch Management</span>
+            <h1 class="slide-title">Một doanh nghiệp có nhiều chi nhánh</h1>
+            <p class="slide-subtitle">Quản lý mạng lưới chi nhánh vật lý dễ dàng và độc lập</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Branch Structure</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Owner tạo chi nhánh (Branch) đại diện cho từng cơ sở vật lý</li>
+              <li>Gửi thư mời Branch Manager trực tiếp quản lý vận hành cơ sở</li>
+              <li>Tự động tạo mã QR cố định riêng biệt cho mỗi Chi nhánh</li>
+              <li>Thiết lập khung giờ mở cửa/đóng cửa độc lập theo từng địa bàn</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Create Branch</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/16-owner-create-branch.png" alt="Create Branch">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Owner có thể tạo các chi nhánh và mời Branch Manager.
+        </div>
+      </section>
+
+      <!-- Slide 15 -->
+      <section class="slide" id="slide-15">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 15 — Branch Manager Workspace</span>
+            <h1 class="slide-title">Chi nhánh vận hành độc lập</h1>
+            <p class="slide-subtitle">Không gian làm việc tập trung dành riêng cho Quản lý chi nhánh</p>
+          </div>
+          <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Manager Portal</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Quản lý toàn bộ danh sách Hàng chờ (Queue) trong chi nhánh</li>
+              <li>Chủ động cấu hình Lịch hoạt động & ngày nghỉ lễ (Calendar)</li>
+              <li>Theo dõi Tồn kho (Stock) sản phẩm thực tế tại kho chi nhánh</li>
+              <li>Mời Nhân viên (Staff) & phân quyền vận hành trong ngày</li>
+              <li>Xuất mã Branch QR cố định để đặt tại quầy tiếp đón</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Branch Manager Dashboard</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/19-branch-manager-dashboard.png" alt="Branch Manager Dashboard">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Branch Manager chỉ quản lý chi nhánh được phân công.
+        </div>
+      </section>
+
+      <!-- Slide 16 -->
+      <section class="slide" id="slide-16">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 16 — Multi-Queue per Branch</span>
+            <h1 class="slide-title">Một QR — Nhiều Queue</h1>
+            <p class="slide-subtitle">Linh hoạt phân luồng dịch vụ chỉ với duy nhất một điểm quét QR</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Queue Architecture</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Tạo nhiều Queue linh hoạt: Thường (General), Ưu tiên (Priority), Chuyên biệt</li>
+              <li>Mỗi Queue được thiết lập danh mục Dịch vụ/Sản phẩm tương ứng</li>
+              <li>Chi nhánh chỉ cần in và dán duy nhất một mã QR cố định</li>
+              <li>Thêm, bớt hoặc đóng Queue chủ động mà không làm hỏng QR đã in</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Queue List</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/22-queue-list.png" alt="Queue List">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Một Branch có thể có nhiều Queue. Tuy nhiên, Branch vẫn chỉ cần một QR cố định.
+        </div>
+      </section>
+
+      <!-- Slide 17 -->
+      <section class="slide" id="slide-17">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 17 — Queue Configuration</span>
+            <h1 class="slide-title">Queue không chỉ có tên và trạng thái</h1>
+            <p class="slide-subtitle">Cấu hình tham số hàng chờ chuyên sâu đáp ứng đa dạng kịch bản</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Queue Settings</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Trạng thái đa dạng: Open (Mở), Closed (Đóng), Paused (Tạm dừng), Archived</li>
+              <li>Giới hạn sức chứa (Capacity) kiểm soát tải phục vụ trong ngày</li>
+              <li>Thiết lập Tiền tố Ticket (Prefix) như A-, B-, P- giúp phân biệt dịch vụ</li>
+              <li>Khai báo Thời gian phục vụ trung bình (Average Service Time) chuẩn xác</li>
+              <li>Thiết lập Quy tắc xử lý khách vắng mặt (Absence Policy) & Gán Catalog</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Create / Edit Queue</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/23-create-queue.png" alt="Create Queue">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Queue có nhiều cấu hình phục vụ vận hành thực tế.
+        </div>
+      </section>
+
+      <!-- Slide 18 -->
+      <section class="slide" id="slide-18">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 18 — Branch Stock</span>
+            <h1 class="slide-title">Stock thuộc về từng chi nhánh</h1>
+            <p class="slide-subtitle">Quản lý vòng đời tồn kho từ Reserve ➔ Release ➔ Consume</p>
+          </div>
+          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Stock Control</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Hỗ trợ 2 chế độ kho: Tồn kho hữu hạn (Finite) & Không giới hạn (Unlimited)</li>
+              <li><strong>Reserve (Giữ kho)</strong>: Tự động khóa số lượng ngay khi khách Booking</li>
+              <li><strong>Release (Khôi phục)</strong>: Tự động hoàn trả kho khi Ticket bị Hủy/Vắng mặt</li>
+              <li><strong>Consume (Khấu trừ)</strong>: Trừ tồn kho thực tế khi Staff hoàn tất phục vụ</li>
+              <li>Ngăn chặn triệt để tình trạng bán vượt quá số lượng (Overselling)</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Branch Stock Management</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/25-branch-stock.png" alt="Branch Stock">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Stock được quản lý theo từng Branch.
+        </div>
+      </section>
+
+      <!-- Slide 19 -->
+      <section class="slide" id="slide-19">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 19 — Customer Journey with LINE</span>
+            <h1 class="slide-title">Khách dùng LINE để đặt dịch vụ</h1>
+            <p class="slide-subtitle">Trải nghiệm di động nhanh chóng — 0% rào cản tạo tài khoản</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Customer Flow</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Quét mã QR cố định của Chi nhánh bằng ứng dụng LINE quen thuộc</li>
+              <li>Đăng nhập tự động mượt mà qua LINE Login</li>
+              <li>Dễ dàng lựa chọn Queue phù hợp với nhu cầu</li>
+              <li>Xem danh mục và chọn sản phẩm/dịch vụ trực quan</li>
+              <li>Tạo lượt đặt chỗ (Booking) & nhận số Ticket di động lập tức</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="phone-mockup">
+              <div class="phone-header-notch"></div>
+              <div class="phone-screen">
+                <img src="./docs/images/guide/30-customer-queue-selection-mobile.png" alt="Customer Queue Selection">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Ở phía Customer, trải nghiệm bắt đầu bằng việc quét QR bằng LINE.
+        </div>
+      </section>
+
+      <!-- Slide 20 -->
+      <section class="slide" id="slide-20">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 20 — Booking & Ticket</span>
+            <h1 class="slide-title">Ticket là trung tâm trải nghiệm khách hàng</h1>
+            <p class="slide-subtitle">Minh bạch thông tin — Giúp khách hàng hoàn toàn làm chủ thời gian</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Digital Ticket</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li><strong>Ticket Code & Order Number</strong>: Mã số lượt & Mã đơn dịch vụ rõ ràng</li>
+              <li><strong>People Ahead</strong>: Đếm lùi thời gian thực số lượng người chờ phía trước</li>
+              <li><strong>ETA (Estimated Time)</strong>: Tính toán chính xác thời gian ước tính phục vụ</li>
+              <li><strong>Selected Items</strong>: Chi tiết sản phẩm & dịch vụ đã lựa chọn</li>
+              <li><strong>Payment Status</strong>: Hiển thị minh bạch số tiền đã trả & cần thanh toán thêm</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="phone-mockup">
+              <div class="phone-header-notch"></div>
+              <div class="phone-screen">
+                <img src="./docs/images/guide/36-customer-ticket-mobile.png" alt="Customer Ticket Mobile Detail">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Sau khi Booking thành công, khách nhận Ticket.
+        </div>
+      </section>
+
+      <!-- Slide 21 -->
+      <section class="slide" id="slide-21">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 21 — Công nghệ LINE nổi bật</span>
+            <h1 class="slide-title">LINE tạo ra điểm khác biệt cho sản phẩm</h1>
+            <p class="slide-subtitle">Sức mạnh từ bộ ba công nghệ cốt lõi của LINE Ecosystem</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Integration</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li><strong>LIFF</strong>: Nhúng Web App trực tiếp bên trong giao diện ứng dụng LINE</li>
+              <li><strong>LINE Login</strong>: Xác thực danh tính Customer tức thì, không tạo password</li>
+              <li><strong>Messaging API</strong>: Đẩy Push Notification nhắc lượt tự động theo event</li>
+              <li><strong>Branch QR</strong>: Mã quét vật lý cố định kết nối thế giới thực và số hóa</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="phone-mockup">
+              <div class="phone-header-notch"></div>
+              <div class="phone-screen">
+                <img src="./docs/images/guide/29-liff-home-mobile.png" alt="LIFF Home Screen">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Điểm công nghệ nổi bật nhất là tích hợp LINE.
+        </div>
+      </section>
+
+      <!-- Slide 22 -->
+      <section class="slide" id="slide-22">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 22 — Staff Operation</span>
+            <h1 class="slide-title">Staff xử lý Queue trên một Workspace</h1>
+            <p class="slide-subtitle">Vận hành lượt phục vụ nhanh chóng và trực quan trên một màn hình</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Staff Workspace</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Theo dõi Active Ticket theo thời gian thực tại quầy tiếp đón</li>
+              <li>Chuyển trạng thái linh hoạt: <strong>Waiting ➔ Called ➔ Serving ➔ Served</strong></li>
+              <li>Xử lý nhanh ngoại lệ: Lùi lượt (Defer), Hủy (Cancel), Vắng mặt (No-show)</li>
+              <li>Thu nốt phần tiền còn lại của Order & Cập nhật trạng thái thanh toán</li>
+              <li>Xuất và in Biên nhận (Receipt) trực tiếp cho khách hàng</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Staff Workspace Desktop</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/40-staff-workspace-desktop.png" alt="Staff Workspace Desktop">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Staff Workspace giúp nhân viên vận hành hàng đợi trong ngày.
+        </div>
+      </section>
+
+      <!-- Slide 23 -->
+      <section class="slide" id="slide-23">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 23 — Tính khả thi và hướng phát triển</span>
+            <h1 class="slide-title">MVP đã chứng minh tính khả thi thực tiễn</h1>
+            <p class="slide-subtitle">Hoàn thiện nền tảng sẵn sàng cho quy mô Production</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Roadmap & Vision</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div class="feature-card" style="border-left: 4px solid var(--line-green);">
+                <h3 style="color: var(--line-green);">✅ Đã hoàn thành (MVP)</h3>
+                <ul style="font-size: 15px; color: #334155; line-height: 1.6; list-style: disc; padding-left: 18px;">
+                  <li>Luồng End-to-end hoàn chỉnh</li>
+                  <li>Multi-role Dashboard bảo mật</li>
+                  <li>LINE LIFF Booking & QR Ticket</li>
+                  <li>Staff Workspace & In biên nhận</li>
+                  <li>Hỗ trợ 3 ngôn ngữ: JP / VI / EN</li>
+                </ul>
+              </div>
+              <div class="feature-card" style="border-left: 4px solid #3B82F6;">
+                <h3 style="color: #2563EB;">🚀 Bước tiếp theo</h3>
+                <ul style="font-size: 15px; color: #334155; line-height: 1.6; list-style: disc; padding-left: 18px;">
+                  <li>Tích hợp Payment Gateway thật</li>
+                  <li>Google Routes / Location API</li>
+                  <li>Kiểm thử LINE thiết bị thật</li>
+                  <li>Production Hardening & Backup</li>
+                  <li>Monitoring & Tối ưu hiệu năng</li>
+                </ul>
+              </div>
+            </div>
+            <div style="background: var(--line-green-light); padding: 16px 24px; border-radius: 12px; text-align: center; font-weight: 800; font-size: 20px; color: var(--line-green); margin-top: 12px;">
+              "Không cần đứng chờ — Chỉ cần biết khi nào đến lượt."
+            </div>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Receipt</div>
+              </div>
+              <div class="browser-content">
+                <img src="./docs/images/guide/45-receipt.png" alt="Receipt">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          MVP hiện đã chứng minh được tính khả thi của sản phẩm.<br><br>
+          Thông điệp kết thúc: <strong>Không cần đứng chờ — chỉ cần biết khi nào đến lượt.</strong>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Fixed Controls Overlay -->
+    <div id="deck-controls">
+      <button class="control-btn" id="prev-btn" title="Slide trước (←)">←</button>
+      <span class="slide-counter" id="slide-counter">01 / 23</span>
+      <button class="control-btn" id="next-btn" title="Slide tiếp (→)">→</button>
+      <button class="control-btn" id="notes-btn" title="Mở Speaker Notes (P)">📝</button>
+      <button class="control-btn" id="fullscreen-btn" title="Toàn màn hình (F)">⛶</button>
+      <a href="./index.html" class="control-btn" style="text-decoration:none; width:auto; padding:0 8px; font-size:13px; font-weight:700;" title="Chuyển sang Tiếng Nhật">🇯🇵 JP</a>
+    </div>
+
+    <!-- Presenter Notes Drawer -->
+    <div id="presenter-notes-drawer">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3>Speaker Notes</h3>
+        <button id="close-notes-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
+      </div>
+      <div id="presenter-notes-content"></div>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
