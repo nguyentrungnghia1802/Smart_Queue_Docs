@@ -668,6 +668,50 @@
         </div>
       </section>
 
+      <!-- Slide 16 -->
+      <section class="slide" id="slide-16">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 16 — Multi-Queue per Branch</span>
+            <h1 class="slide-title">Một QR — Nhiều Queue</h1>
+            <p class="slide-subtitle">Linh hoạt phân luồng dịch vụ chỉ với duy nhất một điểm quét QR</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Queue Architecture</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Tạo nhiều Queue linh hoạt: Thường (General), Ưu tiên (Priority), Chuyên biệt</li>
+              <li>Mỗi Queue được thiết lập danh mục Dịch vụ/Sản phẩm tương ứng</li>
+              <li>Chi nhánh chỉ cần in và dán duy nhất một mã QR cố định</li>
+              <li>Thêm, bớt hoặc đóng Queue chủ động mà không làm hỏng QR đã in</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Queue List</div>
+              </div>
+              <div class="browser-content">
+                <img src="../docs/images/guide/22-queue-list.png" alt="Queue List">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          Một Branch có thể có nhiều Queue.<br><br>
+          Ví dụ, một salon có thể có Queue cho cắt tóc, Queue cho nhuộm tóc hoặc Queue ưu tiên.<br><br>
+          Tuy nhiên, Branch vẫn chỉ cần một QR cố định.<br><br>
+          Sau khi quét QR, Customer sẽ chọn Queue phù hợp.<br><br>
+          Việc thêm hoặc xóa Queue không làm thay đổi Branch QR.
+        </div>
+      </section>
+
     </div>
 
     <!-- Progress Bar -->
@@ -676,7 +720,7 @@
     <!-- Fixed Controls Overlay -->
     <div id="deck-controls">
       <button class="control-btn" id="prev-btn" title="Slide trước (←)">←</button>
-      <span class="slide-counter" id="slide-counter">01 / 15</span>
+      <span class="slide-counter" id="slide-counter">01 / 16</span>
       <button class="control-btn" id="next-btn" title="Slide tiếp (→)">→</button>
       <button class="control-btn" id="notes-btn" title="Mở Speaker Notes (P)">📝</button>
       <button class="control-btn" id="fullscreen-btn" title="Toàn màn hình (F)">⛶</button>
