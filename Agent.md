@@ -12,7 +12,7 @@ Build a complete 23-slide HTML presentation deck (`presentation/index.html`) bas
 ## Slide Execution Checklist
 
 - [x] **Slide 01 — Trang bìa (Cover Page)**
-- [ ] **Slide 02 — Bối cảnh hiện tại**
+- [x] **Slide 02 — Bối cảnh hiện tại**
 - [ ] **Slide 03 — Vấn đề gặp phải**
 - [ ] **Slide 04 — Insight sản phẩm**
 - [ ] **Slide 05 — Giải pháp đưa ra**
