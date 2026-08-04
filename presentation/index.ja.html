@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE Smart Queue Assistant — プレゼンテーション</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="deck-container">
+    <div id="slide-viewport">
+
+      <!-- Slide 01 -->
+      <section class="slide active" id="slide-1">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 01 — 表紙</span>
+            <h1 class="slide-title">LINE Smart Queue Assistant</h1>
+            <p class="slide-subtitle">LINEで始める、見える・離れられる受付体験</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Ecosystem</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>LINEアプリ上で直接動くスマート順番待ち・予約・決済基盤</li>
+              <li>受付番号発行、待ち人数＆目安時間（ETA）のリアルタイム表示</li>
+              <li>LINE Messaging API による自動プッシュ通知配信</li>
+              <li>複数店舗、共通商品カタログ、権限ベースの運用ダッシュボード</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">https://smartqueue.io.vn/</div>
+              </div>
+              <div class="browser-content">
+                <img src="../docs/images/guide/01-landing-page.png" alt="公開トップページ">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          皆様、本日は <strong>LINE Smart Queue Assistant</strong> のプレゼンテーションをご覧いただきありがとうございます。<br><br>
+          本プロダクトは、店舗、サロン、クリニック等の対面サービスにおいて、受付、予約、注文、決済、顧客通知をLINE上で一貫して提供するスマート順番待ちプラットフォームです。<br><br>
+          本発表では、製品コンセプト、解決する課題、技術構成、詳細な運用フローおよび今後の展開についてご説明いたします。
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Fixed Controls Overlay -->
+    <div id="deck-controls">
+      <button class="control-btn" id="prev-btn" title="前のスライド (←)">←</button>
+      <span class="slide-counter" id="slide-counter">01 / 01</span>
+      <button class="control-btn" id="next-btn" title="次のスライド (→)">→</button>
+      <button class="control-btn" id="notes-btn" title="発表者ノート (P)">📝</button>
+      <button class="control-btn" id="fullscreen-btn" title="フルスクリーン (F)">⛶</button>
+    </div>
+
+    <!-- Presenter Notes Drawer -->
+    <div id="presenter-notes-drawer">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3>発表者ノート (Speaker Notes)</h3>
+        <button id="close-notes-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
+      </div>
+      <div id="presenter-notes-content"></div>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
