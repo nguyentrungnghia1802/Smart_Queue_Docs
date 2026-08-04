@@ -42,7 +42,7 @@ Build complete HTML presentation decks (`presentation/index.html` for Vietnamese
 - [x] **Slide 03 — 直面する課題**
 - [x] **Slide 04 — インサイト**
 - [x] **Slide 05 — 解決ソリューション**
-- [ ] **Slide 06 — システム概要**
+- [x] **Slide 06 — システム概要**
 - [ ] **Slide 07 — 注目テクノロジー**
 - [ ] **Slide 08 — 利用ロール**
 - [ ] **Slide 09 — 全体フロー**
