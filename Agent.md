@@ -38,7 +38,7 @@ Build complete HTML presentation decks (`presentation/index.html` for Vietnamese
 ## Slide Execution Checklist — Japanese Deck (`index.ja.html`)
 
 - [x] **Slide 01 — 表紙 (Cover Page)**
-- [ ] **Slide 02 — 現在の背景**
+- [x] **Slide 02 — 現在の背景**
 - [ ] **Slide 03 — 直面する課題**
 - [ ] **Slide 04 — インサイト**
 - [ ] **Slide 05 — 解決ソリューション**
