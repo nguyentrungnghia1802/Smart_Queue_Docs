@@ -24,7 +24,7 @@ Build a complete 23-slide HTML presentation deck (`presentation/index.html`) bas
 - [x] **Slide 11 — Admin Approval**
 - [x] **Slide 12 — Owner Activation**
 - [x] **Slide 13 — Product / Service Catalog**
-- [ ] **Slide 14 — Branch Management**
+- [x] **Slide 14 — Branch Management**
 - [ ] **Slide 15 — Branch Manager Workspace**
 - [ ] **Slide 16 — Multi-Queue per Branch**
 - [ ] **Slide 17 — Queue Configuration**
