@@ -22,7 +22,7 @@ Build a complete 23-slide HTML presentation deck (`presentation/index.html`) bas
 - [x] **Slide 09 — Luồng tổng thể**
 - [x] **Slide 10 — Business Onboarding**
 - [x] **Slide 11 — Admin Approval**
-- [ ] **Slide 12 — Owner Activation**
+- [x] **Slide 12 — Owner Activation**
 - [ ] **Slide 13 — Product / Service Catalog**
 - [ ] **Slide 14 — Branch Management**
 - [ ] **Slide 15 — Branch Manager Workspace**
