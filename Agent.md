@@ -39,7 +39,7 @@ Build complete HTML presentation decks (`presentation/index.html` for Vietnamese
 
 - [x] **Slide 01 — 表紙 (Cover Page)**
 - [x] **Slide 02 — 現在の背景**
-- [ ] **Slide 03 — 直面する課題**
+- [x] **Slide 03 — 直面する課題**
 - [ ] **Slide 04 — インサイト**
 - [ ] **Slide 05 — 解決ソリューション**
 - [ ] **Slide 06 — システム概要**
