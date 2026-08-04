@@ -15,7 +15,7 @@ Build a complete 23-slide HTML presentation deck (`presentation/index.html`) bas
 - [x] **Slide 02 — Bối cảnh hiện tại**
 - [x] **Slide 03 — Vấn đề gặp phải**
 - [x] **Slide 04 — Insight sản phẩm**
-- [ ] **Slide 05 — Giải pháp đưa ra**
+- [x] **Slide 05 — Giải pháp đưa ra**
 - [ ] **Slide 06 — Hệ thống là gì?**
 - [ ] **Slide 07 — Công nghệ nổi bật**
 - [ ] **Slide 08 — Đối tượng sử dụng**
