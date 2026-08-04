@@ -329,8 +329,10 @@ html, body {
 .phone-screen img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top;
+  object-fit: contain;
+  object-position: center top;
+  background: #F8FAFC;
+  padding: 4px;
 }
 
 .browser-frame {
@@ -390,14 +392,16 @@ html, body {
   flex: 1;
   overflow: hidden;
   position: relative;
-  background: #FAFFA;
+  background: #F8FAFC;
 }
 
 .browser-content img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top;
+  object-fit: contain;
+  object-position: center top;
+  background: #F8FAFC;
+  padding: 4px;
 }
 
 /* Image Placeholders */
