@@ -33,16 +33,18 @@ const DIAGRAM_DEFINITIONS = {
     M3 --> M4["Gán Staff vào Queue<br/>lấy Branch QR cố định"]
   end
 
-  subgraph CUSTOMER ["Role: Customer (LINE LIFF)"]
-    C1["Scan Branch QR<br/>mở LINE LIFF"] --> C2["LINE Login<br/>backend verify LINE Token"]
-    C2 --> C3["Xem Branch Queues<br/>chọn Queue & xem Catalog"]
-    C3 --> C4["Chọn Product / Service<br/>nhập info"] --> C_PAY{"Requires<br/>prepayment?"}
-    C_PAY -- Yes --> C5["Tạo Payment Intent<br/>server verify payment"] --> C6["Create Order & Ticket"]
-    C_PAY -- No --> C6
-    C6 --> C7["Ticket = WAITING<br/>xem Ticket Code, ETA, People Ahead"]
+  subgraph CUSTOMER ["Role: Customer (Hành trình Khách hàng)"]
+    C1["Scan Branch QR cố định<br/>mở ứng dụng LINE LIFF"] --> C2["LINE Login<br/>backend verify LINE ID Token"]
+    C2 --> C3["Khởi tạo Customer Session<br/>xem danh sách Queue của Branch"]
+    C3 --> C4["Chọn Queue phù hợp<br/>xem Catalog của Queue"]
+    C4 --> C5["Chọn Product / Service & Quantity<br/>nhập Customer contact info"]
+    C5 --> C_PAY{"Có item<br/>requires_prepayment?"}
+    C_PAY -- Yes --> C6["Tạo Payment Intent<br/>Payment Demo / PSP"] --> C7["Server verify payment"] --> C8
+    C_PAY -- No --> C8["Tạo Booking Transaction<br/>Order + Order Items + Queue Entry<br/>+ Inventory Reservation + Payment link"]
+    C8 --> C9["Ticket status = WAITING<br/>Customer xem Ticket Code, Order Number,<br/>People Ahead & thời gian ước tính ETA"]
   end
 
-  subgraph SYSTEM ["Role: System / LINE"]
+  subgraph SYSTEM ["Role: System / LINE Engine"]
     S1["booking_created notification"]
     S2["Auto Call earliest Waiting ticket<br/>(nếu Queue không có Called/Serving)"]
     S3["LINE Called notification"]
@@ -51,24 +53,24 @@ const DIAGRAM_DEFINITIONS = {
     S_EMAIL["Gửi activation email"]
   end
 
-  subgraph STAFF ["Role: Staff"]
+  subgraph STAFF ["Role: Staff Operator"]
     ST1["Ticket: WAITING ➔ CALLED"] --> ST2["Start Service<br/>CALLED ➔ SERVING"]
     ST2 --> ST3["Complete Service<br/>SERVING ➔ SERVED"]
-    ST3 --> ST4["Order Completed & Inventory Consumed<br/>Receipt available"]
+    ST3 --> ST4["Order Completed & Inventory Consumed<br/>Receipt available (nếu fully paid)"]
   end
 
-  %% Connections
+  %% Flow Connections between Swimlanes
   A2 --> AD1
   AD_APP --> S_EMAIL --> O1
   O4 --> M1
-  M4 -. "Branch open & Queue open" .-> C1
-  C6 --> S1
-  C6 --> S2
+  M4 -- "Branch QR (Branch open & Queue open)" --> C1
+  C9 --> S1
+  C9 --> S2
   S2 --> ST1
   ST1 --> S3
   ST3 --> S4
   ST4 --> S5
-  S5 -. "Next Waiting ticket" .-> ST1
+  S5 -. "Auto Call next Waiting customer" .-> ST1
 
   %% Class assignments
   class A1,A2 applicantNode
@@ -76,7 +78,7 @@ const DIAGRAM_DEFINITIONS = {
   class AD_DEC,C_PAY decisionNode
   class O1,O2,O3,O4 ownerNode
   class M1,M2,M3,M4 managerNode
-  class C1,C2,C3,C4,C5,C6,C7 customerNode
+  class C1,C2,C3,C4,C5,C6,C7,C8,C9 customerNode
   class S1,S2,S3,S4,S5,S_EMAIL systemNode
   class ST1,ST2,ST3,ST4 staffNode`,
 
