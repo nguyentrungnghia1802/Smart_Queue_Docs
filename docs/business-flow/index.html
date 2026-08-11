@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE Smart Queue Assistant — Business Process Diagrams</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Mermaid.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-title-group">
+      <h1>LINE Smart Queue Assistant</h1>
+      <p>Business Process Diagrams &amp; Architecture Specification</p>
+    </div>
+    <a href="../../index.html" class="nav-back-link">
+      <span>🏠 Dashboard</span>
+    </a>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="tab-bar">
+    <button class="tab-btn active" data-tab="1">1. Tổng quan nghiệp vụ</button>
+    <button class="tab-btn" data-tab="2">2. Khởi tạo doanh nghiệp</button>
+    <button class="tab-btn" data-tab="3">3. Hành trình khách hàng</button>
+    <button class="tab-btn" data-tab="4">4. Vận hành Queue</button>
+    <button class="tab-btn" data-tab="5">5. Role &amp; Scope</button>
+  </nav>
+
+  <!-- Role Color Legend Bar -->
+  <div class="legend-bar">
+    <span class="legend-title">Phân màu Roles:</span>
+    <span class="legend-item"><span class="legend-color legend-applicant"></span> Business Applicant</span>
+    <span class="legend-item"><span class="legend-color legend-admin"></span> Platform Admin</span>
+    <span class="legend-item"><span class="legend-color legend-owner"></span> Organization Owner</span>
+    <span class="legend-item"><span class="legend-color legend-manager"></span> Branch Manager</span>
+    <span class="legend-item"><span class="legend-color legend-staff"></span> Staff</span>
+    <span class="legend-item"><span class="legend-color legend-customer"></span> Customer (LINE/LIFF)</span>
+    <span class="legend-item"><span class="legend-color legend-system"></span> System / LINE</span>
+  </div>
+
+  <!-- Main Diagrams Container -->
+  <main class="container">
+
+    <!-- TAB 1: Tổng quan nghiệp vụ -->
+    <div class="tab-content active" id="tab-1">
+      <div class="diagram-card" id="card-1">
+        <div class="diagram-card-header">
+          <div class="diagram-meta">
+            <h2>Diagram 1 — Tổng quan nghiệp vụ (End-to-End Business Flow)</h2>
+            <p>Sơ đồ Swimlane phân định trách nhiệm 7 vai trò từ Đăng ký dịch vụ, Duyệt hồ sơ, Thiết lập chi nhánh đến Phục vụ khách hàng trên LINE.</p>
+          </div>
+          <div class="toolbar-controls">
+            <button class="ctrl-btn" id="btn-fit-1">Fit</button>
+            <button class="ctrl-btn" id="btn-zoomin-1">Zoom +</button>
+            <button class="ctrl-btn" id="btn-zoomout-1">Zoom -</button>
+            <button class="ctrl-btn" id="btn-fullscreen-1">Fullscreen</button>
+            <button class="ctrl-btn" id="btn-export-1">Export SVG</button>
+          </div>
+        </div>
+        <div class="diagram-viewport" id="viewport-1">
+          <div class="diagram-svg-wrapper mermaid" id="mermaid-container-1">
+            <div class="loading-indicator">Đang khởi tạo diagram...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Khởi tạo doanh nghiệp -->
+    <div class="tab-content" id="tab-2">
+      <div class="diagram-card" id="card-2">
+        <div class="diagram-card-header">
+          <div class="diagram-meta">
+            <h2>Diagram 2 — Khởi tạo doanh nghiệp (Organization Onboarding)</h2>
+            <p>Luồng đăng ký doanh nghiệp, Admin xét duyệt, kích hoạt Owner account và khởi tạo Chi nhánh &amp; Queue ban đầu.</p>
+          </div>
+          <div class="toolbar-controls">
+            <button class="ctrl-btn" id="btn-fit-2">Fit</button>
+            <button class="ctrl-btn" id="btn-zoomin-2">Zoom +</button>
+            <button class="ctrl-btn" id="btn-zoomout-2">Zoom -</button>
+            <button class="ctrl-btn" id="btn-fullscreen-2">Fullscreen</button>
+            <button class="ctrl-btn" id="btn-export-2">Export SVG</button>
+          </div>
+        </div>
+        <div class="diagram-viewport" id="viewport-2">
+          <div class="diagram-svg-wrapper mermaid" id="mermaid-container-2">
+            <div class="loading-indicator">Đang khởi tạo diagram...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Hành trình khách hàng -->
+    <div class="tab-content" id="tab-3">
+      <div class="diagram-card" id="card-3">
+        <div class="diagram-card-header">
+          <div class="diagram-meta">
+            <h2>Diagram 3 — Hành trình khách hàng (Customer Booking &amp; Transaction Flow)</h2>
+            <p>Luồng quét QR, LINE Login, chọn Queue, kiểm tra điều kiện trả trước, và nhóm giao dịch Transaction Group nguyên tử (PostgreSQL Boundary).</p>
+          </div>
+          <div class="toolbar-controls">
+            <button class="ctrl-btn" id="btn-fit-3">Fit</button>
+            <button class="ctrl-btn" id="btn-zoomin-3">Zoom +</button>
+            <button class="ctrl-btn" id="btn-zoomout-3">Zoom -</button>
+            <button class="ctrl-btn" id="btn-fullscreen-3">Fullscreen</button>
+            <button class="ctrl-btn" id="btn-export-3">Export SVG</button>
+          </div>
+        </div>
+        <div class="diagram-viewport" id="viewport-3">
+          <div class="diagram-svg-wrapper mermaid" id="mermaid-container-3">
+            <div class="loading-indicator">Đang khởi tạo diagram...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: Vận hành Queue -->
+    <div class="tab-content" id="tab-4">
+      <div class="diagram-card" id="card-4">
+        <div class="diagram-card-header">
+          <div class="diagram-meta">
+            <h2>Diagram 4 — Vận hành Queue (Ticket State Machine)</h2>
+            <p>State Diagram biểu diễn chính xác vòng đời Ticket (waiting, called, serving, served, skipped, cancelled, no_show) &amp; quy tắc xử lý vắng mặt (defer 3 lượt).</p>
+          </div>
+          <div class="toolbar-controls">
+            <button class="ctrl-btn" id="btn-fit-4">Fit</button>
+            <button class="ctrl-btn" id="btn-zoomin-4">Zoom +</button>
+            <button class="ctrl-btn" id="btn-zoomout-4">Zoom -</button>
+            <button class="ctrl-btn" id="btn-fullscreen-4">Fullscreen</button>
+            <button class="ctrl-btn" id="btn-export-4">Export SVG</button>
+          </div>
+        </div>
+        <div class="diagram-viewport" id="viewport-4">
+          <div class="diagram-svg-wrapper mermaid" id="mermaid-container-4">
+            <div class="loading-indicator">Đang khởi tạo diagram...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: Role & Scope -->
+    <div class="tab-content" id="tab-5">
+      <div class="diagram-card" id="card-5">
+        <div class="diagram-card-header">
+          <div class="diagram-meta">
+            <h2>Diagram 5 — Role &amp; Authorization Scope</h2>
+            <p>Sơ đồ cấp bậc và ranh giới quyền hạn bảo mật giữa Platform Admin, Organization Owner, Branch Manager, Staff Operator và Customer.</p>
+          </div>
+          <div class="toolbar-controls">
+            <button class="ctrl-btn" id="btn-fit-5">Fit</button>
+            <button class="ctrl-btn" id="btn-zoomin-5">Zoom +</button>
+            <button class="ctrl-btn" id="btn-zoomout-5">Zoom -</button>
+            <button class="ctrl-btn" id="btn-fullscreen-5">Fullscreen</button>
+            <button class="ctrl-btn" id="btn-export-5">Export SVG</button>
+          </div>
+        </div>
+        <div class="diagram-viewport" id="viewport-5">
+          <div class="diagram-svg-wrapper mermaid" id="mermaid-container-5">
+            <div class="loading-indicator">Đang khởi tạo diagram...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

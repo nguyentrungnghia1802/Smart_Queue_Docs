@@ -1,0 +1,324 @@
+/* LINE Smart Queue Assistant — Technical Business Process Diagrams Styles */
+
+:root {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+  --line-slate: #475569;
+  --primary-blue: #2563eb;
+  --primary-hover: #1d4ed8;
+
+  /* Role Colors (Muted fills & distinct borders) */
+  --role-applicant-bg: #f1f5f9;
+  --role-applicant-border: #64748b;
+
+  --role-admin-bg: #f3e8ff;
+  --role-admin-border: #a855f7;
+
+  --role-owner-bg: #dbeafe;
+  --role-owner-border: #3b82f6;
+
+  --role-manager-bg: #ccfbf1;
+  --role-manager-border: #14b8a6;
+
+  --role-staff-bg: #ffedd5;
+  --role-staff-border: #f97316;
+
+  --role-customer-bg: #dcfce7;
+  --role-customer-border: #22c55e;
+
+  --role-system-bg: #f8fafc;
+  --role-system-border: #64748b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+header {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-title-group h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.header-title-group p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.nav-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-blue);
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  background-color: #eff6ff;
+  transition: all 0.2s ease;
+}
+
+.nav-back-link:hover {
+  background-color: #dbeafe;
+  border-color: var(--primary-blue);
+}
+
+/* Navigation Tabs */
+nav.tab-bar {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 32px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--text-main);
+}
+
+.tab-btn.active {
+  color: var(--primary-blue);
+  border-bottom-color: var(--primary-blue);
+}
+
+/* Legend Bar */
+.legend-bar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.legend-title {
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1.5px solid #000000;
+}
+
+.legend-applicant { background-color: var(--role-applicant-bg); border-color: var(--role-applicant-border); }
+.legend-admin { background-color: var(--role-admin-bg); border-color: var(--role-admin-border); }
+.legend-owner { background-color: var(--role-owner-bg); border-color: var(--role-owner-border); }
+.legend-manager { background-color: var(--role-manager-bg); border-color: var(--role-manager-border); }
+.legend-staff { background-color: var(--role-staff-bg); border-color: var(--role-staff-border); }
+.legend-customer { background-color: var(--role-customer-bg); border-color: var(--role-customer-border); }
+.legend-system { background-color: var(--role-system-bg); border-color: var(--role-system-border); }
+
+/* Main Container */
+main.container {
+  padding: 24px 32px;
+  max-width: 100%;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Diagram Card */
+.diagram-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.diagram-card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background-color: #f8fafc;
+}
+
+.diagram-meta h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.diagram-meta p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Toolbar Controls */
+.toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.ctrl-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.ctrl-btn:active {
+  background-color: #e2e8f0;
+}
+
+/* Diagram Viewport & Canvas */
+.diagram-viewport {
+  position: relative;
+  width: 100%;
+  height: 720px;
+  background-color: #ffffff;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.diagram-viewport:active {
+  cursor: grabbing;
+}
+
+.diagram-svg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  transition: transform 0.05s linear;
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* Fullscreen Mode */
+.diagram-card.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  border-radius: 0;
+}
+
+.diagram-card.fullscreen .diagram-viewport {
+  height: calc(100vh - 65px);
+}
+
+/* Mermaid SVG Customizations (draw.io style) */
+.mermaid svg {
+  max-width: none !important;
+  font-family: 'Inter', Arial, sans-serif !important;
+}
+
+.mermaid .node rect,
+.mermaid .node polygon,
+.mermaid .node circle {
+  rx: 4px;
+  ry: 4px;
+}
+
+.mermaid .edgePath .path {
+  stroke: var(--line-slate) !important;
+  stroke-width: 1.5px !important;
+}
+
+.mermaid .marker {
+  fill: var(--line-slate) !important;
+  stroke: var(--line-slate) !important;
+}
+
+.mermaid .cluster rect {
+  rx: 6px;
+  ry: 6px;
+  stroke-width: 1.5px !important;
+}
+
+/* Loading & Error Indicators */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}

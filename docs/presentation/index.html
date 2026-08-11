@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE Smart Queue Assistant — プレゼンテーション</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="deck-container">
+    <div id="slide-viewport">
+
+      <!-- Slide 01 -->
+      <section class="slide active" id="slide-1">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 01 — 表紙</span>
+            <h1 class="slide-title">LINE Smart Queue Assistant</h1>
+            <p class="slide-subtitle">LINEで始める、見える・離れられる受付体験</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Ecosystem</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>LINEアプリ上で直接動くスマート順番待ち・予約・決済基盤</li>
+              <li>受付番号発行、待ち人数＆目安時間（ETA）のリアルタイム表示</li>
+              <li>LINE Messaging API による自動プッシュ通知配信</li>
+              <li>複数店舗、共通商品カタログ、権限ベースの運用ダッシュボード</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">https://smartqueue.io.vn/</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/01-landing-page.png" alt="公開トップページ">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          皆様、本日は <strong>LINE Smart Queue Assistant</strong> のプレゼンテーションをご覧いただきありがとうございます。<br><br>
+          本プロダクトは、店舗、サロン、クリニック等の対面サービスにおいて、受付、予約、注文、決済、顧客通知をLINE上で一貫して提供するスマート順番待ちプラットフォームです。<br><br>
+          本発表では、製品コンセプト、解決する課題、技術構成、詳細な運用フローおよび今後の展開についてご説明いたします。
+        </div>
+      </section>
+
+      <!-- Slide 02 -->
+      <section class="slide" id="slide-2">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 02 — 現在の背景</span>
+            <h1 class="slide-title">対面サービスにおける順番待ちの日常的な課題</h1>
+            <p class="slide-subtitle">従来の受付体験における課題点と不透明さ</p>
+          </div>
+          <div style="font-weight: 700; color: #EF4444; font-size: 20px;">従来体験の課題</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="layout-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="feature-card" style="border-left: 4px solid #EF4444;">
+              <h3 style="color: #EF4444;">📌 受付付近から離れられない</h3>
+              <p>発券後に待合エリアで待機を余儀なくされ、自由に行動できません。</p>
+            </div>
+            <div class="feature-card" style="border-left: 4px solid #F59E0B;">
+              <h3 style="color: #D97706;">⏳ 待ち時間・順番が不透明</h3>
+              <p>目安時間（ETA）や前方の待ち人数が分からず不安が生じます。</p>
+            </div>
+            <div class="feature-card" style="border-left: 4px solid #3B82F6;">
+              <h3 style="color: #2563EB;">📢 手動・口頭での呼出し</h3>
+              <p>スタッフの呼び出し負担と聞き逃しリスクが生じます。</p>
+            </div>
+            <div class="feature-card" style="border-left: 4px solid #8B5CF6;">
+              <h3 style="color: #7C3AED;">🏢 待合スペースの過密化</h3>
+              <p>混雑した待合エリアは店舗イメージ低下に繋がります。</p>
+            </div>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Wait Time Context (Japan)</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/02-japanese-waiting-context.png" alt="店舗での順番待ち課題">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          多くの店舗やサロン、クリニックでは、お客様が受付で番号札を受け取り、待合エリアで待機し続ける必要があります。<br><br>
+          問題は待ち時間 fulfillment だけではなく、「あとどれくらいで呼ばれるか分からない」という不透明さにあります。<br><br>
+          これによりお客様は受付を離れられず、スタッフも手動での呼び出しや問い合わせ対応に追われることになります。
+        </div>
+      </section>
+
+      <!-- Slide 03 -->
+      <section class="slide" id="slide-3">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 03 — 直面する課題</span>
+            <h1 class="slide-title">順番待ちは「番号の発行」だけではない</h1>
+            <p class="slide-subtitle">運用現場における個別システムの分断と課題</p>
+          </div>
+          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">現場運用の分断</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="layout-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="feature-card">
+              <h3 style="color: #0F172A;">📊 待ち時間が不透明</h3>
+              <p>リアルタイムな予想待ち時間が提示されません。</p>
+            </div>
+            <div class="feature-card">
+              <h3 style="color: #0F172A;">🧩 業務システムが分断</h3>
+              <p>受付、注文、在庫、決済が独立し二重入力が発生。</p>
+            </div>
+            <div class="feature-card">
+              <h3 style="color: #0F172A;">🔔 順番を逃すリスク</h3>
+              <p>個人端末へ呼出し通知を送信する手段がない。</p>
+            </div>
+            <div class="feature-card">
+              <h3 style="color: #0F172A;">📉 運用データが集計不能</h3>
+              <p>対応時間や離脱率を一元管理できていません。</p>
+            </div>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Disjointed Systems Issue</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/03-japanese-disjointed-systems.png" alt="業務システムの分断課題">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          単純に見れば、順番待ちシステムは番号を発行して呼び出すだけで足るように思えます。<br><br>
+          しかし実際の店舗運用では、お客様の選択したメニュー、事前決済の有無、在庫状況、担当スタッフ、通知タイミングなど、多くの業務が絡み合っています。<br><br>
+          これらが個別システムに分断されていると、店舗の円滑な運用やデータ分析が困難になります。
+        </div>
+      </section>
+
+      <!-- Slide 04 -->
+      <section class="slide" id="slide-4">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 04 — インサイト</span>
+            <h1 class="slide-title">お客様は「並びたい」のではない — 「いつ戻るか」を知りたい</h1>
+            <p class="slide-subtitle">スマートなモバイル体験による時間の主導権回復</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">User Insight</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>手元のスマートフォンで即座に受付番号・チケットを取得</li>
+              <li>前方に何人待っているかをリアルタイムで可視化</li>
+              <li>過去データに基づく目安待ち時間（ETA）を算出し提示</li>
+              <li>順番が近づいたタイミングでLINE自動通知を正確に配信</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Smart Queue Customer Insight</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/04-japanese-smart-queue-insight.png" alt="「待ち時間」を「自由時間」へ">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          本プロジェクトのコアインサイトは、お客様は必ずしも受付の目の前に居続ける必要はないということです。<br><br>
+          本当に必要なのは「自分が今どの順番にいて、いつ戻ればよいか」を把握することです。<br><br>
+          LINEという日常的なアプリを活用することで、使い慣れたスマホ画面上でこの安心感を提供できます。
+        </div>
+      </section>
+
+      <!-- Slide 05 -->
+      <section class="slide" id="slide-5">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 05 — 解決ソリューション</span>
+            <h1 class="slide-title">LINE-first Smart Queue Platform</h1>
+            <p class="slide-subtitle">LINE受付から店舗運用ダッシュボードまでを一本化</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">ソリューション概要</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>店舗の固定QRコードをLINEアプリで読み取りスタート</li>
+              <li>LINE Login でアカウント登録なしの超高速ログイン</li>
+              <li>目的の受付キューおよびサービス・商品をスムーズに選択</li>
+              <li>ETA・前方待ち人数がわかるデジタルチケットを取得</li>
+              <li>LINE Messaging API による自動プッシュ通知を受信</li>
+              <li>店舗スタッフは専用の役割別ダッシュボードで対応</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="phone-mockup">
+              <div class="phone-header-notch"></div>
+              <div class="phone-screen">
+                <img src="../images/guide/36-customer-ticket-mobile.png" alt="Customer Ticket Mobile">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          提案する解決策は、LINE-firstのアプローチを採用したスマート順番待ちプラットフォームです。<br><br>
+          お客様は店舗のQRを読み取り、LINE認証を経て、キューや商品・サービスを選択しデジタルチケットを受け取ります。<br><br>
+          ステータスが更新されるとLINE Messaging APIから自動通知が届き、店舗側は役割ごとの専用ダッシュボードで効率的に運用できます。
+        </div>
+      </section>
+
+      <!-- Slide 06 -->
+      <section class="slide" id="slide-6">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 06 — システム概要</span>
+            <h1 class="slide-title">LINE Smart Queue Assistant</h1>
+            <p class="slide-subtitle">導入申込みから店舗運用・顧客体験までを一貫サポート</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Platform Scope</div>
+        </header>
+        <div class="slide-body layout-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="feature-card">
+            <h3>🏢 Business Onboarding</h3>
+            <p>法人がWebから申請、プラン選択、デモ決済を行い、管理者の審査を受ける申込みフロー。</p>
+          </div>
+          <div class="feature-card">
+            <h3>🌐 Multi-branch</h3>
+            <p>複数拠点を独立管理。支店ごとに独自の固定QRコード、営業時間、スタッフを割り当て。</p>
+          </div>
+          <div class="feature-card">
+            <h3>📦 Product Catalog</h3>
+            <p>組織共通のサービス・商品カタログを1箇所で管理。実在庫（Stock）は支店別で管理。</p>
+          </div>
+          <div class="feature-card">
+            <h3>🎫 Booking &amp; Ticket</h3>
+            <p>LINEから即時発券。混雑状況と平均サービス時間に基づき動的なETAをリアルタイム算出。</p>
+          </div>
+          <div class="feature-card">
+            <h3>👨‍🍳 Staff Operation</h3>
+            <p>スタッフ専用画面：呼出し・対応開始・完了、現地での残金会計、領収書発行を一画面処理。</p>
+          </div>
+          <div class="feature-card">
+            <h3>💬 LINE Notification</h3>
+            <p>発券完了・5人待ち・呼出し・対応完了・キャンセル等のステータス変化をLINEで自動送信。</p>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          LINE Smart Queue Assistantは、単なる発券画面にとどまりません。<br><br>
+          法人の利用申込み、管理者による審査、オーナーによる組織設定、支店長によるキュー・在庫設定、 possessed、 Customerの予約とスタッフの対応完了まで、全運用サイクルをサポートする包括的なシステムです。
+        </div>
+      </section>
+
+      <!-- Slide 07 -->
+      <section class="slide" id="slide-7">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 07 — 注目テクノロジー</span>
+            <h1 class="slide-title">アーキテクチャ &amp; コア技術</h1>
+            <p class="slide-subtitle">信頼性の高いモダンSaaS技術スタックとLINE密連携</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Tech Architecture</div>
+        </header>
+        <div class="slide-body layout-grid" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="feature-card" style="border-top: 4px solid #61DAFB;">
+            <h3>⚛️ Frontend Web UI</h3>
+            <p><strong>React + Vite</strong>: 爆速のページロードとスムーズな画面遷移。スマホからPCまで完全レスポンシブ対応。</p>
+          </div>
+          <div class="feature-card" style="border-top: 4px solid #3178C6;">
+            <h3>🛡️ Backend API</h3>
+            <p><strong>Express + TypeScript</strong>: 堅牢なRESTful API設計、厳格なデータ型チェックとマルチテナント権限管理。</p>
+          </div>
+          <div class="feature-card" style="border-top: 4px solid #336791;">
+            <h3>🗄️ Database</h3>
+            <p><strong>PostgreSQL</strong>: ACID一貫性を保持し、複数店舗・大量トランザクションを安全かつ確実に一元管理。</p>
+          </div>
+          <div class="feature-card" style="border-top: 4px solid #06C755;">
+            <h3>🟢 LINE Ecosystem</h3>
+            <p><strong>LIFF + LINE Login + Messaging API</strong>: LINE内アプリ直接起動、ワンタップ認証、自動通知の高度な統合。</p>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          技術構成において、本システムは最新かつ柔軟なスタックを採用しています。<br><br>
+          フロントエンドはReactとViteを組み合わせ、圧倒的な読み込み速度とスムーズなUI操作を実現。バックエンドはExpressとTypeScriptで構築され、データ型と権限の安全性を確保しています。<br><br>
+          データベースにはPostgreSQLを採用し、複数組織・支店・大量のチケットデータを確実に管理します。<br><br>
+          最大の特長はLINEエコシステムとの深い連携であり、LIFFとLINE Loginによるアプリ内シームレス認証と、Messaging APIによる自動通知を実現しています。
+        </div>
+      </section>
+
+      <!-- Slide 08 -->
+      <section class="slide" id="slide-8">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 08 — 利用ロール</span>
+            <h1 class="slide-title">1つのシステム — 役割に応じたマルチワークスペース</h1>
+            <p class="slide-subtitle">管理者からエンドユーザーまで厳格な権限管理</p>
+          </div>
+          <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Role Matrix</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div>
+            <table class="role-table">
+              <thead>
+                <tr>
+                  <th>ロール</th>
+                  <th>主な責任と操作範囲</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Platform Admin</strong></td>
+                  <td>法人利用申請の確認・審査・承認および組織データ生成</td>
+                </tr>
+                <tr>
+                  <td><strong>Organization Owner</strong></td>
+                  <td>組織設定、共通商品・サービスカタログ管理、支店・Manager招待</td>
+                </tr>
+                <tr>
+                  <td><strong>Branch Manager</strong></td>
+                  <td>担当支店の営業時間、キュー、商品割り当て、在庫、スタッフ管理</td>
+                </tr>
+                <tr>
+                  <td><strong>Staff</strong></td>
+                  <td>当日の呼出し、対応開始・完了、キャンセル、No-show、領収書発行</td>
+                </tr>
+                <tr>
+                  <td><strong>Customer</strong></td>
+                  <td>QR読み取り、LINEでの受付予約、チケット・履歴確認、通知受信</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Admin Dashboard</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/07-admin-dashboard.png" alt="Platform Admin Dashboard">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          システムは厳格なロールベースで設計されています。<br><br>
+          Platform Adminはプラットフォーム全体を管理。Organization Ownerは組織設定や商品カタログを管理します。<br><br>
+          Branch Managerは割り当てられた支店のキューや在庫、スタッフを管理し、Staffは日々の受付業務を担当します。CustomerはLINEを通じて快適に利用します。
+        </div>
+      </section>
+
+      <!-- Slide 09 -->
+      <section class="slide" id="slide-9">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 09 — 全体フロー</span>
+            <h1 class="slide-title">End-to-End Business Flow</h1>
+            <p class="slide-subtitle">法人申込みから店舗運用・LINE通知までの9ステップ</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">System Flow</div>
+        </header>
+        <div class="slide-body" style="flex-direction: column; justify-content: center; gap: 24px;">
+          <div class="process-flow">
+            <div class="process-step">
+              <span class="process-step-num">Step 01</span>
+              <span class="process-step-title">法人申込み</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 02</span>
+              <span class="process-step-title">管理者審査</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 03</span>
+              <span class="process-step-title">オーナー有効化</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 04</span>
+              <span class="process-step-title">カタログ＋支店</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 05</span>
+              <span class="process-step-title">キュー＋QR準備</span>
+            </div>
+          </div>
+          <div class="process-flow" style="justify-content: center;">
+            <div class="process-step" style="background: var(--line-green-light); border-color: var(--line-green);">
+              <span class="process-step-num">Step 06</span>
+              <span class="process-step-title" style="color: var(--line-green);">LINE 予約</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step" style="background: var(--line-green-light); border-color: var(--line-green);">
+              <span class="process-step-num">Step 07</span>
+              <span class="process-step-title" style="color: var(--line-green);">チケット発行</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 08</span>
+              <span class="process-step-title">スタッフ対応</span>
+            </div>
+            <span class="process-arrow">➔</span>
+            <div class="process-step">
+              <span class="process-step-num">Step 09</span>
+              <span class="process-step-title">領収書・LINE通知</span>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          これがシステムの全体フローです。<br><br>
+          重要なポイントとして、管理者の承認時点では組織と招待状態のオーナーのみが作成され、支店やキューは自動作成されません。<br><br>
+          その後、オーナーおよび支店長が実際の店舗運用に合わせて段階的に設定を進めます。
+        </div>
+      </section>
+
+      <!-- Slide 10 -->
+      <section class="slide" id="slide-10">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 10 — Business Onboarding</span>
+            <h1 class="slide-title">法人がWebから直接利用申請</h1>
+            <p class="slide-subtitle">初期パスワード入力なしの透明性の高い申請フォーム</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Step 1 — Register</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>法人名、屋号、登録番号、連絡先、住所を入力</li>
+              <li>想定拠点数と月間顧客数から最適なプラン（Starter/Standard/Scale）を選択</li>
+              <li>デモ環境では Demo Payment を完了し審査待ちとして送信</li>
+              <li>申請時点ではパスワード未設定でセキュリティを担保</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Business Registration Form</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/03-business-registration-form.png" alt="Business Registration Form">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          法人の導入は公開ページの申込みフォームから始まります。<br><br>
+          この段階ではパスワードを設定せず、法人情報、連絡先、想定規模、希望プランのみを入力します。<br><br>
+          送信後、申請は管理者による審査ステータスとなります。
+        </div>
+      </section>
+
+      <!-- Slide 11 -->
+      <section class="slide" id="slide-11">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 11 — Admin Approval</span>
+            <h1 class="slide-title">Platform Admin による申請審査</h1>
+            <p class="slide-subtitle">管理画面からの厳格な検証と承認フロー</p>
+          </div>
+          <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Step 2 — Approval</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>審査待ち申請一覧から法人情報およびデモ決済結果を確認</li>
+              <li>ワンクリックで Approve（承認）または Reject（却下）を実行</li>
+              <li>承認時に Organization および招待状態の Owner アカウントを生成</li>
+              <li>無許可の自動登録を防ぎ、プラットフォームの健全性を維持</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Admin Application Detail</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/09-admin-application-detail.png" alt="Admin Application Detail">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          プラットフォーム管理者は届いた申請の細部を確認します。<br><br>
+          承認を実行すると、組織データと招待状態のオーナーアカウントが自動生成されます。<br><br>
+          未検証の利用を防ぎ、安全なプラットフォーム運用を担保する重要なステップです。
+        </div>
+      </section>
+
+      <!-- Slide 12 -->
+      <section class="slide" id="slide-12">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 12 — Owner Activation</span>
+            <h1 class="slide-title">オーナーによるアカウント有効化</h1>
+            <p class="slide-subtitle">メールリンク経由で自らパスワードを安全設定</p>
+          </div>
+          <div style="font-weight: 700; color: #10B981; font-size: 20px;">Step 3 — Activation</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>承認完了後にオーナー宛てへ有効化メールを自動送信</li>
+              <li>一回限りの安全なリンクからオーナー自身でパスワードを登録</li>
+              <li>Organization のステータスを正式に Active へ切り替え</li>
+              <li>管理者が仮パスワードを発行しない安心のセキュリティ構造</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Owner Activation</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/11-owner-activation.png" alt="Owner Activation">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          承認後、オーナーは専用メールリンクから自らパスワードを設定します。<br><br>
+          管理者が初期パスワードを発行・共有しない設計により、セキュリティリスクを大幅に低減しています。
+        </div>
+      </section>
+
+      <!-- Slide 13 -->
+      <section class="slide" id="slide-13">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 13 — Product / Service Catalog</span>
+            <h1 class="slide-title">カタログは Organization 単位で管理</h1>
+            <p class="slide-subtitle">商品定義の一元化と支店在庫の明確な分離</p>
+          </div>
+          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Catalog Management</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>全支店で共有される商品・サービスマスタを統一登録</li>
+              <li>自動採番コード（商品/サービス識別コード）による正確な管理</li>
+              <li>標準価格、所要時間、事前決済（Require Prepayment）の設定</li>
+              <li>カタログ定義と各支店の物理在庫（Stock）を完全に分離</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Owner Product Catalog</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/13-owner-product-catalog.png" alt="Owner Product Catalog">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          設計上の重要なポイントは、商品・サービスが組織レベルで管理される点です。<br><br>
+          これにより、全支店で価格やサービス時間の定義を一貫して保つことができます。<br><br>
+          一方で、各商品の実在庫（Stock）は各支店で個別に管理されます。
+        </div>
+      </section>
+
+      <!-- Slide 14 -->
+      <section class="slide" id="slide-14">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 14 — Branch Management</span>
+            <h1 class="slide-title">1つの組織で複数支店を管理</h1>
+            <p class="slide-subtitle">多店舗展開に対応する柔軟なマルチブランチ構造</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Branch Structure</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>オーナーが実店舗に対応する支店（Branch）を自在に登録</li>
+              <li>各支店の責任者として Branch Manager を個別に招待</li>
+              <li>支店ごとに独立した固定QRコードおよびアクセス権限を発行</li>
+              <li>営業時間・定休日（Business Calendar）を拠点で個別に設定</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Create Branch</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/16-owner-create-branch.png" alt="Create Branch">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          オーナーは実店舗に対応する支店を作成し、支店長を招待できます。<br><br>
+          各支店は独自の住所、営業時間、支店長、固定QRコードを持ち、多店舗展開を行う事業者に適した構造となっています。
+        </div>
+      </section>
+
+      <!-- Slide 15 -->
+      <section class="slide" id="slide-15">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 15 — Branch Manager Workspace</span>
+            <h1 class="slide-title">支店ごとの独立した運用空間</h1>
+            <p class="slide-subtitle">担当店舗の現場データ・設定に限定された安全な管理画面</p>
+          </div>
+          <div style="font-weight: 700; color: #8B5CF6; font-size: 20px;">Manager Portal</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>Queue Management: 受付並び列の作成・編集・状態切り替え</li>
+              <li>Business Calendar: 臨時休業日や特別営業時間の登録</li>
+              <li>Stock Management: 自店舗の実在庫数の更新と補充設定</li>
+              <li>Staff Management: 現場スタッフの招待とシフト権限管理</li>
+              <li>Branch QR: 店舗設置用の専用固定QRコードの出力</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Branch Manager Dashboard</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/19-branch-manager-dashboard.png" alt="Branch Manager Dashboard">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          支店長は割り当てられた店舗のみを管理します。<br><br>
+          キュー、営業時間、在庫、スタッフ、QRコードを店舗の状況に合わせて柔軟に調整できます。<br><br>
+          権限を支店内に限定することで、他店舗のデータ誤操作を防ぎます。
+        </div>
+      </section>
+
+      <!-- Slide 16 -->
+      <section class="slide" id="slide-16">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 16 — Multi-Queue per Branch</span>
+            <h1 class="slide-title">1つの固定QR — 複数のキュー</h1>
+            <p class="slide-subtitle">QR貼り替え不要で柔軟なサービス分流を実現</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Queue Architecture</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>1つの店舗に「一般受付」「優先受付」「サービス専用」等を複数設置</li>
+              <li>キューごとに提供する商品・サービス（Queue Catalog）を指定</li>
+              <li>店頭に掲示するQRコードは常に1つ固定で印刷・掲示の負担軽減</li>
+              <li>キューの追加・削除を行っても店頭のQRコードを変更する必要なし</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Queue List</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/22-queue-list.png" alt="Queue List">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          1つの支店内に複数のキュー（並び列）を作成できます。<br><br>
+          たとえば「カット用」「カラー用」「優先受付」などを分けることが可能です。<br><br>
+          店舗に掲示するQRコードは1つで済み、お客様が読み取り後に希望のキューを選択します。
+        </div>
+      </section>
+
+      <!-- Slide 17 -->
+      <section class="slide" id="slide-17">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 17 — Queue Configuration</span>
+            <h1 class="slide-title">キューの柔軟な動作設定</h1>
+            <p class="slide-subtitle">現場の運用ルールを細部まで再現できる豊富なパラメータ</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Queue Settings</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>ステータス制御: Open（受付中）/ Closed / Paused / Archived</li>
+              <li>1日の上限受け入れ数（Capacity）制限で混雑を制御</li>
+              <li>チケット番号の識別前置詞（Ticket Prefix: A-, B-, P-等）設定</li>
+              <li>動的ETA計算用の平均サービス時間（Average Service Time）定義</li>
+              <li>不在時ルール（Absence Policy）および対応商品の個別割り当て</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Create / Edit Queue</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/23-create-queue.png" alt="Create Queue">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          キューには実際の運用に即した詳細設定が備わっています。<br><br>
+          受付状態、1日の受け入れ上限、チケット番号の接頭辞、平均対応時間、不在時の保留ルールなどを細かくチューニングできます。
+        </div>
+      </section>
+
+      <!-- Slide 18 -->
+      <section class="slide" id="slide-18">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 18 — Branch Stock</span>
+            <h1 class="slide-title">支店ごとの在庫コントロール</h1>
+            <p class="slide-subtitle">Reserve ➔ Release ➔ Consume の自動在庫ライフサイクル</p>
+          </div>
+          <div style="font-weight: 700; color: #F59E0B; font-size: 20px;">Stock Control</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>有限在庫（Finite）と無制限在庫（Unlimited）の双方に対応</li>
+              <li><strong>Reserve（確保）</strong>: 客のBooking完了時に即座に仮確保</li>
+              <li><strong>Release（解放）</strong>: キャンセル・No-show時に自動で在庫復元</li>
+              <li><strong>Consume（消費）</strong>: スタッフの接客完了時に実在庫を確定減算</li>
+              <li>過剰予約（Overselling）を根本から防止する安全設計</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Branch Stock Management</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/25-branch-stock.png" alt="Branch Stock">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          在庫は支店ごとに管理されます。同一商品であっても支店Aでは在庫あり、支店Bでは完売という状況に対応します。<br><br>
+          予約時にReserve、キャンセル時にRelease、対応完了時にConsumeというライフサイクルで、過剰予約を防止します。
+        </div>
+      </section>
+
+      <!-- Slide 19 -->
+      <section class="slide" id="slide-19">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 19 — Customer Journey with LINE</span>
+            <h1 class="slide-title">LINEからのシームレスな受付体験</h1>
+            <p class="slide-subtitle">離脱率ゼロを目指すシンプルなユーザーフロー</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Customer Flow</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>店頭の固定QRコードを使い慣れたLINEカメラでスキャン</li>
+              <li>LINE Login による即時認証（会員登録・メール入力不要）</li>
+              <li>希望の受付キューおよびカタログメニューを選択</li>
+              <li>必要な連絡先を入力し、ワンタップでBooking（予約）完了</li>
+              <li>発行されたデジタルチケットをスマホ上でリアルタイム確認</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="phone-mockup">
+              <div class="phone-header-notch"></div>
+              <div class="phone-screen">
+                <img src="../images/guide/30-customer-queue-selection-mobile.png" alt="Customer Queue Selection">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          お客様視点では、店舗のQRコードをLINEで読み取ることから始まります。<br><br>
+          メールアドレスやパスワードの新規登録は不要です。<br><br>
+          LINE認証後、キューとメニューを選び、簡単な情報入力で即座に予約が完了します。
+        </div>
+      </section>
+
+      <!-- Slide 20 -->
+      <section class="slide" id="slide-20">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 20 — Booking &amp; Ticket</span>
+            <h1 class="slide-title">チケットは顧客体験の中心</h1>
+            <p class="slide-subtitle">必要な情報がすべて揃うデジタルステータス画面</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Digital Ticket</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li><strong>Ticket Code &amp; Order Number</strong>: 明確な受付番号と注文コード</li>
+              <li><strong>People Ahead</strong>: リアルタイムでカウントダウンされる前方待ち人数</li>
+              <li><strong>ETA (Estimated Time)</strong>: 過去データに基づき算出される呼出し目安時間</li>
+              <li><strong>Selected Items &amp; Payment</strong>: 選択メニュー明細と支払済み/未払状況</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="phone-mockup">
+              <div class="phone-header-notch"></div>
+              <div class="phone-screen">
+                <img src="../images/guide/36-customer-ticket-mobile.png" alt="Customer Ticket Mobile Detail">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          予約完了後、お客様のスマホ上にデジタルチケットが表示されます。<br><br>
+          番号だけでなく、前方に何人待っているか、あと何分で呼ばれるか（ETA）、注文内容、決済状況を一画面でリアルタイムに確認できます。
+        </div>
+      </section>
+
+      <!-- Slide 21 -->
+      <section class="slide" id="slide-21">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 21 — LINE連携機能</span>
+            <h1 class="slide-title">LINE連携がもたらす製品価値</h1>
+            <p class="slide-subtitle">LINEエコシステムテクノロジーの高度な統合</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">LINE Integration</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li><strong>LIFF</strong>: LINEアプリ内でブラウザ切り替えなくWeb Appを直接起動</li>
+              <li><strong>LINE Login</strong>: ワンタップで確実な顧客認証を行い離脱を最小化</li>
+              <li><strong>Messaging API</strong>: 発券・呼出し・直前通知・完了を自動プッシュ配信</li>
+              <li><strong>Branch QR</strong>: リアルな店舗空間とデジタル体験をつなぐ唯一の起点</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="phone-mockup">
+              <div class="phone-header-notch"></div>
+              <div class="phone-screen">
+                <img src="../images/guide/29-liff-home-mobile.png" alt="LIFF Home Screen">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          製品の最大の差別化要因はLINEエコシステムとの密な連携です。<br><br>
+          LIFFによりアプリ切替なしで操作でき、LINE Loginにより離脱率を激減させます。<br><br>
+          Messaging APIによる通知機能が、「いつ呼ばれるか分からない」ストレスを根本から解決します。
+        </div>
+      </section>
+
+      <!-- Slide 22 -->
+      <section class="slide" id="slide-22">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 22 — Staff Operation</span>
+            <h1 class="slide-title">スタッフ専用の一元化ワークスペース</h1>
+            <p class="slide-subtitle">現場の混乱を防ぎ、円滑な接客をサポートするワン画面運用</p>
+          </div>
+          <div style="font-weight: 700; color: #3B82F6; font-size: 20px;">Staff Workspace</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <ul class="content-list">
+              <li>リアルタイムで更新される本日の Active Ticket 一覧画面</li>
+              <li>直感的なステータス遷移: <strong>Waiting ➔ Called ➔ Serving ➔ Served</strong></li>
+              <li>例外処理への迅速な対応: 不在保留（Defer）、キャンセル、No-show</li>
+              <li>現場での残金会計処理および領収書（Receipt）の即時印刷発行</li>
+            </ul>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Staff Workspace Desktop</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/40-staff-workspace-desktop.png" alt="Staff Workspace Desktop">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          スタッフワークスペースは、現場のスタッフが迷わず操作できるように設計されています。<br><br>
+          「呼出 ➔ 対応開始 ➔ 対応完了」の基本フローに加え、不在・保留の繰り越し処理、現地での残金会計、領収書発行まで一画面で完結します。
+        </div>
+      </section>
+
+      <!-- Slide 23 -->
+      <section class="slide" id="slide-23">
+        <header class="slide-header">
+          <div>
+            <span class="slide-tag">Slide 23 — 実現可能性と展望</span>
+            <h1 class="slide-title">MVPによる実現可能性の実証と次のステップ</h1>
+            <p class="slide-subtitle">本番商用環境を見据えた確実なプロダクト進化</p>
+          </div>
+          <div style="font-weight: 700; color: var(--line-green); font-size: 20px;">Roadmap &amp; Vision</div>
+        </header>
+        <div class="slide-body layout-split left-wide">
+          <div class="content-text">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div class="feature-card" style="border-left: 4px solid var(--line-green);">
+                <h3 style="color: var(--line-green);">✅ 実装済み機能 (MVP)</h3>
+                <ul style="font-size: 15px; color: #334155; line-height: 1.6; list-style: disc; padding-left: 18px;">
+                  <li>一気通貫コアフロー完了</li>
+                  <li>マルチロール対応Dashboard</li>
+                  <li>LINE LIFF 予約 &amp; チケット</li>
+                  <li>スタッフ受付画面 &amp; 領収書</li>
+                  <li>日・ベト・英 3言語対応</li>
+                </ul>
+              </div>
+              <div class="feature-card" style="border-left: 4px solid #3B82F6;">
+                <h3 style="color: #2563EB;">🚀 今後の拡張計画</h3>
+                <ul style="font-size: 15px; color: #334155; line-height: 1.6; list-style: disc; padding-left: 18px;">
+                  <li>本番決済ゲートウェイ統合</li>
+                  <li>Google Routes / 位置情報連携</li>
+                  <li>実機LINE環境での受入検証</li>
+                  <li>本番環境セキュリティ強化</li>
+                  <li>本番監視・バックアップ体制</li>
+                </ul>
+              </div>
+            </div>
+            <div style="background: var(--line-green-light); padding: 16px 24px; border-radius: 12px; text-align: center; font-weight: 800; font-size: 20px; color: var(--line-green); margin-top: 12px;">
+              「並んで待つ必要はありません — 自分の順番がわかるだけで十分です。」
+            </div>
+          </div>
+          <div class="media-container">
+            <div class="browser-frame">
+              <div class="browser-header">
+                <div class="browser-dots">
+                  <div class="browser-dot red"></div>
+                  <div class="browser-dot yellow"></div>
+                  <div class="browser-dot green"></div>
+                </div>
+                <div class="browser-address-bar">Receipt</div>
+              </div>
+              <div class="browser-content">
+                <img src="../images/guide/45-receipt.png" alt="Receipt">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="speaker-notes-data" style="display:none;">
+          本MVPは、コンセプトの実現可能性を十分に証明しています。<br><br>
+          法人登録から顧客のLINE予約、スタッフの現場対応までのコアフローが完成しており、今後は本番決済システムや位置情報APIの統合、本番監視体制の構築を進めてまいらいす。<br><br>
+          メッセージ: <strong>「並んで待つ必要はありません — 自分の順番がわかるだけで十分です。」</strong>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar" style="width: 4.35%;"></div>
+
+    <!-- Fixed Controls Overlay -->
+    <div id="deck-controls">
+      <a href="../../index.html" class="control-btn" style="text-decoration:none; width:auto; padding:0 10px; font-size:12px; font-weight:700;" title="Trở về Dashboard Hub">🏠 Dashboard</a>
+      <button class="control-btn" id="prev-btn" title="前のスライド (←)">←</button>
+      <span class="slide-counter" id="slide-counter">01 / 23</span>
+      <button class="control-btn" id="next-btn" title="次のスライド (→)">→</button>
+      <button class="control-btn" id="notes-btn" title="発表者ノート (P)">📝</button>
+      <button class="control-btn" id="fullscreen-btn" title="フルスクリーン (F)">⛶</button>
+      <a href="./index.vi.html" class="control-btn" style="text-decoration:none; width:auto; padding:0 8px; font-size:13px; font-weight:700;" title="Chuyển sang Tiếng Việt">🇻🇳 VI</a>
+    </div>
+
+    <!-- Presenter Notes Drawer -->
+    <div id="presenter-notes-drawer" class="">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3>発表者ノート (Speaker Notes)</h3>
+        <button id="close-notes-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
+      </div>
+      <div id="presenter-notes-content">
+        皆様、本日は <strong>LINE Smart Queue Assistant</strong> のプレゼンテーションをご覧いただきありがとうございます。<br><br>
+        本プロダクトは、店舗、サロン、クリニック等の対面サービスにおいて、受付、予約、注文、決済、顧客通知をLINE上で一貫して提供するスマート順番待ちプラットフォームです。<br><br>
+        本発表では、製品コンセプト、解決する課題、技術構成、詳細な運用フローおよび今後の展開についてご説明いたします。
+      </div>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+
+</body>
+</html>

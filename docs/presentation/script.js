@@ -200,69 +200,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Open Separate Presenter Window Mode (P)
-  function togglePresenterMode() {
-    if (!presenterWindow || presenterWindow.closed) {
-      presenterWindow = window.open('', 'PresenterWindow', 'width=800,height=600');
-      if (presenterWindow) {
-        presenterWindow.document.write(`
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>LINE Smart Queue Assistant — 発表者ノート</title>
-            <style>
-              body { font-family: sans-serif; padding: 24px; background: #0F172A; color: white; line-height: 1.6; }
-              h2 { color: #06C755; border-bottom: 2px solid #334155; padding-bottom: 8px; }
-              #notes { font-size: 18px; margin-top: 16px; background: #1E293B; padding: 20px; border-radius: 8px; }
-              .header { display: flex; justify-content: space-between; font-size: 14px; color: #94A3B8; }
-            </style>
-          </head>
-          <body>
-            <div class="header">
-              <span id="slide-num">Slide -- / --</span>
-              <span>LINE Smart Queue Assistant</span>
-            </div>
-            <h2 id="slide-title">準備中...</h2>
-            <div id="notes">発表者ノートがここに表示されます。</div>
-            <script>
-              window.addEventListener('message', (e) => {
-                if (e.data.type === 'SLIDE_CHANGE') {
-                  document.getElementById('slide-num').textContent = 'Slide ' + e.data.slideIndex + ' / ' + e.data.totalSlides;
-                  document.getElementById('slide-title').textContent = e.data.title;
-                  document.getElementById('notes').innerHTML = e.data.notes;
-                }
-              });
-            </script>
-          </body>
-          </html>
-        `);
-        updatePresenterNotes();
-      }
-    } else {
-      presenterWindow.focus();
-    }
-  }
-
-  // Event Listeners for Controls
+  // Button Listeners
   if (prevBtn) prevBtn.addEventListener('click', prevSlide);
   if (nextBtn) nextBtn.addEventListener('click', nextSlide);
   if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullscreen);
 
-  // Touch Swipe Handling
-  let touchStartX = 0;
-  viewport.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  });
-
-  viewport.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    if (touchEndX < touchStartX - 50) {
-      nextSlide();
-    } else if (touchEndX > touchStartX + 50) {
-      prevSlide();
+  // Presenter Window popup
+  function togglePresenterMode() {
+    if (presenterWindow && !presenterWindow.closed) {
+      presenterWindow.focus();
+      return;
     }
-  });
+    presenterWindow = window.open('', 'PresenterConsole', 'width=800,height=600');
+    if (presenterWindow) {
+      presenterWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Presenter Console — LINE Smart Queue Assistant</title>
+          <style>
+            body { font-family: sans-serif; padding: 24px; background: #0f172a; color: #f8fafc; }
+            h2 { color: #06c755; margin-top: 0; }
+            .meta { color: #94a3b8; font-size: 14px; margin-bottom: 16px; }
+            .notes { background: #1e293b; border-radius: 8px; padding: 16px; font-size: 18px; line-height: 1.6; border-left: 4px solid #06c755; }
+          </style>
+        </head>
+        <body>
+          <div class="meta">Slide <span id="p-slide">1</span> / <span id="p-total">--</span></div>
+          <h2 id="p-title">--</h2>
+          <div class="notes" id="p-notes">--</div>
+          <script>
+            window.addEventListener('message', (e) => {
+              if (e.data && e.data.type === 'SLIDE_CHANGE') {
+                document.getElementById('p-slide').textContent = e.data.slideIndex;
+                document.getElementById('p-total').textContent = e.data.totalSlides;
+                document.getElementById('p-title').textContent = e.data.title;
+                document.getElementById('p-notes').innerHTML = e.data.notes;
+              }
+            });
+          </script>
+        </body>
+        </html>
+      `);
+      updatePresenterNotes();
+    }
+  }
 
-  // Initial Load Parse
+  // Initialize from URL hash
   parseHash();
 });
