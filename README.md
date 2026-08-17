@@ -1,3 +1,5 @@
+Link: [https://nguyentrungnghia1802.github.io/Smart-Queue-Docs/](https://nguyentrungnghia1802.github.io/Smart-Queue-Docs/)
+
 # LINE Smart Queue Assistant
 
 <details>
