@@ -39,8 +39,8 @@ Role-aware session settings are non-secret runtime values:
 - `AUTH_SESSION_CLEANUP_INTERVAL_MS=3600000`
 - `AUTH_REVOKED_SESSION_RETENTION_DAYS=7`
 
-Deploy the complete ordered migration history through `000028` before serving the updated API.
-Migrations `000021` through `000028` are additive/normalization changes that preserve business
+Deploy the complete ordered migration history through `000029` before serving the updated API.
+Migrations `000021` through `000029` are additive/normalization changes that preserve business
 data when applied through the forward migration command; they do not require seed/reset. Access
 tokens issued by older releases have no session-family claim and are intentionally rejected; users
 sign in once after rollout. The same-origin production proxy
@@ -52,8 +52,7 @@ LINE production configuration is intentionally separated by channel:
 | LINE Console source                                        | Variable                                   | Secret              | Where to provide it                    |
 | ---------------------------------------------------------- | ------------------------------------------ | ------------------- | -------------------------------------- |
 | LINE Login channel, Basic settings, Channel ID             | `LINE_LOGIN_CHANNEL_ID`                    | No                  | Server `deploy/.env`                   |
-| LINE Login channel, LIFF app, LIFF ID                      | `LINE_LOGIN_LIFF_ID`                       | No                  | Server `deploy/.env`                   |
-| Same LIFF app ID                                           | `VITE_LIFF_ID`                             | No, browser-visible | Web image build argument               |
+| LINE Login channel, LIFF app, LIFF ID                      | `LINE_LOGIN_LIFF_ID`                       | No, browser-visible | Server `deploy/.env` and Web build arg |
 | Messaging API channel, Basic settings, Channel secret      | `LINE_MESSAGING_CHANNEL_SECRET`            | Yes                 | Server `deploy/.env` or secret manager |
 | Messaging API channel, Messaging API, Channel access token | `LINE_MESSAGING_CHANNEL_ACCESS_TOKEN`      | Yes                 | Server `deploy/.env` or secret manager |
 | Messaging API channel, Webhook settings                    | `https://<web-origin>/api/v1/line/webhook` | No                  | LINE Developers Console                |
@@ -73,9 +72,10 @@ variables above; a new value takes precedence over its legacy alias.
 
 For native local API development and the root Compose stack, copy `.env.example` to the repository
 root as `.env`. For the production image-based stack, place runtime values in the untracked
-`deploy/.env` file and invoke Compose with `--env-file deploy/.env`. The public `VITE_LIFF_ID` is
-different: provide it as a web-image build argument (and optionally in `apps/web/.env.local` for a
-native local Vite process). Never place the Messaging API secret or access token in a `VITE_*`
+`deploy/.env` file and invoke Compose with `--env-file deploy/.env`. The public
+`LINE_LOGIN_LIFF_ID` is also provided as a Web-image build argument (and optionally in
+`apps/web/.env.local` for a native local Vite process). Vite explicitly exposes only this public
+non-`VITE_` identifier. Never place the Messaging API secret or access token in a browser build
 variable.
 
 The root `.env.example` is the superset for native development and image builds.
@@ -117,7 +117,7 @@ Browser-visible configuration:
 
 - `VITE_API_URL`
 - `VITE_APP_NAME`
-- `VITE_LIFF_ID`
+- `LINE_LOGIN_LIFF_ID`
 - `VITE_LIFF_ENDPOINT_PATH`
 - `VITE_LIFF_DEFAULT_BOOKING_PATH`
 - payment mode/redirect base URL and webhook timing limits (identifiers/URLs only, never keys)
@@ -138,7 +138,7 @@ external credential set is incomplete. Browser return state never marks a transa
 refunded.
 
 For production web builds, keep `VITE_API_URL` empty, set `VITE_LIFF_ENDPOINT_PATH=/liff`, provide
-a real `VITE_LIFF_ID`, and keep `VITE_LIFF_DEFAULT_BOOKING_PATH` empty for multi-organization
+a real `LINE_LOGIN_LIFF_ID`, and keep `VITE_LIFF_DEFAULT_BOOKING_PATH` empty for multi-organization
 deployments. Frontend request
 paths already start with `/api/v1`; nginx proxies `/api/*` to the internal `api:4000` service and
 preserves that prefix. Setting `VITE_API_URL=/api` would incorrectly produce
@@ -215,37 +215,86 @@ The stack builds:
 - VPS-local media in the persistent `media_data` named volume mounted only into the API at
   `/app/var/media`; it survives API container recreation and normal image-based redeployment.
 
-Image-based production Compose:
+Initialize the server environment once, replace every credential placeholder, and configure the
+untagged API/Web repositories. Subsequent releases must not recopy the example over the server
+file:
 
 ```bash
 cp deploy/.env.example deploy/.env
-docker compose --env-file deploy/.env -f deploy/docker-compose.yml pull
-docker compose --env-file deploy/.env -f deploy/docker-compose.yml up -d
-docker compose --env-file deploy/.env -f deploy/docker-compose.yml ps
+chmod 600 deploy/.env
 ```
 
-The project-specific Docker build, tag, push, inspection, local Compose, health-check, and cleanup
-commands are collected in
-[`docs/archive/scripts/DOCKER_COMMANDS.md`](../archive/scripts/DOCKER_COMMANDS.md). The current
-Docker Hub repositories are `trungnghia2703/line-smart-queue-api` and
-`trungnghia2703/line-smart-queue-web`; production deployments should prefer an immutable
-`git-<commit>` tag while optionally updating `latest`.
+The normal release path is automatic: merge a reviewed PR to `main`, let `CI Quality Gates`
+validate the resulting `main` SHA, and let `.github/workflows/deploy.yml` build/push API/Web runner
+images for that exact revision. It publishes both the immutable SHA tag and mutable discovery tag
+`latest`, but only the immutable tag is passed through approval and deployment.
+The protected `production` environment advertises the canonical deployment URL
+`https://smartqueue.io.vn/`; after the backup-gated release succeeds, the final CD step writes a
+clickable **Open production** link to the GitHub Actions job summary. This link is a status shortcut,
+not a replacement for the release health checks or operator acceptance evidence.
+
+For an explicitly approved emergency/manual publication from a clean reviewed local commit, the
+Windows publisher generates one immutable 12-character deployment tag and retains the full SHA in
+the OCI revision metadata:
+
+```powershell
+$env:LINE_LOGIN_LIFF_ID = '<production-liff-id>'
+pwsh -NoProfile -File deploy/scripts/build-push.ps1
+```
+
+The current Docker Hub repositories are `trungnghia2703/line-smart-queue-api` and
+`trungnghia2703/line-smart-queue-web`. In an emergency/manual deployment, pass only the printed
+`git-<12-character-sha>` printed as `DEPLOY_TAG` to the VPS:
+
+```bash
+bash deploy/scripts/deploy.sh git-0123456789ab
+```
+
+The manual publisher does not build or push `latest`; automatic CD alone publishes it for
+operator discovery, and it is never a deployment or rollback source.
+The server uses `LINE_QUEUE_API_REPOSITORY` and `LINE_QUEUE_WEB_REPOSITORY` to derive full refs,
+creates and verifies a backup, then atomically updates only `LINE_QUEUE_API_IMAGE` and
+`LINE_QUEUE_WEB_IMAGE` in its existing `deploy/.env` before pull/migration/recreate/health checks.
+
+After the versioned `deploy/` tooling is present on the VPS, deploy the same tag without editing
+the server `.env`:
+
+```bash
+bash deploy/scripts/deploy.sh git-<12-character-sha-printed-as-DEPLOY_TAG>
+# or, from the deploy directory:
+bash scripts/deploy.sh git-<12-character-sha-printed-as-DEPLOY_TAG>
+```
+
+`deploy/scripts/deploy.sh` only delegates to `deploy/backup/deploy-safe.sh`; it does not duplicate
+backup, verification, migration, health, or rollback logic. The backup gate updates the API and
+Web image references atomically, and Compose applies the selected tag to API, Worker, and Web.
+The PowerShell publisher never pushes `latest`; its OCI revision label retains the full Git SHA, and it
+prints the exact tag, full image references, and VPS command only after both pushes succeed.
+Rollback continues to use image metadata already stored in the verified snapshot.
+
+The entry point accepts exactly one tag and verifies that `deploy.sh`, `deploy-safe.sh`, and
+`common.sh` come from the same tooling contract before any backup or mutation. Release tooling
+reads unique repository/image/backup keys directly from the server-owned `deploy/.env` and never
+sources it. Compose runs with ambient `LINE_QUEUE_*` release variables removed, so operators do not
+export configuration and cannot accidentally override the file. During the one-time migration
+from a legacy running `latest` stack, backup resolves the actual API/Web registry digests and stores
+those immutable refs for rollback; a missing matching digest blocks deployment before mutation.
 
 `deploy/docker-compose.yml` is the canonical production Compose file. It requires prebuilt
 `LINE_QUEUE_API_IMAGE` and `LINE_QUEUE_WEB_IMAGE` values (there is no silent `latest` fallback) and
-does not publish PostgreSQL or API port `4000` to the host. Always replace the template tags with
-immutable images built from the intended release commit; changing source code does not update an
-already-pushed tag automatically.
+does not publish PostgreSQL or API port `4000` to the host. Normal releases let `deploy-safe.sh`
+persist exact immutable references; do not hand-edit them around the backup gate. Changing source
+code does not update an already-pushed tag automatically.
 
 Use `--env-file deploy/.env` when invoking the file from the repository root. Without it, Compose interpolation may read a different `.env` from the current working directory even though the API container's `env_file` is resolved from the deploy directory.
 
-The web image must be built ahead of time with a real public `VITE_LIFF_ID`. The Dockerfile
+The web image must be built ahead of time with a real public `LINE_LOGIN_LIFF_ID`. The Dockerfile
 provides production-safe defaults for the other public values: empty `VITE_API_URL` for
 same-origin routing, `VITE_LIFF_ENDPOINT_PATH=/liff`, empty
 `VITE_LIFF_DEFAULT_BOOKING_PATH`, `VITE_LIFF_MOCK=false`, `VITE_PAYMENT_MODE=demo`, and an empty
 `VITE_PAYMENT_REDIRECT_BASE_URL`. Therefore the normal production build command only needs to
-override `VITE_LIFF_ID`. `VITE_LIFF_ID` must equal the runtime API's
-`LINE_LOGIN_LIFF_ID`; it is
+override `LINE_LOGIN_LIFF_ID`. The same variable is used by the runtime API and compiled into the
+Web image; it is
 compiled into the image and cannot be supplied later through production Compose. In LINE
 Developers Console, set the LIFF endpoint to the deployed HTTPS base path such as
 `https://<web-origin>/liff`. Permanent links then append endpoint-relative paths such as
@@ -306,11 +355,19 @@ path, uses HTTP/1.1, disables proxy buffering/cache/gzip, clears the hop-by-hop 
 and uses six-minute read/send timeouts. The host TLS nginx must apply equivalent SSE behavior for
 this path, especially `proxy_buffering off` and a read timeout longer than
 `SSE_MAX_CONNECTION_DURATION_MS`; otherwise the inner proxy cannot prevent the outer hop from
-buffering or closing the stream. Do not add a trailing slash to `proxy_pass http://api:4000`.
+buffering or closing the stream. The inner nginx resolves `api` through Docker DNS with a short
+validity window, so API container recreation refreshes the upstream address instead of retaining a
+stale startup IP. Do not add a trailing slash to the `proxy_pass` variable in
+`docker/nginx/default.conf`.
 
 The current production-oriented VPS demo sets `MEDIA_STORAGE_PROVIDER=local`, serves stable
 same-origin `/media/*` URLs through nginx/API, and fixes `MEDIA_LOCAL_DIR=/app/var/media` in Compose.
-The named `media_data` volume is outside the API container writable layer. `docker compose up -d`,
+The production Compose file pins the default project name to `line-smart-queue`; the named
+`media_data` volume therefore resolves to `line-smart-queue_media_data` (with matching
+`postgres_data` and `redis_data` names) when the documented Compose invocation is used. Keep the
+Compose file/path and project name stable across redeploys unless a separately approved volume
+migration exists. The named `media_data` volume is outside the API container writable layer.
+`docker compose up -d`,
 `--force-recreate`, image replacement, and the CD workflow preserve it; `docker compose down -v` or
 explicit volume removal destroys it and is prohibited during normal rollout.
 
@@ -324,8 +381,9 @@ mounted during a future S3 migration so rollback does not discard existing VPS m
 
 ### VPS-local media operations
 
-1. Keep the production Compose project/deploy path stable and confirm `media_data` appears in
-   `docker compose ... config` before rollout. Do not rename the volume casually.
+1. Keep the production Compose project name (`line-smart-queue`), file, and deploy path stable and
+   confirm `media_data` appears in `docker compose ... config` before rollout. Do not rename the
+   volume casually.
 2. Verify ownership by uploading an image through the API. The runner creates `/app/var/media` for
    UID/GID `1001`; a new named volume copies that safe directory metadata on first mount.
 3. Before and after an API recreate, verify the same `/media/...` URL and a reviewed storage object.
@@ -371,12 +429,15 @@ production-oriented demo baseline, not shared multi-host or high-availability st
 ## 4. Deployment sequence
 
 1. Back up database and verify recent restore test.
-2. Build immutable API/web images from a reviewed commit.
+2. From a clean reviewed commit, publish API/Web images with the full-SHA local PowerShell script,
+   the auto-generated 12-character immutable shell tag, or the manual CD workflow. Record the
+   exact printed immutable tag; never deploy `latest`.
    The API image contains canonical migrations and compiled demo seed scripts so
    deployment tooling can run them without TypeScript development dependencies.
    Production rollout applies migrations explicitly and must not seed demo data.
 3. Run lint, typecheck, tests, build, CSP bundle validation, and contract/migration checks.
-4. Apply additive migrations with a production-safe role.
+4. Run `deploy-safe.sh <immutable-tag>` so backup creation and independent verification succeed
+   before the server persists image references, pulls, or applies additive migrations.
    Migration `000013` backfills Japanese translation rows and adds user, organization, and durable notification locale snapshots; verify row counts before enabling language selection.
 5. Deploy API and verify `/health` plus `/ready`.
 6. Deploy web with correct public environment values.
@@ -541,32 +602,39 @@ Daily counters are checked hourly and reset when the organization-local date cha
 
 ## 7. Backup and recovery
 
-### Backup
+The canonical operator runbook and command reference is
+[`deploy/backup/README.md`](../../deploy/backup/README.md). Git contains only the tooling. Runtime
+snapshots default to `/var/backups/line-smart-queue` on the VPS, must be outside the checkout with
+restricted permissions, and must be replicated to encrypted off-host storage. Never commit or copy
+production dumps, media archives, customer data, or `.env` files into the repository.
 
-Use encrypted PostgreSQL logical/managed backups with access controls and off-host retention.
-Include migration version, application commit, deployment configuration references, and a
-consistent backup of the production `media_data` volume. Database metadata and stored media must be
-recoverable from the same documented restore point.
-
-Local-provider media is written under `MEDIA_LOCAL_DIR` and served from `MEDIA_PUBLIC_BASE_URL`.
-In production Compose that directory is the persistent `media_data` volume, not the API container
-filesystem. Stop or quiesce media writes for a filesystem-level snapshot, and copy the volume to
-encrypted off-host storage with a restricted operator account. If S3 is enabled later, use the
-provider's versioning/export/backup controls instead.
-
-Example logical backup:
+`backup.sh` briefly pauses API/worker writes and produces one matched restore point containing a
+PostgreSQL custom-format dump, local `media_data` archive, non-secret immutable-image/tooling/server
+metadata, and checksums. It writes into `.partial-*`, verifies dump readability, gzip/archive paths,
+checksums, and required artifacts, then publishes `BACKUP_SUCCESS`. Redis is deliberately excluded
+because cache, Pub/Sub, rate-limit state, and BullMQ coordination are reconstructable; PostgreSQL
+is authoritative. If the optional S3 provider is selected, the snapshot records that local media is
+absent and provider-side versioning/export remains a separate recovery control.
 
 ```bash
-pg_dump --format=custom --no-owner --file=line_queue.dump "$DATABASE_URL"
+deploy/backup/backup.sh
+deploy/backup/list-backups.sh
+deploy/backup/verify-backup.sh latest
 ```
 
-Do not store dumps in Git or on an unencrypted developer desktop for real customer data.
+Retention defaults to 14 completed snapshots and never fewer than two. It ignores partial,
+unknown, and invalid snapshots and removes only older independently verified snapshots. This local
+count is not a substitute for encrypted off-host retention or disk-capacity alerts.
 
-### Restore
+`restore.sh` verifies the completed snapshot before any destructive action, shows safe metadata,
+and requires exact `RESTORE <backup-id>` confirmation. It stops Web/API/worker traffic, restores
+PostgreSQL and local media without touching Redis, applies canonical forward migrations, starts the
+application, and verifies API health/readiness and Web health. A failure leaves application writers
+stopped. Secrets are not in snapshots: recover `deploy/.env` separately from the approved secret
+manager/encrypted escrow as mode `0600`, or rotate/reissue unavailable credentials before recovery.
 
 ```bash
-psql "$ADMIN_DATABASE_URL" -c "CREATE DATABASE line_queue_restore;"
-pg_restore --no-owner -d line_queue_restore line_queue.dump
+deploy/backup/restore.sh <backup-id>
 ```
 
 Post-restore checks:
@@ -584,9 +652,16 @@ Run a documented restore drill on a schedule. Define RPO/RTO with the business b
 
 ## 8. Rollback
 
+- Use `deploy/backup/rollback.sh <predeployment-backup-id>` to select the verified prior API/Web
+  image references. After exact `ROLLBACK <backup-id>` confirmation it atomically persists those
+  metadata references in `deploy/.env`, pulls them, and changes application containers only.
+- Never derive rollback from the requested release tag, `latest`, or an operator's memory.
+- A legacy container labelled `latest` is accepted only when backup can resolve its running image
+  ID to a matching immutable registry digest; snapshot metadata stores the digest, never `latest`.
 - Prefer application rollback to the prior image while keeping backward-compatible expanded schema.
-- Do not automatically roll back destructive/data migrations.
-- For a failing additive migration, stop rollout, capture error/state, restore from backup only when forward repair is unsafe.
+- Never automatically restore PostgreSQL/media or reverse migrations because a new image fails.
+- For a failing additive migration, stop rollout, capture error/state, and run the separately
+  confirmed full restore only when forward repair is unsafe.
 - Payment/notification webhooks require special care during rollback so events are not dropped or processed twice.
 - Keep old web/API compatibility for at least the rollout window when clients can be cached.
 
@@ -594,7 +669,11 @@ Run a documented restore drill on a schedule. Define RPO/RTO with the business b
 
 ### API unavailable / Vite proxy refused
 
-Check container/process status, API logs, port binding, then database readiness. Restore API before changing frontend proxy settings unless the target is actually wrong.
+Check container/process status, API logs, port binding, then database readiness. Restore API before changing frontend proxy settings unless the target is actually wrong. After an API
+restart/recreate, confirm the Web container is running the current `docker/nginx/default.conf` and
+that its Docker DNS resolver can resolve `api`; the variable-based proxy is the protection against
+the old container IP causing a transient `502 Bad Gateway`. Do not work around this by publishing
+API port `4000` publicly or by deleting the persistent Compose volumes.
 
 ### Database unavailable
 
@@ -651,67 +730,127 @@ and investigate the cancellation/retry/concurrency path. Do not manually edit on
 
 ## 10. CI/CD
 
-`.github/workflows/ci.yml` runs on every pushed branch and pull request. It splits the validation
-gate into independent jobs so failures are easy to locate:
+`.github/workflows/ci.yml` runs for pull requests targeting `main` and for the resulting `main`
+revision. It splits the validation gate into independent jobs so failures are easy to locate:
 
 - full-history Gitleaks secret scanning;
 - dependency audit;
 - formatting, spelling, lint, type-check, and OpenAPI contract checks;
 - development, validation, and production Compose configuration checks;
+- production API image build plus named-volume media persistence across container recreation;
 - API tests with coverage thresholds;
 - Web/shared tests;
 - clean PostgreSQL migration/status and repeated administrator seed smoke;
 - production build;
 - mock-integration Playwright desktop/mobile browser E2E.
+- isolated PostgreSQL/local-media backup, corruption rejection, restore, deploy-gate, and rollback rehearsal.
+- PowerShell immutable-image publisher command-plan validation.
+- automatic validated-main workflow trigger, source-SHA, approval-order, and concurrency validation.
+- Windows PowerShell immutable-image build/VPS deploy and runtime-DNS rehearsal.
 
 The API tests, migration smoke, and browser E2E jobs use separate PostgreSQL services. Browser E2E
 waits for the earlier quality and Compose jobs, applies migrations, loads only the explicit browser
-fixtures, and then starts the API/Web test servers. CI uses PostgreSQL 16 and does not receive real
+fixtures, and then runs desktop and mobile Playwright projects sequentially with fresh API/Web test
+servers for each project. This prevents one viewport suite from exhausting the next suite's
+in-memory request budget without weakening the application rate-limit policy. CI uses PostgreSQL 16 and does not receive real
 LINE, PSP, SMTP, SSH, or customer credentials. `npm run audit:ci` blocks new high/critical
 advisories in production dependencies and keeps its single narrow, reviewed exception in
 `audit-ci.jsonc`.
 
-Production delivery is manual and environment-gated. `.github/workflows/deploy.yml` requires the
-operator to type `DEPLOY`, builds the API and Web `runner` images from the selected commit, pushes
-immutable tags (`git-<commit SHA>` by default) to Docker Hub, and waits for approval on the
-GitHub `production` environment before connecting to the server. The SSH host key is pinned with
-`PRODUCTION_SSH_KNOWN_HOSTS`. The remote sequence validates Compose, pulls only the selected API
-and Web images, applies canonical migrations, waits for healthy services, and probes the Web health
-endpoint. It never copies, prints, or regenerates the server-side `deploy/.env`.
+The media-persistence image build retries at most three times when Docker output identifies a
+transient registry or network failure such as HTTP `429`/`5xx`, a TLS timeout, connection reset, or
+unexpected EOF. Non-transient Dockerfile/build failures stop immediately, and an exhausted retry
+still fails the CI gate; the retry policy never converts a failed validation into success.
+
+Production delivery is automatic after validated `main`, backup-gated, and environment-gated.
+`.github/workflows/deploy.yml` listens only for a successful same-repository `CI Quality Gates`
+completion on `main` and requires approval on the GitHub `production` environment before accessing
+any release credential. After approval, the protected job checks out that run's exact SHA, builds
+the API and Web `runner` images, pushes `git-<full SHA>` plus discovery-only `latest` to Docker Hub,
+and connects to the server. A pull request never triggers production CD. The SSH host key is pinned with
+`PRODUCTION_SSH_KNOWN_HOSTS`. CD copies the selected commit's Compose file and versioned recovery
+tooling, but never the server `.env`. It accepts `PRODUCTION_DEPLOY_PATH` as either the project root
+or that root's `deploy` directory, verifies the matching `.env`, and normalizes to the project root
+before extraction and release. It then passes only the immutable tag to `deploy-safe.sh`. The
+remote sequence derives repositories from that file and cannot update image refs, pull, or migrate
+unless a matched PostgreSQL/media snapshot passes independent verification. After confirmation it
+atomically persists both refs, pulls, applies canonical migrations, recreates application services,
+and probes API health/readiness and Web health. A post-mutation failure automatically attempts
+application-only rollback from the verified restore point, still fails the workflow for operator
+investigation, and reports the ID for a manual retry. Database/media restore is never automatic.
 The remote rollout does not run `down -v` or remove volumes: `postgres_data`, `redis_data`, and the
 production `media_data` volume remain attached across API/Web image updates. A release that changes
 the media volume name or mount target requires a separate migration and backup plan.
 After recreation, CD inspects the live API mount as a Docker volume and, when local media is active,
 verifies that `/app/var/media` is both the configured path and writable by the non-root process.
 
-Production GitHub Actions variables:
+`production` environment variables used by the protected release job:
 
-| Variable                 | Example                 | Purpose                                               |
-| ------------------------ | ----------------------- | ----------------------------------------------------- |
-| `DOCKERHUB_USERNAME`     | `trungnghia2703`        | Docker Hub image namespace                            |
-| `VITE_LIFF_ID`           | LINE Login LIFF ID      | Public Web build-time configuration                   |
-| `PRODUCTION_DEPLOY_PATH` | `/opt/line-smart-queue` | Server directory containing Compose and `deploy/.env` |
+| Variable                 | Example                        | Purpose                                                  |
+| ------------------------ | ------------------------------ | -------------------------------------------------------- |
+| `DOCKERHUB_USERNAME`     | `trungnghia2703`               | Docker Hub image namespace                               |
+| `LINE_LOGIN_LIFF_ID`     | LINE Login LIFF ID             | Shared public API/Web configuration                      |
+| `PRODUCTION_DEPLOY_PATH` | `/opt/line-smart-queue/deploy` | Project root or its `deploy` directory containing `.env` |
 
-Production GitHub Actions secrets:
+`production` environment secrets:
 
-| Secret                       | Purpose                                                |
-| ---------------------------- | ------------------------------------------------------ |
-| `DOCKERHUB_TOKEN`            | Docker Hub access token with push permission           |
-| `PRODUCTION_SSH_HOST`        | Production hostname or IP                              |
-| `PRODUCTION_SSH_PORT`        | SSH port; may be omitted to use `22`                   |
-| `PRODUCTION_SSH_USER`        | Restricted deployment user                             |
-| `PRODUCTION_SSH_PRIVATE_KEY` | Private half of a dedicated deployment key             |
-| `PRODUCTION_SSH_KNOWN_HOSTS` | Pinned server host-key line from trusted `ssh-keyscan` |
+| Secret                       | Purpose                                                  |
+| ---------------------------- | -------------------------------------------------------- |
+| `DOCKERHUB_TOKEN`            | Docker Hub personal access token; Read & Write is enough |
+| `PRODUCTION_SSH_HOST`        | Production hostname or IP                                |
+| `PRODUCTION_SSH_PORT`        | SSH port; may be omitted to use `22`                     |
+| `PRODUCTION_SSH_USER`        | Restricted deployment user                               |
+| `PRODUCTION_SSH_PRIVATE_KEY` | Private half of a dedicated deployment key               |
+| `PRODUCTION_SSH_KNOWN_HOSTS` | Pinned server host-key line from trusted `ssh-keyscan`   |
+
+The single protected release job intentionally keeps Docker Hub and SSH credentials in the
+`production` environment. GitHub does not expose those values until a required reviewer approves
+the job. After approval, the job builds and publishes both immutable images, then performs the
+backup-gated VPS rollout. This provides one approval boundary and prevents a split workflow from
+requesting multiple approvals or seeing an empty environment token. The workflow validates every
+required variable and secret by name without printing any value.
+
+### Required GitHub repository setup
+
+1. Open **Settings → Environments → production**. Add at least one authorized required reviewer
+   and restrict deployment branches/tags to `main`.
+2. In that environment, add `DOCKERHUB_USERNAME`, `LINE_LOGIN_LIFF_ID`, and
+   `PRODUCTION_DEPLOY_PATH` as variables. Add `DOCKERHUB_TOKEN` from a Docker Hub personal access
+   token with at least Read & Write permission and the five `PRODUCTION_SSH_*` values as secrets.
+   `PRODUCTION_DEPLOY_PATH` may be `/opt/line-smart-queue` or
+   `/opt/line-smart-queue/deploy`; no other directory shape is accepted. Never put secret values in
+   a variable, workflow, log, or committed env file.
+3. Open **Settings → Rules → Rulesets** and create or update the branch ruleset targeting only
+   `main`. Set enforcement to **Active**, block deletion and force pushes, require a pull request,
+   require linear history, and require branches to be up to date before merge.
+4. In the same ruleset, require the status checks `🔐 Secret scan`, `🛡️ Dependency audit`, and
+   `🎭 Browser E2E`. The browser job depends on the remaining repository quality and Compose jobs,
+   so these contexts close the full CI dependency graph. Do not add a blanket update restriction
+   that prevents GitHub from applying an approved PR merge.
+5. Merge through the GitHub PR UI with **Squash and merge** or **Rebase and merge** only after all
+   rules pass. Do not push or locally merge directly into protected `main`, and never bypass a
+   required check to start CD.
+
+### Emergency/manual application release
+
+If GitHub Actions is unavailable and an authorized incident operator approves a manual release,
+use `deploy/scripts/build-push.ps1` from the exact clean commit, then run
+`deploy/scripts/deploy.sh <printed-git-SHA-tag>` on the VPS. Record the commit, image refs,
+backup ID, approval, health evidence, and reason in the operations log. This path retains the same
+backup, immutable identity, automatic application rollback, and no-automatic-data-restore rules;
+it is not the normal production workflow.
 
 The matching public key belongs in the deployment user's `~/.ssh/authorized_keys`. Give that user
 only the Docker/Compose permissions needed under the deploy directory. Keep runtime values such as
 database, JWT, LINE Messaging, SMTP, and payment secrets in the server-side `.env`; the workflow
 does not copy or regenerate that file. If Docker Hub repositories are private, log the server into
-Docker Hub once with a read-only token.
+Docker Hub once with a read-only token. Keep the two untagged repository keys in that file; CD
+updates only the two full image-reference keys. Application rollback reads the exact old refs from
+verified snapshot metadata, writes them back atomically, and never consults `latest`.
 
-Remaining delivery hardening includes container/image scanning, signed image
-provenance, staging deployment against sandbox integrations, automated rollback
-metadata, and tested production backup/restore procedures.
+Remaining delivery hardening includes container/image scanning, signed image provenance, staging
+deployment against sandbox integrations, encrypted off-host snapshot automation, production-VPS
+restore evidence, and alerting on backup/capacity failures.
 
 ## 11. Production readiness checklist
 
@@ -722,8 +861,8 @@ inferred from mock CI.
 
 - Real secrets rotated and managed outside Git.
 - HTTPS, secure domain/CORS, rate/edge protection, and restricted metrics/docs.
-- Managed PostgreSQL backups and restore drill.
-- Encrypted off-host `media_data` backup and an isolated media restore/recreate drill.
+- Scheduled verified PostgreSQL/local-media snapshots plus encrypted off-host replication.
+- Current production-VPS restore/recreate drill evidence and business-approved RPO/RTO.
 - Durable notification outbox/retry/idempotency and operational visibility for failed rows.
 - Real Rich Menu image asset synced and verified on a physical LINE client.
 - Verified payment intent/webhook/refund/reconciliation.

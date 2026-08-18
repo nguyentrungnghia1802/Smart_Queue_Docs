@@ -20,12 +20,18 @@ worker source paths that must be reviewed together.
 |   |-- seeds/               Idempotent administrator-only baseline
 |   \-- fixtures/e2e/        Isolated browser-test tenant and operational data
 |-- docker/                  API/web Dockerfiles and nginx config
-|-- scripts/                 Root migration/reset and isolated scalability runners
+|-- scripts/
+|   |-- deployment/         Persistent-media validation
+|   |-- release/            Automatic release-workflow contract tests
+|   \-- scalability/        Isolated scale/failure runners
+|-- deploy/
+|   |-- docker-compose.yml   Production immutable-image stack and persistent volumes
+|   |-- scripts/              Manual immutable build/push, deploy wrapper, and rehearsal
+|   \-- backup/              Versioned VPS backup, verify, restore, deploy, rollback, and rehearsal tooling
 |-- docs/                    Canonical documentation and historical archive
-|-- .github/workflows/       CI
+|-- .github/workflows/       PR/main CI gates and automatic validated-main production CD
 |-- docker-compose.dev.yml   Hot-reload local stack
-|-- docker-compose.validation.yml Isolated two-API failure/load topology
-\-- deploy/docker-compose.yml Production image-based stack
+\-- docker-compose.validation.yml Isolated two-API failure/load topology
 ```
 
 ## 2. Backend layout
@@ -42,6 +48,7 @@ apps/api/src/
 |-- infrastructure/redis/   Shared Redis lifecycle, rate limits, and public read-model cache
 |-- middlewares/             Auth, role, validation, rate, idempotency, logs, metrics
 |-- modules/<domain>/        Route/controller/service/validator and tests
+|-- modules/log-monitoring/ Bounded platform HTTP adapter and source instrumentation
 |-- observability/           OpenTelemetry, Sentry, trace propagation, sanitization
 |-- routes/                  Health and router composition
 |-- types/                   Express/auth-local types
@@ -64,6 +71,14 @@ infrastructure probes, process metrics, and aggregate outbox counts only. Never 
 customer records, notification payloads, payment transactions, or secret values to this contract.
 `infrastructure/bullmq/worker-heartbeat.ts` maintains both the container health file and the
 short-lived Redis heartbeat consumed by this read model.
+
+The `modules/log-monitoring` adapter is intentionally fail-open and disabled
+by default. When enabled with a project-scoped `LOG_MONITORING_API_KEY`, it
+uses the platform batch ingestion contract with bounded queue memory, retry
+and shutdown limits, server-admission-only `202` semantics, request/trace
+correlation, and telemetry sanitization. It is called from high-value queue,
+authentication, payment webhook, LINE, email, scheduler, error, and slow-query
+failure paths; monitoring transport failure must never change business state.
 
 ### Layer rules
 

@@ -20,9 +20,10 @@ cp .env.example .env
 
 Required production-like values include database credentials, a strong JWT secret, CORS/web
 origin, `LINE_LOGIN_CHANNEL_ID`, `LINE_MESSAGING_CHANNEL_SECRET`,
-`LINE_MESSAGING_CHANNEL_ACCESS_TOKEN`, frontend `VITE_LIFF_ID`, backend
-`LINE_LOGIN_LIFF_ID` for notification/Rich Menu deep links, and `LINE_RICH_MENU_IMAGE_PATH` for real
-Rich Menu sync. `VITE_*` variables are compiled into browser code and must never contain secrets.
+`LINE_MESSAGING_CHANNEL_ACCESS_TOKEN`, shared public `LINE_LOGIN_LIFF_ID` for the Web LIFF SDK and
+backend notification/Rich Menu deep links, and `LINE_RICH_MENU_IMAGE_PATH` for real Rich Menu sync.
+`LINE_LOGIN_LIFF_ID` and `VITE_*` variables are compiled into browser code and must never contain
+secrets.
 
 Authentication defaults are `JWT_ACCESS_EXPIRES_IN=15m`,
 `AUTH_BUSINESS_IDLE_TIMEOUT_MINUTES=15`, `AUTH_BUSINESS_ABSOLUTE_TIMEOUT_HOURS=12`, and
@@ -263,6 +264,10 @@ npm run openapi:check
 npm run spell:check
 npm run e2e:all
 npm run media:persistence:verify
+npm run release:images:verify
+npm run release:workflows:verify
+npm run ops:manual-release:rehearse
+npm run ops:backup:rehearse
 ```
 
 The media persistence command expects the production API runner image. Build it first when the
@@ -277,13 +282,49 @@ The check creates a uniquely named temporary Docker volume, writes through the n
 starts a second container against the same volume, verifies the file, and removes only its temporary
 containers and volume.
 
+The backup rehearsal requires Bash, Docker, and Docker Compose. It creates a unique disposable
+PostgreSQL/Redis/API/worker/Web project and backup root under the OS temporary directory, then proves
+database and local-media restore after mutation. It also rejects corrupt, missing, and incomplete
+snapshots; resolves a legacy running `latest` image to an immutable registry digest for rollback;
+rejects missing restore confirmation; proves deployment aborts without changing the
+environment when backup fails; proves a successful tag deployment atomically persists both image
+references; forces a post-mutation migration failure and proves automatic image-only rollback;
+and proves the explicit rollback command restores those references without restoring data. The
+harness never reads production `deploy/.env` and must not be pointed at a production Compose file.
+
+`npm run release:images:verify` runs the Windows PowerShell publisher in dry-run mode and proves it
+derives one `git-<12-character-sha>` tag from the full Git SHA, plans two runner builds and two
+immutable pushes, retains the full revision/release metadata, prints the exact VPS handoff, and
+rejects mutable or malformed repositories. The real publisher requires a clean worktree and
+Docker login; see `deploy/scripts/README.md`.
+
+`npm run release:workflows:verify` proves PR CI targets `main`, CD is triggered only by a successful
+same-repository `main` CI run, the release checkout uses that run's exact SHA, production approval
+precedes image publication and VPS access, releases are serialized, and `deploy-safe.sh` receives
+only the immutable tag. It also verifies that the remote sync normalizes
+`PRODUCTION_DEPLOY_PATH` safely whether it identifies the project root or its `deploy` directory.
+
+`npm run ops:manual-release:rehearse` validates the paired Windows-publisher/VPS-shell path. It
+proves that `deploy/scripts/build-push.ps1` derives one `git-<12-character-sha>` tag from checked-out `HEAD` for
+API and Web without `latest`, retains the full SHA in OCI revision metadata, prints the VPS handoff,
+and rejects operator-supplied tags. It also proves that `deploy/scripts/deploy.sh` accepts the
+generated tag and delegates to the existing backup gate, rejects mixed tooling versions, parses
+unique release keys without sourcing `.env`, and prevents ambient image variables from overriding
+the server file. It also proves that Web nginx uses Docker DNS at request time for the `api`
+service. It is a dry run and does not publish images, modify
+`deploy/.env`, or touch a production volume; see `deploy/scripts/README.md`.
+
 The GitHub Actions workflow runs these checks as separate jobs so a failure is isolated to one
 quality surface: secret scan, dependency audit, formatting, spelling, lint, type-check, OpenAPI,
 development/validation/production Compose config, API tests, web/shared tests, migration/seed
-smoke, production build, local-media named-volume persistence, and browser E2E. The API tests,
+smoke, production build, immutable publisher/workflow validation, local-media named-volume persistence,
+manual immutable release/runtime-DNS rehearsal, isolated backup/restore rehearsal, and browser E2E.
+The API tests,
 migration smoke, and browser E2E jobs each
 use their own PostgreSQL service. Browser E2E prepares its own database and loads the explicit
-browser-only fixtures before starting Playwright. The E2E job waits for the static, unit, contract,
+browser-only fixtures before starting Playwright. `npm run e2e:all` runs the desktop and mobile
+projects sequentially in separate Playwright processes, so each viewport suite gets fresh API/Web
+test servers and cannot inherit another suite's in-memory rate-limit state. The E2E job waits for the static, unit, contract,
 Compose, migration, and build jobs, so it does not hide an earlier failure behind a browser timeout.
 
 `npm run audit:ci` audits dependencies shipped to production and fails on new
@@ -298,14 +339,37 @@ historical test-password literals and obsolete example-environment placeholders.
 whole rule or path; a new finding must be investigated as a potential credential before any exact
 fingerprint is added.
 
-Production CD is manual and environment-gated. Type `DEPLOY` in the workflow dispatch form; the
-workflow builds and pushes immutable API/Web images tagged with the selected commit, waits for
-approval on the `production` environment, validates the remote Compose file, migrates the database,
-waits for healthy services, and probes Web health. Runtime secrets stay on the server in
-`deploy/.env`; CD never copies them from GitHub. The rollout uses `up -d` without `--volumes`, so the
-VPS `media_data` volume survives API image replacement and container recreation. CD also inspects
-the live API mount type and, in local mode, verifies the fixed path is writable before declaring the
-release healthy.
+Production CD is automatic after validation and environment-gated. A successful CI run for the
+merged `main` revision triggers the workflow, whose single release job waits for approval on the
+`production` environment. After approval, it checks out that exact SHA, builds API/Web, pushes both
+exact `git-<full SHA>` and discovery-only `latest`, copies only versioned Compose/backup tooling to
+the server, and passes only the immutable tag. `deploy-safe.sh`
+derives full references from the two repository values already in `deploy/.env`, requires a
+verified PostgreSQL/local-media restore point, atomically persists those references, pulls images,
+runs canonical migrations, recreates application services, and probes API health/readiness plus
+Web health. A post-mutation failure automatically attempts application-only rollback from the
+verified snapshot and remains a failed deployment; data restore is never automatic. Runtime
+secrets stay in the same server file; CD never copies or prints them. The
+rollout never removes volumes, so PostgreSQL and `media_data` survive image replacement. Use the
+verified pre-deployment backup ID with `rollback.sh`; it persists the exact previous references
+from metadata before recreating images. Use the separately confirmed `restore.sh` only when data
+recovery is actually needed.
+
+For a reviewed manual/emergency release outside GitHub Actions, use the Windows publisher and VPS
+wrapper instead of editing image references by hand:
+
+```powershell
+$env:LINE_LOGIN_LIFF_ID = '<production-liff-id>'
+pwsh -NoProfile -File deploy/scripts/build-push.ps1
+```
+
+```bash
+bash deploy/scripts/deploy.sh git-<12-character-sha-printed-as-DEPLOY_TAG>
+```
+
+This path publishes only the immutable tag and delegates every VPS safety step to
+`deploy/backup/deploy-safe.sh`; API, Worker, and Web are updated together. The tag is generated
+from the checked-out commit, while the server `.env` remains server-owned.
 
 Target one workspace:
 
@@ -450,6 +514,41 @@ fail-open capture, no-exporter spans, and BullMQ trace-carrier compatibility. In
 one API request and one notification delivery have trace/log correlation, then confirm the same
 business operations succeed while collector and Sentry endpoints are unavailable. Never use real
 customer contact or credentials as test fixtures.
+
+### Log Monitoring source integration
+
+The API contains a small Node 20 adapter at
+`apps/api/src/modules/log-monitoring/`. It is disabled by default and uses
+the platform's `POST /api/v1/ingest/logs/batch` contract when enabled. The
+adapter keeps a fixed-capacity queue, bounded batches/retries/flush, accepts
+`Retry-After`, and treats `202` as server queue admission rather than durable
+persistence. Every event receives an event ID, server request ID correlation,
+an OpenTelemetry trace ID when available, and a trusted request ID from
+`AsyncLocalStorage`; monitoring errors are swallowed so business operations
+continue.
+
+Use separate project-scoped ingestion keys for local, staging, and production.
+Keep `LOG_MONITORING_API_KEY` server-only and set the other `LOG_MONITORING_*`
+values from `.env.example` or `deploy/.env.example`. The source adapter emits
+bounded events for `AUTH_LOGIN_FAILED`, `QUEUE_CREATE_FAILED`,
+`PAYMENT_WEBHOOK_FAILED`, `LINE_PUSH_FAILED`, `EMAIL_DELIVERY_FAILED`,
+`DATABASE_QUERY_SLOW`, `SCHEDULER_JOB_FAILED`, and unexpected API errors. It
+never sends raw LINE/payment credentials, request bodies, headers, email
+addresses, or LINE user IDs.
+
+Targeted contract checks:
+
+```bash
+npm run test -w apps/api -- --runInBand src/modules/log-monitoring/__tests__/log-monitoring.client.test.ts src/config/__tests__/log-monitoring.config.test.ts
+npm run typecheck -w apps/api
+```
+
+With a real monitoring project and key available in staging, trigger a queue
+failure and a LINE delivery failure, then verify Log Explorer, trace/request
+correlation, dashboard counts, Live Tail, one low test threshold alert,
+notification delivery/cooldown, and old-key rejection after rotation. This
+manual provider acceptance is deliberately not performed with production
+credentials in source control.
 
 ## 10. Manual LINE verification
 

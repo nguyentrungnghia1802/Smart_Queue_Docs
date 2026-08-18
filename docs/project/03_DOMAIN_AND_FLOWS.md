@@ -71,6 +71,19 @@ not create a branch or queue. Rejection marks a paid demo application refunded a
 localized applicant email containing the review result and any admin note. Reviewed applications
 cannot be processed twice.
 
+### Organization lifecycle
+
+| Current              | Action                                        | Next        | Actor          |
+| -------------------- | --------------------------------------------- | ----------- | -------------- |
+| `pending_activation` | Complete the single-use owner activation flow | `active`    | Owner manager  |
+| `active`             | Suspend with a reason and optional note       | `suspended` | Platform admin |
+
+Admin suspension accepts only `contract_renewal_cancelled`, `organization_request`, or `other`.
+It retains organization and audit records for Admin inspection while atomically disabling tenant
+accounts, memberships, branches, queues, and products. The current Admin workflow does not expose
+a reactivation transition; reactivation requires a separately defined restoration policy so prior
+resource states are not guessed.
+
 ### Queue
 
 PostgreSQL values are `closed`, `open`, `paused`, and `archived`.
@@ -163,6 +176,10 @@ through guarded reservation transitions.
 
 1. The manager's primary copy/print QR action uses a permanent LIFF link such as `https://liff.line.me/{LIFF_ID}/qr/:token`. With a `/liff` endpoint, the appended path is `/qr/:token`, not `/liff/qr/:token`, which prevents `/liff/liff/...` after LIFF restores navigation. LIFF automatically starts LINE Login when the customer is not signed in.
 2. LIFF initializes, automatically starts LINE Login in real mode when needed, obtains an ID token, calls `/auth/line`, and stores the system JWT. If the LINE channel has the optional `email` scope and the customer consents, the backend stores the server-verified email without overwriting or duplicating an existing platform email.
+   If an expired system session sends the customer through the shared login page, the client carries
+   only the original internal `/liff/...` route as `returnTo`; the LINE entry link restores that
+   route after authentication. External targets are rejected, and email-authenticated business
+   roles still return to their role dashboard rather than entering customer booking.
 3. The client synchronizes the Official Account friendship state, then fetches public organization,
    queue, and active product data after the route context is known. A customer who skipped the
    consent-screen Add Friend option receives a localized, non-blocking Add/Unblock prompt inside
@@ -172,7 +189,9 @@ through guarded reservation transitions.
    prepayment is required, and creates the booking within the same LIFF flow. This demonstration
    does not move real money; the retained external-provider path is not active.
 5. The backend uses server-verified identity, not browser profile data or public request body fields, to attach the LINE recipient.
-6. On success, LIFF navigates to `/liff/tickets/:entryId` and shows ticket code, status, people ahead, and ETA.
+6. On success, LIFF navigates to `/liff/tickets/:entryId` and shows ticket code, status, people ahead,
+   ETA, order items, and an invoice breakdown with total, net amount paid, and amount due (including
+   zero values).
 7. Rich Menu opens `/liff/home` or `/liff/home` with mode/section query parameters. LIFF Home resolves the current active ticket and renders localized empty/usage states with Japanese fallback.
 
 Public `/qr/:token` and `/q/:orgSlug` are customer discovery/redirect routes; they do not create
@@ -210,8 +229,10 @@ ID-token-to-system-JWT flow without a second customer auth model.
 7. If refresh fails, the retried request remains unauthorized, or the API returns
    `AUTH_SESSION_REQUIRED`, the SPA atomically clears its access token, Zustand auth state, legacy
    auth storage, and React Query cache. A guarded terminal-session action redirects to `/login`
-   once and displays a localized inactivity message stored only for that navigation; technical API
-   messages are not exposed to the user.
+   once and displays a localized inactivity message stored only for that navigation. When the
+   interrupted route is internal LIFF, the redirect also carries that route for the customer LINE
+   entry link; other routes do not become return targets. Technical API messages are not exposed to
+   the user.
 
 ## 4. Booking without required prepayment
 
@@ -366,7 +387,9 @@ The standard ticket notification journey covers booking-created, exactly five pe
 called, and completed. Exceptional deferred, cancelled, and no-show transitions also notify the
 customer. Each event has a distinct durable event key. Each Flex Message shows the system name, ticket
 code, current status, people ahead, ETA, next action guidance, and a button that opens the LIFF
-ticket detail.
+ticket detail. Header colors are semantic and locale-independent: booking confirmation and warning
+events use yellow, approaching/called/serving/completed events use green, and cancelled/no-show
+events use red.
 
 ## 9. LINE Rich Menu navigation flow
 
@@ -447,6 +470,9 @@ There is no OpenAI or Gemini call in this flow. Adding a generative-AI API key w
 - Platform-admin owner recovery is limited to replacing the owner manager's sign-in email. The
   owner changes their own display name and password; an admin email change revokes existing owner
   sessions and never grants access to other tenant accounts.
+- Platform Admin organization lists default to `active`, can filter `suspended` or all lifecycle
+  states, and keep suspended organization details readable. Suspension requires a controlled reason
+  plus an optional note and writes immutable audit evidence instead of deleting the tenant record.
 - An owner manager may create branches, edit branch contact/address/map details, and invite one or
   more branch managers. Before activation, the owner may revoke pending invitations as long as at
   least one active or pending manager assignment remains. Every branch retains at least one such

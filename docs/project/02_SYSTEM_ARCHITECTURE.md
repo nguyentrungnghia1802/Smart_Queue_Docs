@@ -50,7 +50,17 @@ Customer Browser / LINE LIFF       Staff / Manager / Admin Browser
 | LINE platform     | LINE Login/LIFF and Messaging API           | Customer identity and chat delivery                                                    |
 | Payment provider  | Demo active; payOS adapter retained         | Server-authoritative demo completion or explicitly enabled hosted/QR PSP webhook       |
 
-Docker Compose supplies these local/production-like boundaries; it is not the final cloud infrastructure specification. In the current production-oriented VPS demo, the API uses the local provider at `/app/var/media`, backed by the production Compose `media_data` named volume. The volume outlives API container recreation and deployment while nginx reverse-proxies `/media/*` to `api:4000` without stripping the prefix. The web image likewise proxies `/api/*`, and production API requests use an empty `VITE_API_URL` because service paths already include `/api/v1`. S3-compatible media remains selectable for a future external/multi-host deployment; those records return a stable absolute public/CDN URL and do not depend on `/media`. The Vite development server proxies both same-origin prefixes to the local API.
+Docker Compose supplies these local/production-like boundaries; it is not the final cloud infrastructure specification. In the current production-oriented VPS demo, the API uses the local provider at `/app/var/media`, backed by the production Compose `media_data` named volume. The volume outlives API container recreation and deployment while nginx reverse-proxies `/media/*` to `api:4000` without stripping the prefix. The Web nginx resolves `api` through Docker's embedded DNS resolver at request time, so an API restart/recreate does not leave `/api/*` or `/media/*` pinned to a stale container IP. Production API requests use an empty `VITE_API_URL` because service paths already include `/api/v1`. S3-compatible media remains selectable for a future external/multi-host deployment; those records return a stable absolute public/CDN URL and do not depend on `/media`. The Vite development server proxies both same-origin prefixes to the local API.
+
+The VPS recovery boundary is versioned under `deploy/backup`. It treats PostgreSQL and local
+`media_data` as one quiesced restore point, records only non-secret immutable-image/version
+metadata, and writes runtime snapshots outside the checkout. Redis is intentionally excluded:
+BullMQ coordination, caches, rate-limit state, and Pub/Sub are reconstructable while PostgreSQL is
+the business authority. Safe deployment cannot pull or migrate a new image until the matched
+snapshot passes checksum, dump, archive, and completion-marker verification. Application rollback
+uses prior image references without implicitly restoring data. If a release fails after image
+references have changed, the safe deploy trap automatically attempts that application-only
+rollback and preserves the original failure for operator investigation.
 
 `docker-compose.validation.yml` is a destructive, isolated engineering topology rather than a
 deployment file. Its nginx gateway balances two API replicas that share PostgreSQL and Redis while
@@ -249,7 +259,7 @@ same-browser concurrent-refresh grace period, and treats later replay as comprom
 ### LINE LIFF
 
 1. Customer-facing manager print/copy actions generate permanent links such as `https://liff.line.me/{LIFF_ID}/qr/:token`. The configured endpoint is normally `/liff`, so the additional path is endpoint-relative and must not contain another `/liff`.
-2. Public `/qr` and `/q` routes resolve the requested customer destination and redirect into LINE. LIFF initializes with public `VITE_LIFF_ID`. In real mode, including an external browser, a signed-out customer is automatically sent through LINE Login.
+2. Public `/qr` and `/q` routes resolve the requested customer destination and redirect into LINE. LIFF initializes with the public `LINE_LOGIN_LIFF_ID`. In real mode, including an external browser, a signed-out customer is automatically sent through LINE Login.
 3. After LINE login, the client obtains an OIDC ID token and posts it to `/api/v1/auth/line`.
 4. API verifies it against the configured LINE Login channel ID and may persist the optional verified email claim when the channel has email permission and the address is not already owned.
 5. API finds or creates the customer, links `line_accounts.line_user_id` transactionally, and

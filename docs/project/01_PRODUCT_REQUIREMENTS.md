@@ -32,50 +32,52 @@ role and does not use branch-operation endpoints.
 
 ### Authentication and profile
 
-| ID          | Requirement                                                                                                   | Status      |
-| ----------- | ------------------------------------------------------------------------------------------------------------- | ----------- |
-| FR-AUTH-001 | Authenticate staff/manager/admin by email and password and issue JWT access                                   | Implemented |
-| FR-AUTH-002 | Authenticate a customer from a LINE LIFF ID token after server verification                                   | Implemented |
-| FR-AUTH-003 | Link one LINE account to one platform user and preserve the LINE user ID                                      | Implemented |
-| FR-AUTH-004 | Allow the authenticated user to view/update supported profile fields                                          | Implemented |
-| FR-AUTH-005 | Persist preferred locale with organization/client/Japanese fallback                                           | Implemented |
-| FR-AUTH-006 | Automatically initialize LIFF login and exchange ID token for system JWT                                      | Implemented |
-| FR-AUTH-007 | Store LINE-verified customer email when the optional email claim is available                                 | Implemented |
-| FR-AUTH-008 | Use LINE-only customer login and email/password only for business roles                                       | Implemented |
-| FR-AUTH-009 | Provide a paired frontend/backend LIFF mock identity only in local development                                | Implemented |
-| FR-AUTH-010 | Keep the login entry responsive and visually balanced across access paths                                     | Implemented |
-| FR-AUTH-011 | Block authenticated business roles from QR booking and direct queue admission                                 | Implemented |
-| FR-AUTH-012 | Require a verified LINE-derived customer JWT for payment intent and booking                                   | Implemented |
-| FR-AUTH-013 | Use 15-minute access tokens with revocable rotating server-side sessions                                      | Implemented |
-| FR-AUTH-014 | Expire business sessions after 15 idle minutes or 12 total hours                                              | Implemented |
-| FR-AUTH-015 | Allow LINE customer sessions to resume for at most 30 days                                                    | Implemented |
-| FR-AUTH-016 | Allow active admin, manager, and staff accounts to change their password after verifying the current password | Implemented |
-| FR-AUTH-017 | Refresh an expired access token once, retry the request, and end an invalid session without redirect loops    | Implemented |
+| ID          | Requirement                                                                                                                | Status      |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| FR-AUTH-001 | Authenticate staff/manager/admin by email and password and issue JWT access                                                | Implemented |
+| FR-AUTH-002 | Authenticate a customer from a LINE LIFF ID token after server verification                                                | Implemented |
+| FR-AUTH-003 | Link one LINE account to one platform user and preserve the LINE user ID                                                   | Implemented |
+| FR-AUTH-004 | Allow the authenticated user to view/update supported profile fields                                                       | Implemented |
+| FR-AUTH-005 | Persist preferred locale with organization/client/Japanese fallback                                                        | Implemented |
+| FR-AUTH-006 | Automatically initialize LIFF login and exchange ID token for system JWT                                                   | Implemented |
+| FR-AUTH-007 | Store LINE-verified customer email when the optional email claim is available                                              | Implemented |
+| FR-AUTH-008 | Use LINE-only customer login and email/password only for business roles                                                    | Implemented |
+| FR-AUTH-009 | Provide a paired frontend/backend LIFF mock identity only in local development                                             | Implemented |
+| FR-AUTH-010 | Keep the login entry responsive and visually balanced across access paths                                                  | Implemented |
+| FR-AUTH-011 | Block authenticated business roles from QR booking and direct queue admission                                              | Implemented |
+| FR-AUTH-012 | Require a verified LINE-derived customer JWT for payment intent and booking                                                | Implemented |
+| FR-AUTH-013 | Use 15-minute access tokens with revocable rotating server-side sessions                                                   | Implemented |
+| FR-AUTH-014 | Expire business sessions after 15 idle minutes or 12 total hours                                                           | Implemented |
+| FR-AUTH-015 | Allow LINE customer sessions to resume for at most 30 days                                                                 | Implemented |
+| FR-AUTH-016 | Allow active admin, manager, and staff accounts to change their password after verifying the current password              | Implemented |
+| FR-AUTH-017 | Refresh an expired access token once, retry the request, and end an invalid session without redirect loops                 | Implemented |
+| FR-AUTH-018 | Preserve a scanned internal LIFF booking route across customer reauthentication without allowing an external return target | Implemented |
 
 ### Organization administration
 
-| ID         | Requirement                                                                                                                                                                                  | Status                                     |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| FR-ORG-001 | Admin sees an organization list, not an implicit single-organization editor                                                                                                                  | Implemented                                |
-| FR-ORG-002 | Admin opens a separate detail view for full organization information                                                                                                                         | Implemented                                |
-| FR-ORG-003 | A business submits a public service application with work email, plan, demo payment, plan-fit guidance, and receipt email                                                                    | Implemented                                |
-| FR-ORG-004 | Admin approves or rejects applications but does not manually register new organizations; rejection sends an applicant email                                                                  | Implemented                                |
-| FR-ORG-005 | The system generates a unique organization slug and one public QR token per branch                                                                                                           | Implemented                                |
-| FR-ORG-006 | Branch manager edits only their assigned branch settings and business calendar                                                                                                               | Implemented                                |
-| FR-ORG-007 | Branch stores location, business hours, holiday rules, and provider configuration                                                                                                            | Implemented; real provider secrets pending |
-| FR-ORG-008 | Branch-manager print/copy actions prefer LIFF QR and expose public web booking as fallback                                                                                                   | Implemented                                |
-| FR-ORG-009 | Approval atomically creates an inactive organization, invited owner, activation action, and email outbox row; it creates no branch/queue                                                     | Implemented                                |
-| FR-ORG-010 | Public organization applications never accept or store account credentials                                                                                                                   | Implemented                                |
-| FR-ORG-011 | Owner creates/edits branches with at least one active or invited branch manager; pending invites may be revoked while one retained assignment remains; assigned managers create queues later | Implemented                                |
-| FR-ORG-012 | Owner dashboard shows organization revenue, branch count, best/worst branch, trend, and branch detail                                                                                        | Implemented                                |
-| FR-ORG-013 | Owner navigation excludes branch product, queue, staff, and QR operations                                                                                                                    | Implemented                                |
-| FR-ORG-014 | Branch creation enforces the selected subscription plan; Standard permits at most three active branches                                                                                      | Implemented                                |
-| FR-ORG-015 | Management lists provide localized search and stable visible row numbers                                                                                                                     | Implemented                                |
-| FR-ORG-016 | Branch settings store non-secret payment acceptance details separately from organization settings                                                                                            | Implemented; real PSP pending              |
-| FR-ORG-017 | Owner manager can permanently delete a branch and all branch-owned operational data atomically while retaining audit evidence                                                                | Implemented                                |
-| FR-ORG-017 | The public product site presents the service, solutions, and plans through a responsive editorial layout with a muted video hero, service imagery, and smooth section navigation             | Implemented                                |
-| FR-ORG-018 | Platform admin may change only the owner manager sign-in email for account recovery; display name, password, status, and other tenant accounts remain outside admin scope                    | Implemented                                |
-| FR-ORG-019 | The public product footer exposes the dedicated `support@smartqueue.io.vn` address as a working email link                                                                                   | Implemented                                |
+| ID         | Requirement                                                                                                                                                                                          | Status                                     |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| FR-ORG-001 | Admin sees an organization list, not an implicit single-organization editor                                                                                                                          | Implemented                                |
+| FR-ORG-002 | Admin opens a separate detail view for full organization information                                                                                                                                 | Implemented                                |
+| FR-ORG-003 | A business submits a public service application with work email, plan, demo payment, plan-fit guidance, and receipt email                                                                            | Implemented                                |
+| FR-ORG-004 | Admin approves or rejects applications but does not manually register new organizations; rejection sends an applicant email                                                                          | Implemented                                |
+| FR-ORG-005 | The system generates a unique organization slug and one public QR token per branch                                                                                                                   | Implemented                                |
+| FR-ORG-006 | Branch manager edits only their assigned branch settings and business calendar                                                                                                                       | Implemented                                |
+| FR-ORG-007 | Branch stores location, business hours, holiday rules, and provider configuration                                                                                                                    | Implemented; real provider secrets pending |
+| FR-ORG-008 | Branch-manager print/copy actions prefer LIFF QR and expose public web booking as fallback                                                                                                           | Implemented                                |
+| FR-ORG-009 | Approval atomically creates an inactive organization, invited owner, activation action, and email outbox row; it creates no branch/queue                                                             | Implemented                                |
+| FR-ORG-010 | Public organization applications never accept or store account credentials                                                                                                                           | Implemented                                |
+| FR-ORG-011 | Owner creates/edits branches with at least one active or invited branch manager; pending invites may be revoked while one retained assignment remains; assigned managers create queues later         | Implemented                                |
+| FR-ORG-012 | Owner dashboard shows organization revenue, branch count, best/worst branch, trend, and branch detail                                                                                                | Implemented                                |
+| FR-ORG-013 | Owner navigation excludes branch product, queue, staff, and QR operations                                                                                                                            | Implemented                                |
+| FR-ORG-014 | Branch creation enforces the selected subscription plan; Standard permits at most three active branches                                                                                              | Implemented                                |
+| FR-ORG-015 | Management lists provide localized search and stable visible row numbers                                                                                                                             | Implemented                                |
+| FR-ORG-016 | Branch settings store non-secret payment acceptance details separately from organization settings                                                                                                    | Implemented; real PSP pending              |
+| FR-ORG-017 | Owner manager can permanently delete a branch and all branch-owned operational data atomically while retaining audit evidence                                                                        | Implemented                                |
+| FR-ORG-017 | The public product site presents the service, solutions, and plans through a responsive editorial layout with a muted video hero, service imagery, and smooth section navigation                     | Implemented                                |
+| FR-ORG-018 | Platform admin may change only the owner manager sign-in email for account recovery; display name, password, status, and other tenant accounts remain outside admin scope                            | Implemented                                |
+| FR-ORG-019 | The public product footer exposes the dedicated `support@smartqueue.io.vn` address as a working email link                                                                                           | Implemented                                |
+| FR-ORG-020 | Platform Admin defaults the organization registry to active tenants, can filter suspended/all tenants, and suspends an active organization only after recording a supported reason and optional note | Implemented                                |
 
 ### Catalog and inventory
 
@@ -89,6 +91,7 @@ role and does not use branch-operation endpoints.
 | FR-CAT-006 | Cancellation/expiry restores finite stock to the same branch exactly once                              | Implemented                             |
 | FR-CAT-007 | Branch managers select organization-catalog products for each assigned-branch queue                    | Implemented                             |
 | FR-CAT-008 | Product/service codes are unique per organization and generated as `SPn`/`DVn`                         | Implemented                             |
+| FR-CAT-009 | Staff catalog cards preserve image aspect ratio and stable card alignment for long or optional content | Implemented                             |
 
 ### Booking, ordering, and payment
 
@@ -116,41 +119,41 @@ role and does not use branch-operation endpoints.
 
 ### Queue and staff operation
 
-| ID           | Requirement                                                                                                                   | Status                          |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| FR-QUEUE-001 | Successful booking creates a ticket in the selected active queue of the resolved branch                                       | Implemented                     |
-| FR-QUEUE-002 | Customer sees ticket code, stable order number, status, people ahead, ETA, order items, and payment                           | Implemented                     |
-| FR-QUEUE-003 | Staff sees the next eight active customers, stable order number, total active count, contact data, and a responsive workspace | Implemented                     |
-| FR-QUEUE-004 | Completion automatically calls the next eligible customer when no ticket is already called                                    | Implemented                     |
-| FR-QUEUE-005 | Queue ticket counter resets daily                                                                                             | Implemented with UTC limitation |
-| FR-QUEUE-006 | Queue capacity remains strict under concurrent joins                                                                          | Partial                         |
-| FR-QUEUE-007 | Branch manager creates and configures multiple named queues, status, prefix, capacity, timing, and rules                      | Implemented                     |
-| FR-QUEUE-008 | Staff can move a called absent customer back three slots; the third absence cancels and refunds the booking                   | Implemented                     |
-| FR-QUEUE-009 | Staff related-booking context includes only active queue tickets and excludes completed history                               | Implemented                     |
-| FR-QUEUE-010 | A branch may temporarily have no queue during setup or reconfiguration                                                        | Implemented                     |
-| FR-QUEUE-011 | Booking is accepted only while both the branch calendar and selected queue status are open                                    | Implemented                     |
-| FR-QUEUE-012 | An idle queue automatically calls its earliest waiting ticket after booking or a transition frees the active slot             | Implemented                     |
-| FR-QUEUE-013 | Branch-manager queue cards and detail show live active customer depth separately from the daily ticket sequence counter       | Implemented                     |
-| FR-QUEUE-014 | Each active Staff member is assigned to exactly one active queue; a queue may be assigned to multiple Staff members           | Implemented                     |
+| ID           | Requirement                                                                                                                      | Status                          |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| FR-QUEUE-001 | Successful booking creates a ticket in the selected active queue of the resolved branch                                          | Implemented                     |
+| FR-QUEUE-002 | Customer sees ticket code, stable order number, status, people ahead, ETA, order items, and total/paid/balance payment breakdown | Implemented                     |
+| FR-QUEUE-003 | Staff sees the next eight active customers, stable order number, total active count, contact data, and a responsive workspace    | Implemented                     |
+| FR-QUEUE-004 | Completion automatically calls the next eligible customer when no ticket is already called                                       | Implemented                     |
+| FR-QUEUE-005 | Queue ticket counter resets daily                                                                                                | Implemented with UTC limitation |
+| FR-QUEUE-006 | Queue capacity remains strict under concurrent joins                                                                             | Partial                         |
+| FR-QUEUE-007 | Branch manager creates and configures multiple named queues, status, prefix, capacity, timing, and rules                         | Implemented                     |
+| FR-QUEUE-008 | Staff can move a called absent customer back three slots; the third absence cancels and refunds the booking                      | Implemented                     |
+| FR-QUEUE-009 | Staff related-booking context includes only active queue tickets and excludes completed history                                  | Implemented                     |
+| FR-QUEUE-010 | A branch may temporarily have no queue during setup or reconfiguration                                                           | Implemented                     |
+| FR-QUEUE-011 | Booking is accepted only while both the branch calendar and selected queue status are open                                       | Implemented                     |
+| FR-QUEUE-012 | An idle queue automatically calls its earliest waiting ticket after booking or a transition frees the active slot                | Implemented                     |
+| FR-QUEUE-013 | Branch-manager queue cards and detail show live active customer depth separately from the daily ticket sequence counter          | Implemented                     |
+| FR-QUEUE-014 | Each active Staff member is assigned to exactly one active queue; a queue may be assigned to multiple Staff members              | Implemented                     |
 
 ### LINE and notifications
 
-| ID          | Requirement                                                                                                         | Status                                                                  |
-| ----------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| FR-LINE-001 | Messaging API sends a LINE chat message when the turn approaches                                                    | Implemented for authenticated LINE-linked tickets with durable delivery |
-| FR-LINE-002 | Messaging API sends called/completed and exceptional deferred/cancelled/no-show messages                            | Implemented on authenticated LINE-linked tickets with durable delivery  |
-| FR-LINE-003 | Queue state remains successful even if LINE delivery fails                                                          | Implemented                                                             |
-| FR-LINE-004 | Delivery is durable and deduplicated across restarts/replicas                                                       | Implemented                                                             |
-| FR-LINE-005 | Follow/unfollow link state is persisted                                                                             | Implemented                                                             |
-| FR-LINE-006 | Consent/preferences and opt-out controls are user-manageable                                                        | Implemented                                                             |
-| FR-LINE-007 | LINE notification links open the correct LIFF ticket detail                                                         | Implemented                                                             |
-| FR-LINE-008 | Ticket lifecycle notifications use a common Flex Message with text fallback                                         | Implemented                                                             |
-| FR-LINE-009 | Booking success sends a LINE ticket notification when the entry has a verified LINE recipient                       | Implemented                                                             |
-| FR-LINE-010 | LINE Rich Menu opens LIFF Home, booking start, current ticket resolution, and usage guidance                        | Implemented in code; LINE Console/E2E sync pending                      |
-| FR-LINE-011 | Rich Menu synchronization is explicit, idempotent, mockable, and never runs on API startup                          | Implemented                                                             |
-| FR-LINE-012 | The standard approaching-turn notification is durably enqueued at exactly five people ahead                         | Implemented                                                             |
-| FR-LINE-013 | LIFF detects a missing Official Account friendship and offers an in-app Add/Unblock action                          | Implemented; real-device acceptance pending                             |
-| FR-LINE-014 | Authorized operators can diagnose scoped delivery failures and safely retry/cancel eligible rows without SQL access | Implemented                                                             |
+| ID          | Requirement                                                                                                             | Status                                                                  |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| FR-LINE-001 | Messaging API sends a LINE chat message when the turn approaches                                                        | Implemented for authenticated LINE-linked tickets with durable delivery |
+| FR-LINE-002 | Messaging API sends called/completed and exceptional deferred/cancelled/no-show messages                                | Implemented on authenticated LINE-linked tickets with durable delivery  |
+| FR-LINE-003 | Queue state remains successful even if LINE delivery fails                                                              | Implemented                                                             |
+| FR-LINE-004 | Delivery is durable and deduplicated across restarts/replicas                                                           | Implemented                                                             |
+| FR-LINE-005 | Follow/unfollow link state is persisted                                                                                 | Implemented                                                             |
+| FR-LINE-006 | Consent/preferences and opt-out controls are user-manageable                                                            | Implemented                                                             |
+| FR-LINE-007 | LINE notification links open the correct LIFF ticket detail                                                             | Implemented                                                             |
+| FR-LINE-008 | Ticket lifecycle notifications use a common Flex Message with text fallback and semantic yellow/green/red header colors | Implemented                                                             |
+| FR-LINE-009 | Booking success sends a LINE ticket notification when the entry has a verified LINE recipient                           | Implemented                                                             |
+| FR-LINE-010 | LINE Rich Menu opens LIFF Home, booking start, current ticket resolution, and usage guidance                            | Implemented in code; LINE Console/E2E sync pending                      |
+| FR-LINE-011 | Rich Menu synchronization is explicit, idempotent, mockable, and never runs on API startup                              | Implemented                                                             |
+| FR-LINE-012 | The standard approaching-turn notification is durably enqueued at exactly five people ahead                             | Implemented                                                             |
+| FR-LINE-013 | LIFF detects a missing Official Account friendship and offers an in-app Add/Unblock action                              | Implemented; real-device acceptance pending                             |
+| FR-LINE-014 | Authorized operators can diagnose scoped delivery failures and safely retry/cancel eligible rows without SQL access     | Implemented                                                             |
 
 Notification operations authorization is server-derived: platform Admin and Organization Owner do not have access. A Branch Manager can manage notifications for all queues in their single active branch and can cancel obsolete notifications. Staff can manage notifications only for their assigned queue and cannot cancel them. The UI never receives raw notification payloads, unmasked LINE IDs, provider headers, or credentials. Retry is limited to retryable `failed` deliveries; cancellation is limited to `pending` deliveries whose related ticket is already terminal. Both actions require a reason and are audited.
 
@@ -278,6 +281,9 @@ Notification operations authorization is server-derived: platform Admin and Orga
   wrapping. Descriptive columns may use the remaining space and truncate oversized values with the
   complete value available on hover. Narrow screens use the corresponding card layout instead of
   compressing desktop actions into unreadable rows.
+- The Admin organization detail heading displays at most 40 characters, appends `...` when the
+  stored name is longer, and keeps the complete organization name available on hover and to
+  assistive technology.
 - Authenticated navigation keeps the account name readable without an avatar: long names use a
   smaller label, wrap to at most two lines, and only then truncate. The account trigger and chevron
   retain stable dimensions across supported viewport sizes.
