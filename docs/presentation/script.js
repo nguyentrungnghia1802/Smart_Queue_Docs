@@ -1,6 +1,7 @@
 /* LINE Smart Queue Assistant — Dynamic Presentation Engine Script */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('deck-container');
   const viewport = document.getElementById('slide-viewport');
   const counterEl = document.getElementById('slide-counter');
   const progressBar = document.getElementById('progress-bar');
@@ -15,12 +16,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeNotesBtn = document.getElementById('close-notes-btn');
   const dashboardBtn = document.getElementById('dashboard-btn');
 
-  let currentLang = 'vi'; // default or detected
+  // Multi-phone journey modal elements
+  const journeyModal = document.getElementById('journey-phone-modal');
+  const journeyStage = document.getElementById('journey-phones-stage');
+  const journeyModalTitle = document.getElementById('journey-modal-title');
+  const journeyModalCounter = document.getElementById('journey-modal-counter');
+  const journeyCloseBtn = document.getElementById('journey-close-btn');
+  const journeyPrevPhoneBtn = document.getElementById('journey-prev-phone-btn');
+  const journeyNextPhoneBtn = document.getElementById('journey-next-phone-btn');
+
+  // Scope gallery modal elements
+  const scopeModal = document.getElementById('scope-gallery-modal');
+  const scopeImg = document.getElementById('scope-gallery-img');
+  const scopeName = document.getElementById('scope-gallery-name');
+  const scopeCounter = document.getElementById('scope-gallery-counter');
+  const scopeCloseBtn = document.getElementById('scope-gallery-close-btn');
+  const scopePrevBtn = document.getElementById('scope-gallery-prev-btn');
+  const scopeNextBtn = document.getElementById('scope-gallery-next-btn');
+
+  // QR zoom modal elements
+  const qrZoomModal = document.getElementById('qr-zoom-modal');
+  const qrZoomCloseBtn = document.getElementById('qr-zoom-close-btn');
+  const qrZoomBranch = document.getElementById('qr-zoom-branch');
+  const qrZoomHint = document.getElementById('qr-zoom-hint');
+
+  let currentLang = 'ja'; // default or detected
   let currentConfig = null;
   let slides = [];
   let totalSlides = 0;
   let currentIndex = 0;
   let presenterWindow = null;
+  let journeyPhoneCount = 1; // 1 to 4 max
+  let scopeGalleryIndex = 0; // 0 to 4
 
   // Determine initial language from query parameter, local storage, or html tag
   function detectInitialLanguage() {
@@ -37,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (htmlLang && (htmlLang === 'ja' || htmlLang === 'vi')) {
       return htmlLang;
     }
-    return 'vi';
+    return 'ja';
   }
 
   // Get configuration object for specified language
@@ -48,8 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lang === 'vi' && window.PRESENTATION_CONFIG_VI) {
       return window.PRESENTATION_CONFIG_VI;
     }
-    // Fallback
-    return window.PRESENTATION_CONFIG_VI || window.PRESENTATION_CONFIG_JA;
+    return window.PRESENTATION_CONFIG_JA || window.PRESENTATION_CONFIG_VI;
   }
 
   // Render slides dynamically from config
@@ -68,44 +94,32 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = currentConfig.meta.title;
 
     // Update control labels & tooltips
-    if (dashboardBtn) {
-      dashboardBtn.textContent = currentConfig.meta.controls.dashboardBtn;
-    }
-    if (prevBtn) {
-      prevBtn.title = currentConfig.meta.controls.prevBtnTitle;
-    }
-    if (nextBtn) {
-      nextBtn.title = currentConfig.meta.controls.nextBtnTitle;
-    }
-    if (notesBtn) {
-      notesBtn.title = currentConfig.meta.controls.notesBtnTitle;
-    }
-    if (fullscreenBtn) {
-      fullscreenBtn.title = currentConfig.meta.controls.fullscreenBtnTitle;
-    }
+    if (dashboardBtn) dashboardBtn.textContent = currentConfig.meta.controls.dashboardBtn;
+    if (prevBtn) prevBtn.title = currentConfig.meta.controls.prevBtnTitle;
+    if (nextBtn) nextBtn.title = currentConfig.meta.controls.nextBtnTitle;
+    if (notesBtn) notesBtn.title = currentConfig.meta.controls.notesBtnTitle;
+    if (fullscreenBtn) fullscreenBtn.title = currentConfig.meta.controls.fullscreenBtnTitle;
     if (langBtn) {
       langBtn.textContent = currentConfig.meta.controls.switchLangBtn;
       langBtn.title = currentConfig.meta.controls.switchLangTitle;
     }
-    if (notesDrawerTitle) {
-      notesDrawerTitle.textContent = currentConfig.meta.notesDrawerTitle;
-    }
+    if (notesDrawerTitle) notesDrawerTitle.textContent = currentConfig.meta.notesDrawerTitle;
 
     // Render slides HTML into viewport
     if (viewport) {
       let slidesHtml = '';
-      currentConfig.slides.forEach((slide, idx) => {
+      currentConfig.slides.forEach((slide) => {
         const cleanTag = slide.tag.replace(/^Slide\s*\d+\s*(?:—|–|-)\s*/i, '');
         let bodyClass = 'slide-body layout-split left-wide';
         let bodyExtraStyle = '';
 
-        if (slide.id === 'slide-4') {
+        if (slide.id === 'slide-5') {
           bodyClass = 'slide-body';
-          bodyExtraStyle = 'flex-direction: column; align-items: stretch; justify-content: space-between; gap: 12px;';
-        } else if (slide.id === 'slide-5') {
+          bodyExtraStyle = 'display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;';
+        } else if (slide.id === 'slide-6') {
           bodyClass = 'slide-body';
           bodyExtraStyle = 'align-items: stretch;';
-        } else if (slide.id === 'slide-7') {
+        } else if (slide.id === 'slide-8') {
           bodyClass = 'slide-body layout-split';
           bodyExtraStyle = 'grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: center;';
         }
@@ -115,10 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <header class="slide-header">
               <div>
                 <span class="slide-tag">${cleanTag}</span>
-                <h1 class="slide-title" ${slide.id === 'slide-7' ? 'style="font-size: 32px; letter-spacing: -0.02em; color: var(--brand-ink);"' : ''}>${slide.title}</h1>
+                <h1 class="slide-title" ${slide.id === 'slide-8' ? 'style="font-size: 32px; letter-spacing: -0.02em; color: var(--brand-ink);"' : ''}>${slide.title}</h1>
                 <p class="slide-subtitle">${slide.subtitle}</p>
               </div>
-              <div style="font-weight: ${slide.id === 'slide-7' ? '800' : '700'}; color: var(--line-green); font-size: ${slide.id === 'slide-7' ? '20px' : '18px'}; letter-spacing: 0.05em; text-transform: uppercase;">
+              <div style="font-weight: ${slide.id === 'slide-8' ? '800' : '700'}; color: var(--line-green); font-size: ${slide.id === 'slide-8' ? '20px' : '18px'}; letter-spacing: 0.05em; text-transform: uppercase;">
                 ${slide.headerBadge}
               </div>
             </header>
@@ -131,12 +145,28 @@ document.addEventListener('DOMContentLoaded', () => {
           </section>
         `;
       });
-      viewport.innerHTML = slidesHtml;
+
+      // Top-Right Slide indicator badge showing ONLY current slide / total
+      const indicatorHtml = `
+        <div id="slide-footprints" title="${currentConfig.meta.footprintsLabel || 'Slide'}">
+          <span class="indicator-current" id="slide-indicator-current">01</span>
+          <span class="indicator-divider">/</span>
+          <span class="indicator-total" id="slide-indicator-total">${String(currentConfig.slides.length).padStart(2, '0')}</span>
+        </div>
+      `;
+
+      viewport.innerHTML = slidesHtml + indicatorHtml;
     }
 
     // Refresh slide element list
     slides = document.querySelectorAll('.slide');
     totalSlides = slides.length;
+
+    // Attach interactive triggers
+    setupInteractiveTriggers();
+
+    // Update modal labels
+    updateModalLanguage();
 
     // Go to current slide
     goToSlide(currentIndex, false);
@@ -182,6 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalNumStr = String(totalSlides).padStart(2, '0');
     if (counterEl) counterEl.textContent = `${slideNumStr} / ${totalNumStr}`;
     if (progressBar) progressBar.style.width = `${((currentIndex + 1) / totalSlides) * 100}%`;
+
+    // Update Top-Right Indicator Badge
+    const indicatorCurrent = document.getElementById('slide-indicator-current');
+    if (indicatorCurrent) indicatorCurrent.textContent = slideNumStr;
 
     // Update Presenter Notes
     updatePresenterNotes();
@@ -245,8 +279,327 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // =========================================================================
+  // Interactive Triggers Setup
+  // =========================================================================
+  function setupInteractiveTriggers() {
+    // 1. Customer Journey phone trigger (Slide 3)
+    const journeyTrigger = document.getElementById('journey-phone-trigger');
+    if (journeyTrigger) {
+      journeyTrigger.addEventListener('click', () => {
+        openJourneyModal();
+      });
+    }
+
+    // 2. Product Scope gallery trigger (Slide 4)
+    const scopeTrigger = document.getElementById('scope-gallery-trigger');
+    if (scopeTrigger) {
+      scopeTrigger.addEventListener('click', () => {
+        openScopeModal(0);
+      });
+    }
+
+    // 3. Live Demo QR Code trigger (Slide 8)
+    const qrCardTrigger = document.getElementById('qr-card-trigger');
+    if (qrCardTrigger) {
+      qrCardTrigger.addEventListener('click', () => {
+        openQrModal();
+      });
+    }
+
+    // 4. Make all browser frames and media images zoomable into the fullscreen lightbox
+    document.querySelectorAll('.slide .browser-frame, .slide .media-container img').forEach(elem => {
+      if (elem.id === 'journey-phone-trigger' || elem.closest('#journey-phone-trigger')) return;
+      if (elem.id === 'qr-card-trigger' || elem.closest('#qr-card-trigger')) return;
+      elem.style.cursor = 'pointer';
+      elem.title = currentConfig?.meta?.lang === 'ja' ? 'クリックで全画面拡大表示' : 'Bấm để phóng to toàn màn hình';
+      elem.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const img = elem.tagName === 'IMG' ? elem : elem.querySelector('img');
+        if (img && img.src && !img.src.endsWith('.svg')) {
+          openScopeModalBySrc(img.src, img.alt || '');
+        }
+      });
+    });
+  }
+
+  function openScopeModalBySrc(src, title) {
+    if (!scopeModal || !currentConfig || !currentConfig.scopeGallery) return;
+    const gallery = currentConfig.scopeGallery;
+    const foundIdx = gallery.images.findIndex(item => src.includes(item.img.split('/').pop()));
+    if (foundIdx >= 0) {
+      openScopeModal(foundIdx);
+    } else {
+      scopeModal.classList.add('open');
+      if (scopeImg) {
+        scopeImg.src = src;
+        scopeImg.alt = title;
+      }
+      if (scopeName) scopeName.textContent = title;
+      if (scopeCounter) scopeCounter.textContent = '⛶ Zoom';
+    }
+  }
+
+  function updateModalLanguage() {
+    if (!currentConfig) return;
+
+    // Journey modal
+    if (currentConfig.journeyModal) {
+      const m = currentConfig.journeyModal;
+      if (journeyModalTitle) {
+        journeyModalTitle.innerHTML = `<span>${m.title}</span> <span class="badge badge-green" id="journey-modal-counter">${journeyPhoneCount} / 4</span>`;
+      }
+      if (journeyCloseBtn) journeyCloseBtn.textContent = m.closeBtn;
+    }
+
+    // Scope gallery modal
+    if (currentConfig.scopeGallery) {
+      const g = currentConfig.scopeGallery;
+      if (scopeCloseBtn) scopeCloseBtn.textContent = g.closeBtn;
+      if (scopeName) scopeName.textContent = g.title;
+    }
+
+    // QR Zoom modal
+    if (qrZoomBranch) {
+      qrZoomBranch.textContent = currentLang === 'ja'
+        ? '📍 東京本店 (Tokyo Flagship Branch)'
+        : '📍 Tokyo Flagship Branch';
+    }
+    if (qrZoomHint) {
+      qrZoomHint.textContent = currentLang === 'ja'
+        ? '📱 スマホのカメラまたはLINEのQRリーダーで読み取ってください'
+        : '📱 Mở Camera hoặc tính năng Quét mã trên ứng dụng LINE để quét';
+    }
+    if (qrZoomCloseBtn) {
+      qrZoomCloseBtn.textContent = currentLang === 'ja' ? '✕ 閉じる (Esc)' : '✕ Đóng (Esc)';
+    }
+  }
+
+  // =========================================================================
+  // Multi-Phone Journey Lightbox Modal Logic
+  // =========================================================================
+  function renderJourneyPhones(count) {
+    if (!journeyStage || !currentConfig || !currentConfig.journeyModal) return;
+    journeyPhoneCount = Math.max(1, Math.min(4, count));
+    const modalConfig = currentConfig.journeyModal;
+
+    journeyStage.className = `journey-phones-stage count-${journeyPhoneCount}`;
+
+    let phonesHtml = '';
+    for (let i = 0; i < journeyPhoneCount; i++) {
+      const stepData = modalConfig.steps[i] || modalConfig.steps[0];
+      phonesHtml += `
+        <div class="journey-phone-item">
+          <div class="phone-mockup">
+            <div class="phone-header-notch"></div>
+            <div class="phone-screen">
+              <img src="${stepData.img}" alt="${stepData.title}">
+            </div>
+          </div>
+          <div class="phone-step-label">${stepData.title}</div>
+        </div>
+      `;
+    }
+    journeyStage.innerHTML = phonesHtml;
+
+    const counter = document.getElementById('journey-modal-counter');
+    if (counter) counter.textContent = `${journeyPhoneCount} / 4`;
+
+    if (journeyPrevPhoneBtn) journeyPrevPhoneBtn.disabled = (journeyPhoneCount <= 1);
+    if (journeyNextPhoneBtn) journeyNextPhoneBtn.disabled = (journeyPhoneCount >= 4);
+  }
+
+  function openJourneyModal() {
+    if (!journeyModal) return;
+    journeyModal.classList.add('open');
+    renderJourneyPhones(journeyPhoneCount);
+  }
+
+  function closeJourneyModal() {
+    if (!journeyModal) return;
+    journeyModal.classList.remove('open');
+  }
+
+  function addJourneyPhone() {
+    if (journeyPhoneCount < 4) {
+      renderJourneyPhones(journeyPhoneCount + 1);
+    }
+  }
+
+  function removeJourneyPhone() {
+    if (journeyPhoneCount > 1) {
+      renderJourneyPhones(journeyPhoneCount - 1);
+    }
+  }
+
+  if (journeyCloseBtn) journeyCloseBtn.addEventListener('click', closeJourneyModal);
+  if (journeyPrevPhoneBtn) journeyPrevPhoneBtn.addEventListener('click', removeJourneyPhone);
+  if (journeyNextPhoneBtn) journeyNextPhoneBtn.addEventListener('click', addJourneyPhone);
+
+  if (journeyModal) {
+    journeyModal.addEventListener('click', (e) => {
+      if (e.target === journeyModal) closeJourneyModal();
+    });
+  }
+
+  // =========================================================================
+  // Scope Gallery Modal Logic (Slide 4: 5 images)
+  // =========================================================================
+  function renderScopeImage(idx) {
+    if (!scopeModal || !currentConfig || !currentConfig.scopeGallery) return;
+    const gallery = currentConfig.scopeGallery;
+    const totalImgs = gallery.images.length;
+    scopeGalleryIndex = (idx + totalImgs) % totalImgs;
+
+    const curImgData = gallery.images[scopeGalleryIndex];
+    if (scopeImg) {
+      scopeImg.src = curImgData.img;
+      scopeImg.alt = curImgData.title;
+    }
+    if (scopeName) scopeName.textContent = curImgData.title;
+    if (scopeCounter) scopeCounter.textContent = `${scopeGalleryIndex + 1} / ${totalImgs}`;
+  }
+
+  function openScopeModal(idx = 0) {
+    if (!scopeModal) return;
+    scopeModal.classList.add('open');
+    renderScopeImage(idx);
+  }
+
+  function closeScopeModal() {
+    if (!scopeModal) return;
+    scopeModal.classList.remove('open');
+  }
+
+  function prevScopeImg() {
+    renderScopeImage(scopeGalleryIndex - 1);
+  }
+
+  function nextScopeImg() {
+    renderScopeImage(scopeGalleryIndex + 1);
+  }
+
+  if (scopeCloseBtn) scopeCloseBtn.addEventListener('click', closeScopeModal);
+  if (scopePrevBtn) scopePrevBtn.addEventListener('click', prevScopeImg);
+  if (scopeNextBtn) scopeNextBtn.addEventListener('click', nextScopeImg);
+
+  if (scopeModal) {
+    scopeModal.addEventListener('click', (e) => {
+      if (e.target === scopeModal) closeScopeModal();
+    });
+  }
+
+  // =========================================================================
+  // QR Zoom Modal Logic (Slide 8)
+  // =========================================================================
+  function openQrModal() {
+    if (!qrZoomModal) return;
+    qrZoomModal.classList.add('open');
+  }
+
+  function closeQrModal() {
+    if (!qrZoomModal) return;
+    qrZoomModal.classList.remove('open');
+  }
+
+  if (qrZoomCloseBtn) qrZoomCloseBtn.addEventListener('click', closeQrModal);
+  if (qrZoomModal) {
+    qrZoomModal.addEventListener('click', (e) => {
+      if (e.target === qrZoomModal || e.target.classList.contains('qr-zoom-container')) {
+        closeQrModal();
+      }
+    });
+  }
+
+  // =========================================================================
+  // Fullscreen Mode Management
+  // =========================================================================
+  function updateFullscreenState() {
+    const isFull = !!document.fullscreenElement;
+    if (container) {
+      container.classList.toggle('is-fullscreen', isFull);
+    }
+    if (fullscreenBtn) {
+      fullscreenBtn.textContent = isFull ? '✕' : '⛶';
+      fullscreenBtn.title = isFull ? 'Thu nhỏ (F)' : 'Toàn màn hình (F)';
+    }
+  }
+
+  document.addEventListener('fullscreenchange', updateFullscreenState);
+  document.addEventListener('webkitfullscreenchange', updateFullscreenState);
+
+  function toggleFullscreen() {
+    const elem = document.getElementById('deck-container');
+    if (!document.fullscreenElement) {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+  }
+
+  // =========================================================================
   // Keyboard Controls
+  // =========================================================================
   document.addEventListener('keydown', (e) => {
+    // 1. QR Zoom Modal controls
+    if (qrZoomModal && qrZoomModal.classList.contains('open')) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeQrModal();
+        return;
+      }
+      return;
+    }
+
+    // 2. Scope Gallery Modal controls
+    if (scopeModal && scopeModal.classList.contains('open')) {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        nextScopeImg();
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevScopeImg();
+        return;
+      }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeScopeModal();
+        return;
+      }
+      return;
+    }
+
+    // 3. Customer Journey Modal controls
+    if (journeyModal && journeyModal.classList.contains('open')) {
+      if (e.key === 'ArrowRight' || e.key === '+' || e.key === '=') {
+        e.preventDefault();
+        addJourneyPhone();
+        return;
+      }
+      if (e.key === 'ArrowLeft' || e.key === '-') {
+        e.preventDefault();
+        removeJourneyPhone();
+        return;
+      }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeJourneyModal();
+        return;
+      }
+      return;
+    }
+
+    // 3. Presentation Slide Controls
     switch (e.key) {
       case 'ArrowRight':
       case 'PageDown':
@@ -299,20 +652,6 @@ document.addEventListener('DOMContentLoaded', () => {
         break;
     }
   });
-
-  // Toggle Fullscreen
-  function toggleFullscreen() {
-    const elem = document.getElementById('deck-container');
-    if (!document.fullscreenElement) {
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    }
-  }
 
   // Toggle Language
   function toggleLanguage() {

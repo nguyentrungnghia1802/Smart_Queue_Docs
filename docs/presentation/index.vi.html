@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LINE Smart Queue Assistant — Bài Thuyết Trình (Tiếng Việt)</title>
+  <title>LINE Smart Queue Assistant — Bài Thuyết Trình</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,9 +19,9 @@
 
     <!-- Fixed Controls Overlay -->
     <div id="deck-controls">
-      <a href="../../index.html" class="control-btn" id="dashboard-btn" style="text-decoration:none; width:auto; padding:0 10px; font-size:12px; font-weight:700;" title="Trở về Dashboard Hub">🏠 Dashboard</a>
+      <a href="../../index.html" class="control-btn" id="dashboard-btn" style="text-decoration:none; width:auto; padding:0 10px; font-size:12px; font-weight:700;" title="Dashboard">🏠 Dashboard</a>
       <button class="control-btn" id="prev-btn" title="Slide trước (←)">←</button>
-      <span class="slide-counter" id="slide-counter">01 / 07</span>
+      <span class="slide-counter" id="slide-counter">01 / 08</span>
       <button class="control-btn" id="next-btn" title="Slide tiếp (→)">→</button>
       <button class="control-btn" id="notes-btn" title="Mở Speaker Notes (P)">📝</button>
       <button class="control-btn" id="fullscreen-btn" title="Toàn màn hình (F)">⛶</button>
@@ -35,6 +35,66 @@
         <button id="close-notes-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
       </div>
       <div id="presenter-notes-content"></div>
+    </div>
+
+    <!-- Multi-Phone Journey Lightbox Modal (Customer Journey) -->
+    <div id="journey-phone-modal">
+      <div class="journey-modal-header">
+        <div class="journey-modal-title" id="journey-modal-title">
+          <span>📱 Luồng trải nghiệm LINE LIFF (1 - 4 bước)</span>
+          <span class="badge badge-green" id="journey-modal-counter">1 / 4</span>
+        </div>
+        <div class="journey-modal-controls">
+          <button class="journey-modal-btn" id="journey-close-btn">✕ Đóng (Esc)</button>
+        </div>
+      </div>
+      <div class="journey-stage-wrapper">
+        <button class="journey-stage-arrow prev" id="journey-prev-phone-btn" title="Bước trước (←)">◀</button>
+        <div id="journey-phones-stage" class="journey-phones-stage count-1">
+          <!-- Dynamic phone cards injected here -->
+        </div>
+        <button class="journey-stage-arrow next" id="journey-next-phone-btn" title="Thêm bước tiếp (→)">▶</button>
+      </div>
+    </div>
+
+    <!-- Scope Gallery Lightbox Modal (Product Scope) -->
+    <div id="scope-gallery-modal">
+      <div class="scope-gallery-header">
+        <div class="scope-gallery-title" id="scope-gallery-title">
+          <span id="scope-gallery-name">🖥️ Bộ ảnh giao diện & Quản trị hệ thống</span>
+          <span class="badge badge-green" id="scope-gallery-counter">1 / 5</span>
+        </div>
+        <div class="journey-modal-controls">
+          <button class="journey-modal-btn" id="scope-gallery-close-btn">✕ Đóng (Esc)</button>
+        </div>
+      </div>
+      <div class="scope-gallery-stage">
+        <button class="journey-stage-arrow prev" id="scope-gallery-prev-btn" title="Ảnh trước (←)">◀</button>
+        <img id="scope-gallery-img" src="../images/slide/01-landing-page.png" alt="Ảnh giao diện hệ thống">
+        <button class="journey-stage-arrow next" id="scope-gallery-next-btn" title="Ảnh tiếp (→)">▶</button>
+      </div>
+    </div>
+
+    <!-- QR Zoom Lightbox Modal (Live Demo QR Extra-Large) -->
+    <div id="qr-zoom-modal">
+      <div class="qr-zoom-container">
+        <button class="qr-zoom-close-btn" id="qr-zoom-close-btn">✕ Đóng (Esc)</button>
+        <div class="qr-zoom-card">
+          <div class="qr-zoom-header">
+            <span class="qr-zoom-branch" id="qr-zoom-branch">📍 Tokyo Flagship Branch</span>
+            <span class="badge badge-green">Queue Open / LIVE DEMO</span>
+          </div>
+          <div class="qr-zoom-frame">
+            <img src="../images/slide/live-demo-qr.svg" alt="Live Demo QR Code">
+          </div>
+          <div class="qr-zoom-hint" id="qr-zoom-hint">
+            📱 Mở Camera hoặc tính năng Quét mã trên ứng dụng LINE để quét
+          </div>
+          <div class="qr-zoom-url">
+            https://liff.line.me/2010516188-KAcYkLTh/qr/70f7e730ae944f1635b18a51c5408b563969
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

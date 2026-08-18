@@ -3,7 +3,7 @@
 window.PRESENTATION_CONFIG_JA = {
   meta: {
     lang: "ja",
-    title: "LINE Smart Queue Assistant — プレゼンテーション (日本語)",
+    title: "LINE Smart Queue Assistant — プレゼンテーション",
     controls: {
       dashboardBtn: "🏠 ダッシュボード",
       prevBtnTitle: "前のスライド (←)",
@@ -15,61 +15,130 @@ window.PRESENTATION_CONFIG_JA = {
       switchLangTitle: "ベトナム語に切り替え"
     },
     notesDrawerTitle: "発表者ノート",
-    notesEmpty: "このスライドには発表者ノートがありません。"
+    notesEmpty: "このスライドには発表者ノートがありません。",
+    footprintsLabel: "スライド番号"
+  },
+  journeyModal: {
+    title: "📱 LINE LIFF 操作フロー (1〜4画面)",
+    closeBtn: "✕ 閉じる (Esc)",
+    steps: [
+      { title: "ステップ1: 支店QR読取・キュー選択", img: "../images/slide/30-customer-queue-selection-mobile.png" },
+      { title: "ステップ2: メニュー・サービス選択", img: "../images/slide/30-customer-queue-selection-mobile.png" },
+      { title: "ステップ3: 受付情報入力・確定", img: "../images/slide/30-customer-queue-selection-mobile.png" },
+      { title: "ステップ4: チケット確認・通知待機", img: "../images/slide/30-customer-queue-selection-mobile.png" }
+    ]
+  },
+  scopeGallery: {
+    title: "🖥️ 管理画面・運用UIギャラリー",
+    closeBtn: "✕ 閉じる (Esc)",
+    images: [
+      { title: "1. 公開トップページ (Landing Page)", img: "../images/slide/01-landing-page.png" },
+      { title: "2. 商品・メニューカタログ設定 (Owner Catalog)", img: "../images/slide/13-owner-product-catalog.png" },
+      { title: "3. 支店・キュー管理ダッシュボード (Branch Manager)", img: "../images/slide/19-branch-manager-dashboard.png" },
+      { title: "4. 在庫・引当管理 (Stock Management)", img: "../images/slide/25-branch-stock.png" },
+      { title: "5. 店舗スタッフ受付ワークスペース (Staff Workspace)", img: "../images/slide/40-staff-workspace-desktop.png" }
+    ]
   },
   slides: [
     {
       id: "slide-1",
-      tag: "Slide 01 — 課題",
-      headerBadge: "The Problem",
+      tag: "表紙",
+      headerBadge: "LINE エコシステム",
       title: "LINE Smart Queue Assistant",
-      subtitle: "受付付近での待機から、LINEによるデジタル順番待ち体験へ",
+      subtitle: "LINE連携スマート順番待ち＆現場運用プラットフォーム",
       bodyHtml: `
-        <div class="content-text" style="gap: 16px;">
-          <div class="feature-card" style="border-left: 4px solid #EF4444; padding: 14px 18px;">
-            <h3 style="color: #DC2626; font-size: 16px; margin-bottom: 2px;">🚶‍♂️ 受付付近から離れられない</h3>
-            <p style="font-size: 14px; color: var(--ink-soft); line-height: 1.45;">発券後に待合スペースでの待機を余儀なくされ、自由に行動したり別の用事を済ませられません。</p>
+        <div class="content-text" style="gap: 14px;">
+          <div style="background: linear-gradient(135deg, rgb(233 250 240 / 0.95), rgb(255 255 255 / 0.8)); border: 1.5px solid var(--line-green); border-radius: 16px; padding: 16px 20px; box-shadow: var(--shadow-sm);">
+            <div style="display: inline-block; padding: 2px 8px; border-radius: 6px; background: var(--line-green); color: #062b19; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
+              System Design &amp; Live Demo
+            </div>
+            <div style="font-weight: 750; font-size: 17px; color: var(--brand-deep); line-height: 1.4;">
+              “受付付近での待機から、LINEによる見える・離れられるデジタル順番待ちへ”
+            </div>
           </div>
-          <div class="feature-card" style="border-left: 4px solid #F59E0B; padding: 14px 18px;">
-            <h3 style="color: #D97706; font-size: 16px; margin-bottom: 2px;">⏳ 待ち時間・順番が不透明</h3>
-            <p style="font-size: 14px; color: var(--ink-soft); line-height: 1.45;">目安待ち時間（ETA）や前方の待ち人数が分からず、いつ呼ばれるか不安が生じます。</p>
-          </div>
-          <div class="feature-card" style="border-left: 4px solid #3B82F6; padding: 14px 18px;">
-            <h3 style="color: #2563EB; font-size: 16px; margin-bottom: 2px;">📢 スタッフの手動・口頭呼出し</h3>
-            <p style="font-size: 14px; color: var(--ink-soft); line-height: 1.45;">呼び出し負担や聞き逃しリスクが生じ、受付エリアの過密化と運用負荷につながります。</p>
-          </div>
-          <div style="background: linear-gradient(135deg, rgb(233 250 240 / 0.95), rgb(255 255 255 / 0.8)); border: 1.5px solid var(--line-green); border-radius: 14px; padding: 12px 18px; text-align: center; font-weight: 700; font-size: 16px; color: var(--brand-deep); box-shadow: var(--shadow-sm);">
-            “お客様は並びたいのではない — いつ戻ればいいかを知りたい。”
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <div class="feature-card" style="padding: 12px 14px; gap: 4px; border-top: 3px solid var(--line-green);">
+              <div style="font-size: 16px;">📱</div>
+              <h3 style="font-size: 13px; color: var(--brand-ink);">LINE完結の受付体験</h3>
+              <p style="font-size: 11px; line-height: 1.35;">支店QRスキャンでLIFF即時起動。専用アプリ不要。</p>
+            </div>
+            <div class="feature-card" style="padding: 12px 14px; gap: 4px; border-top: 3px solid #3B82F6;">
+              <div style="font-size: 16px;">🐘</div>
+              <h3 style="font-size: 13px; color: #1e3a8a;">PostgreSQL (確定データ)</h3>
+              <p style="font-size: 11px; line-height: 1.35;">ACIDトランザクション＆Outboxで二重受付を完全防止。</p>
+            </div>
+            <div class="feature-card" style="padding: 12px 14px; gap: 4px; border-top: 3px solid #8B5CF6;">
+              <div style="font-size: 16px;">🔔</div>
+              <h3 style="font-size: 13px; color: #4c1d95;">高信頼プッシュ配信</h3>
+              <p style="font-size: 11px; line-height: 1.35;">呼出・対応・完了時にMessaging APIでリアルタイム通知。</p>
+            </div>
           </div>
         </div>
         <div class="media-container">
           <div class="browser-frame">
             <div class="browser-content">
-              <img src="../images/guide/02-japanese-waiting-context.png" alt="店舗での順番待ち課題">
+              <img src="../images/slide/01-landing-page.png" alt="公開トップページ">
             </div>
           </div>
         </div>
       `,
       notes: `
         皆様、本日は <strong>LINE Smart Queue Assistant</strong> のプレゼンテーションをご覧いただきありがとうございます。<br><br>
-        今回の個人プロジェクトは、店舗、クリニック、サロン等における非常に身近な「順番待ち」の課題から始まりました。<br><br>
-        課題は待ち時間そのものだけでなく、「あとどれくらいで呼ばれるか分からない」という不透明さにあります。スタッフ側も順番管理や口頭での呼び出しに追われ続けています。<br><br>
-        そこで「お客様は受付の前に居続ける必要はなく、自分の順番と呼出し通知さえ把握できればよい」というシンプルな発想でLINE Smart Queue Assistantを構築しました。
+        本プロダクトは、店舗、サロン、クリニック等の対面サービスにおいて、受付、予約、注文、決済、顧客通知をLINE上で一貫して提供するスマート順番待ちプラットフォームです。<br><br>
+        本日の発表は2部構成となっております。前半7分で製品概要、カスタマージャーニー、バックエンドの技術設計をご説明し、後半8分では会場の皆様にスマートフォンで実際のQRコードをスキャンしていただくライブデモを実施します。
       `
     },
     {
       id: "slide-2",
-      tag: "Slide 02 — カスタマージャーニー",
-      headerBadge: "End-to-End Flow",
-      title: "極めて短い顧客ジャーニー",
-      subtitle: "無駄を削ぎ落としたLINE-first体験と、直感的な現場オペレーションの直結",
+      tag: "課題と背景",
+      headerBadge: "現状の課題",
+      title: "LINE Smart Queue Assistant",
+      subtitle: "受付付近での待機から、LINEによるデジタル順番待ち体験へ",
       bodyHtml: `
         <div class="content-text" style="gap: 14px;">
-          <!-- Main visual flow banner -->
-          <div style="display: flex; align-items: center; justify-content: space-between; background: #0b4b2d; color: white; padding: 10px 14px; border-radius: 12px; font-weight: 700; font-size: 13px; letter-spacing: 0.02em;">
+          <div class="feature-card" style="border-left: 4px solid #EF4444; padding: 14px 18px;">
+            <h3 style="color: #DC2626; font-size: 15px; margin-bottom: 2px;">🚶‍♂️ 受付付近での拘束</h3>
+            <p style="font-size: 13px; color: var(--ink-soft); line-height: 1.45;">発券後に待合エリア待機を余儀なくされ、自由な行動や買い回りが制限される。</p>
+          </div>
+          <div class="feature-card" style="border-left: 4px solid #F59E0B; padding: 14px 18px;">
+            <h3 style="color: #D97706; font-size: 15px; margin-bottom: 2px;">⏳ 待ち時間・順序の不透明さ</h3>
+            <p style="font-size: 13px; color: var(--ink-soft); line-height: 1.45;">目安待ち時間（ETA）や前方人数の情報がなく、呼出し時期が読めない不安。</p>
+          </div>
+          <div class="feature-card" style="border-left: 4px solid #3B82F6; padding: 14px 18px;">
+            <h3 style="color: #2563EB; font-size: 15px; margin-bottom: 2px;">📢 手動・口頭呼出しの負荷</h3>
+            <p style="font-size: 13px; color: var(--ink-soft); line-height: 1.45;">スタッフの呼出し負担、聞き逃しリスク、受付エリアの混雑と運用ストレス。</p>
+          </div>
+          <div style="background: linear-gradient(135deg, rgb(233 250 240 / 0.95), rgb(255 255 255 / 0.8)); border: 1.5px solid var(--line-green); border-radius: 14px; padding: 12px 18px; text-align: center; font-weight: 700; font-size: 15px; color: var(--brand-deep); box-shadow: var(--shadow-sm);">
+            “お客様が知りたいのは「順番」ではなく「いつ戻ればいいか」”
+          </div>
+        </div>
+        <div class="media-container">
+          <div class="browser-frame">
+            <div class="browser-content">
+              <img src="../images/slide/02-japanese-waiting-context.png" alt="店舗での順番待ち課題">
+            </div>
+          </div>
+        </div>
+      `,
+      notes: `
+        今回のプロジェクトは、店舗やクリニック等における非常に身近な「順番待ち」の課題から始まりました。<br><br>
+        課題は待ち時間そのものだけでなく、「あとどれくらいで呼ばれるか分からない」という不透明さにあります。<br><br>
+        「お客様は受付の前に居続ける必要はなく、自分の順番と呼出し通知さえ把握できればよい」というシンプルな発想で構築しました。
+      `
+    },
+    {
+      id: "slide-3",
+      tag: "カスタマージャーニー",
+      headerBadge: "エンドツーエンドフロー",
+      title: "極めて短い顧客ジャーニー",
+      subtitle: "無駄を排したLINE-first受付と現場オペレーションの直結",
+      bodyHtml: `
+        <div class="content-text" style="gap: 14px;">
+          <!-- Main visual flow banner (compact single line) -->
+          <div style="display: flex; align-items: center; justify-content: space-between; background: #0b4b2d; color: white; padding: 9px 14px; border-radius: 12px; font-weight: 700; font-size: 11px; white-space: nowrap; letter-spacing: 0.01em;">
             <span>📱 QR</span>
             <span style="color: #4ade80;">→</span>
-            <span>💬 LINE / LIFF</span>
+            <span>💬 LINE/LIFF</span>
             <span style="color: #4ade80;">→</span>
             <span>📋 キュー選択</span>
             <span style="color: #4ade80;">→</span>
@@ -85,25 +154,25 @@ window.PRESENTATION_CONFIG_JA = {
             <!-- Lane 1: Customer -->
             <div class="feature-card" style="border-left: 4px solid var(--line-green); padding: 12px 16px;">
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                <span class="badge badge-green" style="font-size: 11px;">Customer Lane</span>
-                <strong style="color: var(--brand-ink); font-size: 14px;">お客様のLINE上での体験</strong>
+                <span class="badge badge-green" style="font-size: 11px;">顧客レーン (Customer)</span>
+                <strong style="color: var(--brand-ink); font-size: 14px;">LINE上の顧客体験</strong>
               </div>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">1. Scan</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">支店QR読取</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">1. QR読取</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">支店固定QR</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">2. Book</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">キュー・商品選択</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">2. 受付・注文</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">キュー・メニュー</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">3. Track Ticket</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">3. 状態確認</div>
                   <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">待ち人数・ETA</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">4. Receive Msg</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">LINE通知受信</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">4. 通知受信</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">LINE呼出メッセージ</div>
                 </div>
               </div>
             </div>
@@ -111,35 +180,35 @@ window.PRESENTATION_CONFIG_JA = {
             <!-- Lane 2: Staff -->
             <div class="feature-card" style="border-left: 4px solid #3B82F6; padding: 12px 16px;">
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                <span class="badge" style="background: #e0f2fe; color: #0369a1; border-color: rgba(3,105,161,0.2); font-size: 11px;">Staff Lane</span>
-                <strong style="color: #0369a1; font-size: 14px;">店舗スタッフの受付画面（Workspace）</strong>
+                <span class="badge" style="background: #e0f2fe; color: #0369a1; border-color: rgba(3,105,161,0.2); font-size: 11px;">店舗レーン (Staff)</span>
+                <strong style="color: #0369a1; font-size: 14px;">現場スタッフの受付管理</strong>
               </div>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: #1d4ed8;">1. See Queue</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">行列確認</div>
+                  <div style="font-weight: 800; font-size: 13px; color: #1d4ed8;">1. 行列確認</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">一覧表示</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: #1d4ed8;">2. Call</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">呼出（Push通知）</div>
+                  <div style="font-weight: 800; font-size: 13px; color: #1d4ed8;">2. 呼出</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Push通知送信</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: #1d4ed8;">3. Serve</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">接客対応中</div>
+                  <div style="font-weight: 800; font-size: 13px; color: #1d4ed8;">3. 対応中</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">接客・決済</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: #1d4ed8;">4. Complete</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">対応完了</div>
+                  <div style="font-weight: 800; font-size: 13px; color: #1d4ed8;">4. 完了</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">処理完了</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="media-container">
-          <div class="phone-mockup">
+          <div class="phone-mockup interactive-trigger" id="journey-phone-trigger" title="クリックで拡大表示">
             <div class="phone-header-notch"></div>
             <div class="phone-screen">
-              <img src="../images/guide/30-customer-queue-selection-mobile.png" alt="LINE上でのキュー選択画面">
+              <img src="../images/slide/30-customer-queue-selection-mobile.png" alt="LINE上でのキュー選択画面">
             </div>
           </div>
         </div>
@@ -154,65 +223,64 @@ window.PRESENTATION_CONFIG_JA = {
       `
     },
     {
-      id: "slide-3",
-      tag: "Slide 03 — プロダクトスコープ",
-      headerBadge: "Domain Scope",
-      title: "単なる「発券画面」にとどまらない広がり",
-      subtitle: "シンプルな顧客フローの背後で連携する複数のドメイン領域",
+      id: "slide-4",
+      tag: "プロダクトスコープ",
+      headerBadge: "ドメインスコープ",
+      title: "単なる「発券画面」を超えた設計",
+      subtitle: "受付フローを支える10のバックエンドドメイン",
       bodyHtml: `
         <div class="content-text" style="gap: 12px;">
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">👤 LINE / LIFF Identity</h3>
-              <p style="font-size: 12px; line-height: 1.35;">LINE認証 &amp; プロファイル自動連携</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">👤 LINE / LIFF 認証</h3>
+              <p style="font-size: 11px; line-height: 1.35;">プロファイル連携・セッション管理</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">🏢 Multi-tenant Org</h3>
-              <p style="font-size: 12px; line-height: 1.35;">企業・テナントごとの安全なデータ分離</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">🏢 マルチテナント組織</h3>
+              <p style="font-size: 11px; line-height: 1.35;">企業ごとの安全なデータ分離</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">📍 Branch &amp; Multi-Queue</h3>
-              <p style="font-size: 12px; line-height: 1.35;">1固定QRで複数キューを並行管理</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">📍 支店・マルチキュー</h3>
+              <p style="font-size: 11px; line-height: 1.35;">1固定QRで複数キューを並行管理</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">📦 Orders &amp; Booking</h3>
-              <p style="font-size: 12px; line-height: 1.35;">チケットと注文・サービス受付の統合</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">📦 注文・受付連携</h3>
+              <p style="font-size: 11px; line-height: 1.35;">チケットと商品注文の不可分統合</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">🏷️ Inventory &amp; Stock</h3>
-              <p style="font-size: 12px; line-height: 1.35;">トランザクション内での確実な在庫引当</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">🏷️ 在庫管理・引当</h3>
+              <p style="font-size: 11px; line-height: 1.35;">トランザクション内での確実な在庫ロック</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">💳 Demo Payment</h3>
-              <p style="font-size: 12px; line-height: 1.35;">決済境界・Webhook・返金フローの検証</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">💳 決済境界 (Demo)</h3>
+              <p style="font-size: 11px; line-height: 1.35;">Webhook・突合・返金フロー検証</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">🧑‍💼 Staff Operations</h3>
-              <p style="font-size: 12px; line-height: 1.35;">担当キューに制限された呼出・対応画面</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">🧑‍💼 スタッフ受付画面</h3>
+              <p style="font-size: 11px; line-height: 1.35;">担当キュー限定の呼出・対応画面</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">💬 LINE Messaging</h3>
-              <p style="font-size: 12px; line-height: 1.35;">自動プッシュ配信 &amp; リッチ通知</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">💬 LINE メッセージング</h3>
+              <p style="font-size: 11px; line-height: 1.35;">自動プッシュ配信＆リッチ通知</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">⚡ Realtime Updates</h3>
-              <p style="font-size: 12px; line-height: 1.35;">SSE無効化通知 &amp; RESTスナップショット</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">⚡ リアルタイム更新</h3>
+              <p style="font-size: 11px; line-height: 1.35;">SSE無効化通知 ＋ REST再取得</p>
             </div>
             <div class="feature-card" style="padding: 9px 12px; gap: 2px;">
-              <h3 style="font-size: 14px; color: var(--brand-deep);">🌐 JA / VI / EN</h3>
-              <p style="font-size: 12px; line-height: 1.35;">日本語・ベトナム語・英語の3言語対応</p>
+              <h3 style="font-size: 13px; color: var(--brand-deep);">🌐 3言語対応 (i18n)</h3>
+              <p style="font-size: 11px; line-height: 1.35;">日本語・ベトナム語・英語</p>
             </div>
           </div>
-          <!-- Subtle Disclaimer -->
-          <div style="background: rgba(254, 243, 199, 0.75); border: 1px solid #f59e0b; border-radius: 10px; padding: 7px 12px; font-size: 12px; color: #92400e; display: flex; align-items: center; gap: 8px;">
+          <div style="background: rgba(254, 243, 199, 0.85); border: 1px solid #f59e0b; border-radius: 10px; padding: 7px 12px; font-size: 11px; color: #92400e; display: flex; align-items: center; gap: 8px;">
             <span style="font-weight: 700;">⚠️ ご注意:</span>
-            <span><strong>本番アーキテクチャ志向のデモ環境</strong>であり、実際の金銭決済は発生しません。</span>
+            <span><strong>本番アーキテクチャ志向のデモ環境</strong>（実金銭決済は非発生）</span>
           </div>
         </div>
         <div class="media-container">
-          <div class="browser-frame">
+          <div class="browser-frame interactive-trigger" id="scope-gallery-trigger" title="クリックで5枚の管理画面を拡大表示">
             <div class="browser-content">
-              <img src="../images/guide/01-landing-page.png" alt="公開トップページ">
+              <img src="../images/slide/01-landing-page.png" alt="プロダクト管理画面">
             </div>
           </div>
         </div>
@@ -225,98 +293,83 @@ window.PRESENTATION_CONFIG_JA = {
       `
     },
     {
-      id: "slide-4",
-      tag: "Slide 04 — アーキテクチャ",
-      headerBadge: "System Architecture",
-      title: "Simple product flow, serious backend boundaries",
+      id: "slide-5",
+      tag: "システムアーキテクチャ",
+      headerBadge: "アーキテクチャ",
+      title: "シンプルな顧客体験、堅牢なバックエンド設計",
       subtitle: "TypeScript Modular Monolith、PostgreSQLによる確実な状態管理、非同期Outbox配信",
       bodyHtml: `
-        <div style="display: grid; grid-template-columns: 1.75fr 1fr; gap: 18px; align-items: center;">
-          <!-- Left: Flow Diagram -->
-          <div style="display: flex; flex-direction: column; gap: 7px; background: rgba(255, 255, 255, 0.65); border: 1px solid var(--border-color); border-radius: 18px; padding: 12px 16px; box-shadow: var(--shadow-sm);">
-            
-            <!-- Layer 1: Client -->
-            <div style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid #d1fae5; border-radius: 10px; padding: 7px 12px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 16px;">📱💻</span>
-                <div>
-                  <strong style="color: var(--brand-ink); font-size: 13px;">Customer / Staff Browser</strong>
-                  <div style="font-size: 11px; color: var(--text-muted);">React + Vite SPA • Mobile LINE LIFF &amp; Desktop Web</div>
-                </div>
+        <div style="display: grid; grid-template-columns: 1.45fr 1fr; gap: 18px; width: 100%; align-items: center;">
+          
+          <!-- Left: Structure & Pipeline Cards -->
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Tier 1: Client -->
+            <div class="feature-card" style="padding: 10px 14px; gap: 2px; border-left: 4px solid #38bdf8;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <strong style="color: var(--brand-ink); font-size: 13px;">📱 💻 クライアント層 (Client Tier)</strong>
+                <span class="badge" style="font-size: 9px;">React SPA</span>
               </div>
-              <span class="badge badge-green" style="font-size: 10px;">Client Tier</span>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.35;">LINE LIFF (モバイル) ＋ Web (デスクトップ)</p>
             </div>
 
             <!-- Connector 1 -->
-            <div style="display: flex; align-items: center; justify-content: center; color: var(--brand-deep); font-size: 11px; font-weight: 700; font-family: var(--font-family-code);">
-              <span>↓ HTTPS (REST APIs + Server-Sent Events / SSE)</span>
+            <div style="text-align: center; color: var(--brand-deep); font-size: 10px; font-family: var(--font-family-code); font-weight: 700;">
+              ↓ HTTPS (REST APIs ＋ Server-Sent Events / SSE) ↓
             </div>
 
-            <!-- Layer 2: API & Outbox -->
-            <div style="display: flex; align-items: center; justify-content: space-between; background: #f0fdf4; border: 1.5px solid var(--line-green); border-radius: 10px; padding: 7px 12px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 16px;">⚙️</span>
-                <div>
-                  <strong style="color: var(--brand-deep); font-size: 13px;">Express API (Modular Monolith)</strong>
-                  <div style="font-size: 11px; color: var(--ink-soft);">ACID Transaction • Auth Guards • Durable Outbox Writer</div>
-                </div>
+            <!-- Tier 2: Monolith API -->
+            <div class="feature-card" style="padding: 10px 14px; gap: 2px; border-left: 4px solid var(--line-green);">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <strong style="color: var(--brand-deep); font-size: 13px;">⚙️ バックエンドAPI (Express Monolith)</strong>
+                <span class="badge badge-green" style="font-size: 9px;">Core Backend</span>
               </div>
-              <span class="badge" style="background: #0b4b2d; color: white; font-size: 10px;">Backend Core</span>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.35;">ACIDトランザクション • 認可ガード • Durable Outbox生成</p>
             </div>
 
             <!-- Connector 2 -->
-            <div style="display: flex; align-items: center; justify-content: center; color: var(--brand-deep); font-size: 11px; font-weight: 700; font-family: var(--font-family-code);">
-              <span>↓ Commit Database &amp; Outbox Intent | Async Dispatch ↓</span>
+            <div style="text-align: center; color: var(--brand-deep); font-size: 10px; font-family: var(--font-family-code); font-weight: 700;">
+              ↓ DBコミット＆Outbox書込 ｜ 非同期ディスパッチ ↓
             </div>
 
-            <!-- Layer 3: Storage & Delivery -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-              <!-- PostgreSQL Box -->
-              <div style="background: #eef2ff; border: 1.5px solid #6366f1; border-radius: 10px; padding: 7px 10px;">
-                <div style="display: flex; align-items: center; justify-content: space-between;">
-                  <strong style="color: #3730a3; font-size: 12px;">🐘 PostgreSQL</strong>
-                  <span class="badge" style="background: #4338ca; color: white; font-size: 9px;">Authoritative</span>
-                </div>
-                <div style="font-size: 11px; color: #4338ca; margin-top: 3px;">Queues • Orders • Stock • Outbox</div>
+            <!-- Tier 3: Storage & Delivery -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="feature-card" style="padding: 9px 12px; gap: 2px; border-left: 3px solid #6366f1;">
+                <strong style="color: #3730a3; font-size: 12px;">🐘 PostgreSQL</strong>
+                <p style="font-size: 10px; color: #4338ca; line-height: 1.3;">唯一の確定データ (Queues, Orders, Outbox)</p>
               </div>
-
-              <!-- BullMQ / Worker Box -->
-              <div style="background: #ecfdf5; border: 1.5px solid #10b981; border-radius: 10px; padding: 7px 10px;">
-                <div style="display: flex; align-items: center; justify-content: space-between;">
-                  <strong style="color: #065f46; font-size: 12px;">⚡ Worker → LINE API</strong>
-                  <span class="badge badge-green" style="font-size: 9px;">Async Delivery</span>
-                </div>
-                <div style="font-size: 11px; color: #047857; margin-top: 3px;">BullMQ Queue • LINE Push API</div>
+              <div class="feature-card" style="padding: 9px 12px; gap: 2px; border-left: 3px solid #10b981;">
+                <strong style="color: #065f46; font-size: 12px;">⚡ LINEワーカー</strong>
+                <p style="font-size: 10px; color: #047857; line-height: 1.3;">BullMQ ➔ LINE Messaging API</p>
               </div>
             </div>
-
           </div>
 
-          <!-- Right: Redis Role & 2 Big Callouts -->
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <!-- Redis Card -->
-            <div class="feature-card" style="border-left: 4px solid #EF4444; padding: 10px 12px; gap: 3px;">
-              <div style="display: flex; align-items: center; justify-content: space-between;">
-                <strong style="color: #b91c1c; font-size: 13px;">🔴 Redis Coordination</strong>
-                <span class="badge" style="background: #fee2e2; color: #b91c1c; font-size: 9px;">Coordination</span>
-              </div>
-              <p style="font-size: 11px; line-height: 1.35; color: var(--ink-soft);">BullMQ Job Queue, Pub/Sub SSE invalidation, Short TTL cache &amp; Rate limiting.</p>
+          <!-- Right: Architecture Geometric Shape Diagram & Principles -->
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Shape Illustration Block -->
+            <div style="width: 100%; height: 110px; background: #ffffff; border: 1px solid #dce8df; border-radius: 12px; padding: 4px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
+              <img src="../images/slide/05-arch-shapes.svg" alt="アーキテクチャ図" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
 
-            <!-- Callout 1 -->
-            <div style="background: linear-gradient(135deg, #0b4b2d, #08713d); color: white; border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow-sm);">
-              <div style="font-size: 10px; font-weight: 800; color: #86efac; text-transform: uppercase; letter-spacing: 0.05em;">Source of Truth</div>
-              <div style="font-size: 14px; font-weight: 700; margin-top: 2px;">PostgreSQL = Business State</div>
-              <div style="font-size: 11px; color: #dcfce7; margin-top: 2px;">Queue, Order, Stock &amp; Outbox commit cùng transaction.</div>
+            <!-- Redis Coordination Card -->
+            <div class="feature-card" style="padding: 9px 12px; gap: 2px; border-left: 3px solid #ef4444;">
+              <strong style="color: #b91c1c; font-size: 12px;">🔴 Redis 協調レイヤー</strong>
+              <p style="font-size: 10px; color: var(--ink-soft); line-height: 1.35;">BullMQジョブキュー • SSE用Pub/Sub • 短期キャッシュ</p>
             </div>
 
-            <!-- Callout 2 -->
-            <div style="background: linear-gradient(135deg, #1e293b, #334155); color: white; border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow-sm);">
-              <div style="font-size: 10px; font-weight: 800; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em;">Coordination Layer</div>
-              <div style="font-size: 14px; font-weight: 700; margin-top: 2px;">Redis / BullMQ / SSE = Delivery</div>
-              <div style="font-size: 11px; color: #e2e8f0; margin-top: 2px;">非同期配信と調整を担い、業務データの決定権は持たない。</div>
+            <!-- Principle 1 -->
+            <div style="background: #eaf8ef; border: 1px solid #bbf7d0; border-radius: 10px; padding: 8px 12px;">
+              <div style="font-size: 9px; font-weight: 800; color: #08713d; text-transform: uppercase;">Source of Truth</div>
+              <div style="font-size: 12px; font-weight: 700; color: var(--brand-ink); margin-top: 1px;">PostgreSQL = 信頼できる唯一の情報源</div>
+            </div>
+
+            <!-- Principle 2 -->
+            <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 10px; padding: 8px 12px;">
+              <div style="font-size: 9px; font-weight: 800; color: #475569; text-transform: uppercase;">Coordination Layer</div>
+              <div style="font-size: 12px; font-weight: 700; color: #1e293b; margin-top: 1px;">Redis / BullMQ / SSE = 協調・非同期配信</div>
             </div>
           </div>
+
         </div>
       `,
       notes: `
@@ -328,65 +381,83 @@ window.PRESENTATION_CONFIG_JA = {
       `
     },
     {
-      id: "slide-5",
-      tag: "Slide 05 — 技術的挑戦",
-      headerBadge: "Core Engineering",
-      title: "特に注力した3つの技術課題",
-      subtitle: "データの整合性担保、厳格な認可境界、信頼性の高い非同期通知配信",
+      id: "slide-6",
+      tag: "コアエンジニアリング",
+      headerBadge: "技術的挑戦",
+      title: "注力した3つの技術課題",
+      subtitle: "データ整合性、認可境界、高信頼な非同期配信",
       bodyHtml: `
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%;">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 100%;">
           
           <!-- Card 1: Transactional Correctness -->
-          <div class="feature-card" style="border-top: 4px solid var(--line-green); padding: 16px 18px; justify-content: space-between;">
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="feature-card" style="border-top: 4px solid var(--line-green); padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
               <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span class="badge badge-green" style="font-size: 11px;">Challenge 01</span>
-                <span style="font-size: 18px;">🔒</span>
+                <span class="badge badge-green" style="font-size: 11px;">技術課題 01</span>
+                <span style="font-size: 16px;">🔒</span>
               </div>
-              <h3 style="font-size: 16px; color: var(--brand-ink); line-height: 1.3;">1. Transactional Correctness</h3>
-              <div style="font-size: 13px; font-weight: 700; color: var(--brand-deep);">Order + Ticket + Stock + Payment linkage</div>
-              <p style="font-size: 12px; color: var(--ink-soft); line-height: 1.45;">
-                チケット発行、注文明細、在庫引当を単一のACIDトランザクション内で不可分に処理。行ロックと制約で二重受付や在庫の過剰引当を防止。
+              <h3 style="font-size: 14px; color: var(--brand-ink); line-height: 1.3;">1. トランザクション整合性</h3>
+              <div style="font-size: 11px; font-weight: 700; color: var(--brand-deep);">発券 ＋ 注文 ＋ 在庫引当 ＋ 決済連動</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.4;">
+                チケット発行・注文明細・在庫引当を単一のACIDトランザクション内で不可分に処理。行ロックで過剰引当を防止。
               </p>
             </div>
-            <div style="background: rgba(6, 199, 85, 0.08); border: 1px dashed rgba(6, 199, 85, 0.3); border-radius: 8px; padding: 6px 10px; font-size: 11px; font-family: var(--font-family-code); color: var(--brand-ink);">
-              Transaction • Row Locks • Constraints • Idempotency
+            
+            <!-- Shape Illustration 1 -->
+            <div style="width: 100%; height: 76px; display: flex; align-items: center; justify-content: center;">
+              <img src="../images/slide/06-shape-transaction.svg" alt="トランザクション図" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+
+            <div style="background: rgba(6, 199, 85, 0.08); border: 1px dashed rgba(6, 199, 85, 0.3); border-radius: 8px; padding: 5px 8px; font-size: 10px; font-family: var(--font-family-code); color: var(--brand-ink); text-align: center;">
+              ACIDトランザクション • 行ロック • 制約
             </div>
           </div>
 
           <!-- Card 2: Authorization Boundaries -->
-          <div class="feature-card" style="border-top: 4px solid #3B82F6; padding: 16px 18px; justify-content: space-between;">
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="feature-card" style="border-top: 4px solid #3B82F6; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
               <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span class="badge" style="background: #e0f2fe; color: #0369a1; border-color: rgba(3,105,161,0.2); font-size: 11px;">Challenge 02</span>
-                <span style="font-size: 18px;">🛡️</span>
+                <span class="badge" style="background: #e0f2fe; color: #0369a1; border-color: rgba(3,105,161,0.2); font-size: 11px;">技術課題 02</span>
+                <span style="font-size: 16px;">🛡️</span>
               </div>
-              <h3 style="font-size: 16px; color: #1e3a8a; line-height: 1.3;">2. Authorization Boundaries</h3>
-              <div style="font-size: 13px; font-weight: 700; color: #1d4ed8;">Organization → Branch → Queue</div>
-              <p style="font-size: 12px; color: var(--ink-soft); line-height: 1.45;">
-                ブラウザから送られるIDを信用せず、認証セッションとDBから権限スコープを再導出。スタッフは配属店舗の担当キューのみ操作可能。
+              <h3 style="font-size: 14px; color: #1e3a8a; line-height: 1.3;">2. 認可境界とスコープ分離</h3>
+              <div style="font-size: 11px; font-weight: 700; color: #1d4ed8;">事業者 (Org) ➔ 店舗 ➔ 担当キュー</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.4;">
+                ブラウザからのIDを過信せず、認証セッションとDBから権限スコープを再導出。スタッフは担当キューのみ操作。
               </p>
             </div>
-            <div style="background: rgba(59, 130, 246, 0.08); border: 1px dashed rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 6px 10px; font-size: 11px; font-family: var(--font-family-code); color: #1e40af;">
-              Browser IDs are selectors, never authority
+
+            <!-- Shape Illustration 2 -->
+            <div style="width: 100%; height: 76px; display: flex; align-items: center; justify-content: center;">
+              <img src="../images/slide/06-shape-auth.svg" alt="認可境界図" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+
+            <div style="background: rgba(59, 130, 246, 0.08); border: 1px dashed rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 5px 8px; font-size: 10px; font-family: var(--font-family-code); color: #1e40af; text-align: center;">
+              ブラウザIDは選択肢、権限はサーバー判定
             </div>
           </div>
 
           <!-- Card 3: Reliable Async Delivery -->
-          <div class="feature-card" style="border-top: 4px solid #8B5CF6; padding: 16px 18px; justify-content: space-between;">
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="feature-card" style="border-top: 4px solid #8B5CF6; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
               <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span class="badge" style="background: #f3e8ff; color: #6b21a8; border-color: rgba(107,33,168,0.2); font-size: 11px;">Challenge 03</span>
-                <span style="font-size: 18px;">📬</span>
+                <span class="badge" style="background: #f3e8ff; color: #6b21a8; border-color: rgba(107,33,168,0.2); font-size: 11px;">技術課題 03</span>
+                <span style="font-size: 16px;">📬</span>
               </div>
-              <h3 style="font-size: 16px; color: #4c1d95; line-height: 1.3;">3. Reliable Async Delivery</h3>
-              <div style="font-size: 13px; font-weight: 700; color: #6d28d9;">PostgreSQL Outbox → Worker → LINE</div>
-              <p style="font-size: 12px; color: var(--ink-soft); line-height: 1.45;">
+              <h3 style="font-size: 14px; color: #4c1d95; line-height: 1.3;">3. 高信頼な非同期配信</h3>
+              <div style="font-size: 11px; font-weight: 700; color: #6d28d9;">永続化Outbox ➔ BullMQ ➔ LINE API</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.4;">
                 業務確定と通知送信を分離。Outbox意図を永続化し、冪等キーを用いた指数バックオフ付きリトライにより安全に配信。
               </p>
             </div>
-            <div style="background: rgba(139, 92, 246, 0.08); border: 1px dashed rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 6px 10px; font-size: 11px; font-family: var(--font-family-code); color: #5b21b6;">
-              Retry without rolling back business state
+
+            <!-- Shape Illustration 3 -->
+            <div style="width: 100%; height: 76px; display: flex; align-items: center; justify-content: center;">
+              <img src="../images/slide/06-shape-outbox.svg" alt="非同期配信図" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+
+            <div style="background: rgba(139, 92, 246, 0.08); border: 1px dashed rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 5px 8px; font-size: 10px; font-family: var(--font-family-code); color: #5b21b6; text-align: center;">
+              業務確定後の安全なリトライ＆重複防止
             </div>
           </div>
 
@@ -400,35 +471,54 @@ window.PRESENTATION_CONFIG_JA = {
       `
     },
     {
-      id: "slide-6",
-      tag: "Slide 06 — 信頼性",
-      headerBadge: "Failure Safety",
+      id: "slide-7",
+      tag: "障害耐性と信頼性",
+      headerBadge: "障害耐性",
       title: "ハッピーパスだけでは終わらせない設計",
       subtitle: "障害発生時にも業務状態を守り、安全に機能縮退（Graceful Degradation）する仕組み",
       bodyHtml: `
         <div class="content-text" style="gap: 10px;">
           <!-- Core Statement Highlight -->
-          <div style="background: linear-gradient(135deg, #0b4b2d, #08713d); color: #ffffff; border-radius: 12px; padding: 10px 16px; box-shadow: var(--shadow-sm); font-size: 15px; font-weight: 700;">
-            “Failure should degrade features — not corrupt business state.”
+          <div style="background: linear-gradient(135deg, #0b4b2d, #08713d); color: #ffffff; border-radius: 12px; padding: 10px 16px; box-shadow: var(--shadow-sm); font-size: 14px; font-weight: 750;">
+            “障害時は機能縮退にとどめ、業務データを絶対に破壊しない”
           </div>
 
-          <!-- 6 Short Principles -->
-          <div class="feature-card" style="padding: 10px 14px; gap: 6px;">
-            <ul class="content-list" style="gap: 6px; border-left: 2px solid var(--line-green); padding-left: 12px;">
-              <li style="font-size: 13px;"><strong>PostgreSQL remains authoritative:</strong> 業務状態は常にACIDデータベースが保証。</li>
-              <li style="font-size: 13px;"><strong>SSEは単なる無効化ヒント:</strong> イベント内容を鵜呑みにせず、最新スナップショットをREST再取得。</li>
-              <li style="font-size: 13px;"><strong>RESTポーリングへの自動フォールバック:</strong> SSE切断時、短周期ポーリングへ自動移行。</li>
-              <li style="font-size: 13px;"><strong>LINE通信障害がキュー状態を巻き戻さない:</strong> 外部APIエラーで店頭業務を停止させない設計。</li>
-              <li style="font-size: 13px;"><strong>ブラウザ側で勝手に決済完了を宣言させない:</strong> 決済成否はサーバー側検証・Webhook受信が必須。</li>
-              <li style="font-size: 13px;"><strong>CI / E2E / マイグレーション / バックアップ検証:</strong> 自動テスト群と復旧リハーサルの徹底。</li>
-            </ul>
+          <!-- 6 Spacious Bullet Cards Grid (2 columns x 3 rows) -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="feature-card" style="padding: 8px 12px; gap: 2px;">
+              <div style="font-weight: 750; font-size: 12px; color: var(--brand-deep);">🐘 PostgreSQL (ACID保証)</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.35;">業務状態の唯一の確定元として厳格保護</p>
+            </div>
+            <div class="feature-card" style="padding: 8px 12px; gap: 2px;">
+              <div style="font-weight: 750; font-size: 12px; color: var(--brand-deep);">⚡ SSE リアルタイム無効化</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.35;">更新トリガー通知 ＋ REST最新取得</p>
+            </div>
+            <div class="feature-card" style="padding: 8px 12px; gap: 2px;">
+              <div style="font-weight: 750; font-size: 12px; color: var(--brand-deep);">🔄 REST自動フォールバック</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.35;">SSE切断時は短周期ポーリングへ自動移行</p>
+            </div>
+            <div class="feature-card" style="padding: 8px 12px; gap: 2px;">
+              <div style="font-weight: 750; font-size: 12px; color: var(--brand-deep);">📬 LINE通信障害の隔離</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.35;">外部APIエラーでキュー受付を止めない設計</p>
+            </div>
+            <div class="feature-card" style="padding: 8px 12px; gap: 2px;">
+              <div style="font-weight: 750; font-size: 12px; color: var(--brand-deep);">🔒 サーバー決済検証</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.35;">クライアント単独の決済完了宣言不許可</p>
+            </div>
+            <div class="feature-card" style="padding: 8px 12px; gap: 2px;">
+              <div style="font-weight: 750; font-size: 12px; color: var(--brand-deep);">🧪 自動検証＆リハーサル</div>
+              <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.35;">CI / E2E / マイグレーション / 復旧検証</p>
+            </div>
           </div>
         </div>
-        <div class="media-container">
-          <div class="browser-frame">
+        <div class="media-container" style="flex-direction: column; align-items: center;">
+          <div class="browser-frame" style="height: 350px;">
             <div class="browser-content">
-              <img src="../images/guide/40-staff-workspace-desktop.png" alt="スタッフ受付ワークスペース">
+              <img src="../images/slide/07-reliability-monitoring.png" alt="スタッフ受付ワークスペース">
             </div>
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: var(--text-muted); text-align: center;">
+            ※ リアルタイム更新・自動ポーリング復旧・障害分離の運用画面
           </div>
         </div>
       `,
@@ -442,27 +532,27 @@ window.PRESENTATION_CONFIG_JA = {
       `
     },
     {
-      id: "slide-7",
-      tag: "Slide 07 — ライブデモ",
-      headerBadge: "LIVE DEMO",
+      id: "slide-8",
+      tag: "ライブデモ",
+      headerBadge: "ライブデモ",
       title: "SCAN TO JOIN",
       subtitle: "スマホのカメラまたはLINEでQRコードを読み取り、実際の順番待ちに参加してください",
       bodyHtml: `
         <!-- Giant Clean QR Card (Left Side) -->
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: #ffffff; border: 2px solid var(--line-green); border-radius: 22px; padding: 14px 20px; box-shadow: var(--shadow-md);">
+        <div class="interactive-trigger" id="qr-card-trigger" title="クリックでQRコードを最大化表示" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: #ffffff; border: 2px solid var(--line-green); border-radius: 22px; padding: 14px 20px; box-shadow: var(--shadow-md); cursor: pointer;">
           <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 6px;">
-            <span style="font-weight: 800; font-size: 13px; color: var(--brand-deep); text-transform: uppercase; letter-spacing: 0.04em;">📍 東京本店 (Tokyo Flagship Branch)</span>
-            <span class="badge badge-green" style="font-size: 10px;">Queue Open</span>
+            <span style="font-weight: 800; font-size: 13px; color: #08713d; text-transform: uppercase; letter-spacing: 0.04em;">📍 東京本店 (Tokyo Flagship Branch)</span>
+            <span class="badge badge-green" style="font-size: 10px;">🔍 拡大表示</span>
           </div>
           
           <!-- Crisp High-Contrast Vector QR SVG -->
           <div style="background: #ffffff; padding: 6px; border-radius: 14px; width: 270px; height: 270px; display: flex; align-items: center; justify-content: center;">
-            <img src="../images/guide/live-demo-qr.svg" alt="Live Demo QR Code" style="width: 100%; height: 100%; object-fit: contain;">
+            <img src="../images/slide/live-demo-qr.svg" alt="Live Demo QR Code" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
 
           <!-- Branch URL & Identifier -->
-          <div style="margin-top: 6px; font-family: var(--font-family-code); font-size: 11px; font-weight: 700; color: var(--brand-ink); background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 4px 10px;">
-            https://smartqueue.io.vn/qr/demo-queue-lab-2026
+          <div style="margin-top: 6px; font-family: var(--font-family-code); font-size: 10px; font-weight: 700; color: #065f46; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 4px 10px; word-break: break-all; text-align: center;">
+            https://liff.line.me/2010516188-KAcYkLTh/qr/70f7e730ae944f1635b18a51c5408b563969
           </div>
         </div>
 
@@ -473,17 +563,17 @@ window.PRESENTATION_CONFIG_JA = {
               5ステップ体験フロー
             </div>
             <ol style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--ink-soft); line-height: 1.4;">
-              <li><strong>1. Scan QR:</strong> スマホカメラまたはLINEのQRリーダーで読取</li>
-              <li><strong>2. Open in LINE:</strong> LIFFアプリを開き、LINEログイン</li>
-              <li><strong>3. Select Queue:</strong> キューおよび体験用メニューを選択</li>
-              <li><strong>4. Submit Booking:</strong> 受付を確定し、デジタルチケットを発行</li>
-              <li><strong>5. Keep Ticket Open:</strong> 画面を開いたままスタッフからの通知を待機</li>
+              <li><strong>1. QRスキャン:</strong> スマホカメラまたはLINEのQRリーダーで読取</li>
+              <li><strong>2. LINEで開く:</strong> LIFFアプリを開き、LINEログイン</li>
+              <li><strong>3. キュー選択:</strong> キューおよび体験用メニューを選択</li>
+              <li><strong>4. 受付確定:</strong> 受付を確定し、デジタルチケットを発行</li>
+              <li><strong>5. 画面待機:</strong> 画面を開いたままスタッフからの通知を受信</li>
             </ol>
           </div>
 
           <!-- Flow badge -->
           <div style="background: #0b4b2d; color: #86efac; border-radius: 10px; padding: 8px 12px; font-size: 11px; font-weight: 700; text-align: center; font-family: var(--font-family-code);">
-            QR → LIFF → Booking → Staff → LINE Notification
+            QR → LIFF → 受付 → 呼出 → LINE通知
           </div>
 
           <!-- Real money disclaimer -->

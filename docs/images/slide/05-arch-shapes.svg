@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" width="100%" height="100%">
+  <rect width="320" height="120" rx="10" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.2"/>
+  
+  <!-- Client Block -->
+  <rect x="12" y="38" width="60" height="44" rx="8" fill="#ffffff" stroke="#93c5fd" stroke-width="1.2"/>
+  <text x="42" y="65" text-anchor="middle" fill="#2563eb" font-size="18">📱💻</text>
+
+  <!-- Arrow 1 -->
+  <path d="M 74 60 L 98 60" stroke="#059669" stroke-width="2"/>
+  <polygon points="98,56 104,60 98,64" fill="#059669"/>
+
+  <!-- API Core Block -->
+  <rect x="106" y="24" width="76" height="72" rx="10" fill="#ffffff" stroke="#10b981" stroke-width="1.5"/>
+  <text x="144" y="54" text-anchor="middle" fill="#047857" font-size="20">⚙️</text>
+  <text x="144" y="74" text-anchor="middle" fill="#065f46" font-size="10" font-weight="700" font-family="sans-serif">Express API</text>
+
+  <!-- Arrow 2 Upper (to DB) -->
+  <path d="M 184 48 L 210 36" stroke="#4f46e5" stroke-width="2"/>
+  <polygon points="208,32 216,33 212,39" fill="#4f46e5"/>
+
+  <!-- Arrow 2 Lower (to Worker) -->
+  <path d="M 184 72 L 210 84" stroke="#059669" stroke-width="2"/>
+  <polygon points="212,81 216,87 208,88" fill="#059669"/>
+
+  <!-- DB Block -->
+  <rect x="220" y="14" width="88" height="42" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.2"/>
+  <text x="240" y="40" fill="#4338ca" font-size="16">🐘</text>
+  <text x="258" y="38" fill="#312e81" font-size="10" font-weight="700" font-family="sans-serif">PostgreSQL</text>
+
+  <!-- Worker / LINE Block -->
+  <rect x="220" y="64" width="88" height="42" rx="8" fill="#ffffff" stroke="#059669" stroke-width="1.2"/>
+  <text x="238" y="90" fill="#047857" font-size="16">⚡</text>
+  <text x="256" y="88" fill="#064e3b" font-size="10" font-weight="700" font-family="sans-serif">LINE Worker</text>
+</svg>

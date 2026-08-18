@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 130" width="100%" height="100%">
+  <rect width="300" height="130" rx="10" fill="#0c1f15" stroke="#1a4730" stroke-width="1.2"/>
+  <!-- Boundary Box -->
+  <rect x="12" y="12" width="276" height="106" rx="8" fill="#082b1b" stroke="#06c755" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="22" y="28" fill="#86efac" font-family="monospace" font-size="10" font-weight="700">🔒 単一 ACID トランザクション境界</text>
+  <!-- 4 Linked items -->
+  <g transform="translate(20, 42)">
+    <rect x="0" y="0" width="56" height="42" rx="6" fill="#1e293b" stroke="#475569"/>
+    <text x="10" y="18" fill="#94a3b8" font-size="9" font-family="sans-serif">Ticket</text>
+    <text x="10" y="32" fill="#f8fafc" font-size="11" font-weight="700">発券</text>
+    
+    <text x="60" y="25" fill="#06c755" font-size="12" font-weight="700">➔</text>
+    
+    <rect x="74" y="0" width="56" height="42" rx="6" fill="#1e293b" stroke="#475569"/>
+    <text x="84" y="18" fill="#94a3b8" font-size="9" font-family="sans-serif">Order</text>
+    <text x="84" y="32" fill="#f8fafc" font-size="11" font-weight="700">注文</text>
+    
+    <text x="134" y="25" fill="#06c755" font-size="12" font-weight="700">➔</text>
+
+    <rect x="148" y="0" width="56" height="42" rx="6" fill="#1e293b" stroke="#475569"/>
+    <text x="156" y="18" fill="#94a3b8" font-size="9" font-family="sans-serif">Stock</text>
+    <text x="156" y="32" fill="#f8fafc" font-size="11" font-weight="700">引当</text>
+    
+    <text x="208" y="25" fill="#06c755" font-size="12" font-weight="700">➔</text>
+
+    <rect x="220" y="0" width="40" height="42" rx="6" fill="#0f766e" stroke="#14b8a6"/>
+    <text x="226" y="18" fill="#ccfbf1" font-size="8.5" font-family="sans-serif">Outbox</text>
+    <text x="228" y="32" fill="#ffffff" font-size="10" font-weight="700">記録</text>
+  </g>
+  <text x="22" y="106" fill="#4ade80" font-size="9.5" font-family="sans-serif">行ロック (SELECT FOR UPDATE) で過剰引当防止</text>
+</svg>

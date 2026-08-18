@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LINE Smart Queue Assistant — Presentation</title>
+  <title>LINE Smart Queue Assistant — プレゼンテーション</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,22 +19,82 @@
 
     <!-- Fixed Controls Overlay -->
     <div id="deck-controls">
-      <a href="../../index.html" class="control-btn" id="dashboard-btn" style="text-decoration:none; width:auto; padding:0 10px; font-size:12px; font-weight:700;" title="Dashboard">🏠 Dashboard</a>
-      <button class="control-btn" id="prev-btn" title="Slide trước (←)">←</button>
-      <span class="slide-counter" id="slide-counter">01 / 07</span>
-      <button class="control-btn" id="next-btn" title="Slide tiếp (→)">→</button>
-      <button class="control-btn" id="notes-btn" title="Mở Speaker Notes (P)">📝</button>
-      <button class="control-btn" id="fullscreen-btn" title="Toàn màn hình (F)">⛶</button>
-      <button class="control-btn" id="lang-btn" style="width:auto; padding:0 8px; font-size:13px; font-weight:700;" title="Chuyển ngôn ngữ">🇻🇳 VI</button>
+      <a href="../../index.html" class="control-btn" id="dashboard-btn" style="text-decoration:none; width:auto; padding:0 10px; font-size:12px; font-weight:700;" title="ダッシュボード">🏠 Dashboard</a>
+      <button class="control-btn" id="prev-btn" title="前のスライド (←)">←</button>
+      <span class="slide-counter" id="slide-counter">01 / 08</span>
+      <button class="control-btn" id="next-btn" title="次のスライド (→)">→</button>
+      <button class="control-btn" id="notes-btn" title="発表者ノート (P)">📝</button>
+      <button class="control-btn" id="fullscreen-btn" title="全画面表示 (F)">⛶</button>
+      <button class="control-btn" id="lang-btn" style="width:auto; padding:0 8px; font-size:13px; font-weight:700;" title="言語切り替え">🇻🇳 VI</button>
     </div>
 
     <!-- Presenter Notes Drawer -->
     <div id="presenter-notes-drawer">
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 id="notes-drawer-title">Speaker Notes</h3>
+        <h3 id="notes-drawer-title">発表者ノート</h3>
         <button id="close-notes-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
       </div>
       <div id="presenter-notes-content"></div>
+    </div>
+
+    <!-- Multi-Phone Journey Lightbox Modal (Customer Journey) -->
+    <div id="journey-phone-modal">
+      <div class="journey-modal-header">
+        <div class="journey-modal-title" id="journey-modal-title">
+          <span>📱 LINE LIFF 操作フロー (1〜4画面)</span>
+          <span class="badge badge-green" id="journey-modal-counter">1 / 4</span>
+        </div>
+        <div class="journey-modal-controls">
+          <button class="journey-modal-btn" id="journey-close-btn">✕ 閉じる (Esc)</button>
+        </div>
+      </div>
+      <div class="journey-stage-wrapper">
+        <button class="journey-stage-arrow prev" id="journey-prev-phone-btn" title="前の画面 (←)">◀</button>
+        <div id="journey-phones-stage" class="journey-phones-stage count-1">
+          <!-- Dynamic phone cards injected here -->
+        </div>
+        <button class="journey-stage-arrow next" id="journey-next-phone-btn" title="次の画面を追加 (→)">▶</button>
+      </div>
+    </div>
+
+    <!-- Scope Gallery Lightbox Modal (Product Scope) -->
+    <div id="scope-gallery-modal">
+      <div class="scope-gallery-header">
+        <div class="scope-gallery-title" id="scope-gallery-title">
+          <span id="scope-gallery-name">🖥️ 管理画面・運用UIギャラリー</span>
+          <span class="badge badge-green" id="scope-gallery-counter">1 / 5</span>
+        </div>
+        <div class="journey-modal-controls">
+          <button class="journey-modal-btn" id="scope-gallery-close-btn">✕ 閉じる (Esc)</button>
+        </div>
+      </div>
+      <div class="scope-gallery-stage">
+        <button class="journey-stage-arrow prev" id="scope-gallery-prev-btn" title="前の画像 (←)">◀</button>
+        <img id="scope-gallery-img" src="../images/slide/01-landing-page.png" alt="プロダクト画面">
+        <button class="journey-stage-arrow next" id="scope-gallery-next-btn" title="次の画像 (→)">▶</button>
+      </div>
+    </div>
+
+    <!-- QR Zoom Lightbox Modal (Live Demo QR Extra-Large) -->
+    <div id="qr-zoom-modal">
+      <div class="qr-zoom-container">
+        <button class="qr-zoom-close-btn" id="qr-zoom-close-btn">✕ 閉じる (Esc)</button>
+        <div class="qr-zoom-card">
+          <div class="qr-zoom-header">
+            <span class="qr-zoom-branch" id="qr-zoom-branch">📍 東京本店 (Tokyo Flagship Branch)</span>
+            <span class="badge badge-green">受付中 / LIVE DEMO</span>
+          </div>
+          <div class="qr-zoom-frame">
+            <img src="../images/slide/live-demo-qr.svg" alt="Live Demo QR Code">
+          </div>
+          <div class="qr-zoom-hint" id="qr-zoom-hint">
+            📱 スマホのカメラまたはLINEのQRリーダーで読み取ってください
+          </div>
+          <div class="qr-zoom-url">
+            https://liff.line.me/2010516188-KAcYkLTh/qr/70f7e730ae944f1635b18a51c5408b563969
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
