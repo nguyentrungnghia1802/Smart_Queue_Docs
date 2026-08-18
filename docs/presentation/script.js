@@ -1,8 +1,6 @@
-/* LINE Smart Queue Assistant — Presentation Engine Script */
+/* LINE Smart Queue Assistant — Dynamic Presentation Engine Script */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const slides = document.querySelectorAll('.slide');
-  const totalSlides = slides.length;
   const viewport = document.getElementById('slide-viewport');
   const counterEl = document.getElementById('slide-counter');
   const progressBar = document.getElementById('progress-bar');
@@ -10,22 +8,139 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('next-btn');
   const fullscreenBtn = document.getElementById('fullscreen-btn');
   const notesBtn = document.getElementById('notes-btn');
+  const langBtn = document.getElementById('lang-btn');
   const notesDrawer = document.getElementById('presenter-notes-drawer');
   const notesContent = document.getElementById('presenter-notes-content');
+  const notesDrawerTitle = document.getElementById('notes-drawer-title');
   const closeNotesBtn = document.getElementById('close-notes-btn');
+  const dashboardBtn = document.getElementById('dashboard-btn');
 
-  // Keep the presentation labels editorial rather than template-like.
-  document.querySelectorAll('.slide-tag').forEach((tag) => {
-    tag.textContent = tag.textContent.replace(/^Slide\s*\d+\s*(?:—|–|-)\s*/i, '');
-  });
-
-  // Emoji headings looked decorative and inconsistent with the product system.
-  document.querySelectorAll('.feature-card h3').forEach((heading) => {
-    heading.textContent = heading.textContent.replace(/^[\s\u{1F000}-\u{1FAFF}\u{2300}-\u{27BF}\u200D\uFE0F]+\s*/u, '');
-  });
-
+  let currentLang = 'vi'; // default or detected
+  let currentConfig = null;
+  let slides = [];
+  let totalSlides = 0;
   let currentIndex = 0;
   let presenterWindow = null;
+
+  // Determine initial language from query parameter, local storage, or html tag
+  function detectInitialLanguage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam && (langParam === 'ja' || langParam === 'vi')) {
+      return langParam;
+    }
+    const storedLang = localStorage.getItem('smart_queue_presentation_lang');
+    if (storedLang && (storedLang === 'ja' || storedLang === 'vi')) {
+      return storedLang;
+    }
+    const htmlLang = document.documentElement.getAttribute('lang');
+    if (htmlLang && (htmlLang === 'ja' || htmlLang === 'vi')) {
+      return htmlLang;
+    }
+    return 'vi';
+  }
+
+  // Get configuration object for specified language
+  function getConfig(lang) {
+    if (lang === 'ja' && window.PRESENTATION_CONFIG_JA) {
+      return window.PRESENTATION_CONFIG_JA;
+    }
+    if (lang === 'vi' && window.PRESENTATION_CONFIG_VI) {
+      return window.PRESENTATION_CONFIG_VI;
+    }
+    // Fallback
+    return window.PRESENTATION_CONFIG_VI || window.PRESENTATION_CONFIG_JA;
+  }
+
+  // Render slides dynamically from config
+  function renderPresentation(lang) {
+    currentLang = lang;
+    localStorage.setItem('smart_queue_presentation_lang', lang);
+    currentConfig = getConfig(lang);
+
+    if (!currentConfig) {
+      console.error('Presentation configuration not loaded for language:', lang);
+      return;
+    }
+
+    // Update document metadata
+    document.documentElement.lang = currentConfig.meta.lang;
+    document.title = currentConfig.meta.title;
+
+    // Update control labels & tooltips
+    if (dashboardBtn) {
+      dashboardBtn.textContent = currentConfig.meta.controls.dashboardBtn;
+    }
+    if (prevBtn) {
+      prevBtn.title = currentConfig.meta.controls.prevBtnTitle;
+    }
+    if (nextBtn) {
+      nextBtn.title = currentConfig.meta.controls.nextBtnTitle;
+    }
+    if (notesBtn) {
+      notesBtn.title = currentConfig.meta.controls.notesBtnTitle;
+    }
+    if (fullscreenBtn) {
+      fullscreenBtn.title = currentConfig.meta.controls.fullscreenBtnTitle;
+    }
+    if (langBtn) {
+      langBtn.textContent = currentConfig.meta.controls.switchLangBtn;
+      langBtn.title = currentConfig.meta.controls.switchLangTitle;
+    }
+    if (notesDrawerTitle) {
+      notesDrawerTitle.textContent = currentConfig.meta.notesDrawerTitle;
+    }
+
+    // Render slides HTML into viewport
+    if (viewport) {
+      let slidesHtml = '';
+      currentConfig.slides.forEach((slide, idx) => {
+        const cleanTag = slide.tag.replace(/^Slide\s*\d+\s*(?:—|–|-)\s*/i, '');
+        let bodyClass = 'slide-body layout-split left-wide';
+        let bodyExtraStyle = '';
+
+        if (slide.id === 'slide-4') {
+          bodyClass = 'slide-body';
+          bodyExtraStyle = 'flex-direction: column; align-items: stretch; justify-content: space-between; gap: 12px;';
+        } else if (slide.id === 'slide-5') {
+          bodyClass = 'slide-body';
+          bodyExtraStyle = 'align-items: stretch;';
+        } else if (slide.id === 'slide-7') {
+          bodyClass = 'slide-body layout-split';
+          bodyExtraStyle = 'grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: center;';
+        }
+
+        slidesHtml += `
+          <section class="slide" id="${slide.id}">
+            <header class="slide-header">
+              <div>
+                <span class="slide-tag">${cleanTag}</span>
+                <h1 class="slide-title" ${slide.id === 'slide-7' ? 'style="font-size: 32px; letter-spacing: -0.02em; color: var(--brand-ink);"' : ''}>${slide.title}</h1>
+                <p class="slide-subtitle">${slide.subtitle}</p>
+              </div>
+              <div style="font-weight: ${slide.id === 'slide-7' ? '800' : '700'}; color: var(--line-green); font-size: ${slide.id === 'slide-7' ? '20px' : '18px'}; letter-spacing: 0.05em; text-transform: uppercase;">
+                ${slide.headerBadge}
+              </div>
+            </header>
+            <div class="${bodyClass}" ${bodyExtraStyle ? `style="${bodyExtraStyle}"` : ''}>
+              ${slide.bodyHtml}
+            </div>
+            <div class="speaker-notes-data" style="display:none;">
+              ${slide.notes}
+            </div>
+          </section>
+        `;
+      });
+      viewport.innerHTML = slidesHtml;
+    }
+
+    // Refresh slide element list
+    slides = document.querySelectorAll('.slide');
+    totalSlides = slides.length;
+
+    // Go to current slide
+    goToSlide(currentIndex, false);
+  }
 
   // Scaling viewport to fit screen maintaining 16:9 ratio
   function autoScaleViewport() {
@@ -47,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Navigate to slide index
   function goToSlide(index, updateHash = true) {
+    if (!slides || slides.length === 0) return;
     if (index < 0) index = 0;
     if (index >= totalSlides) index = totalSlides - 1;
 
@@ -63,7 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update Counter & Progress Bar
     const slideNumStr = String(currentIndex + 1).padStart(2, '0');
-    if (counterEl) counterEl.textContent = `${slideNumStr} / ${totalSlides}`;
+    const totalNumStr = String(totalSlides).padStart(2, '0');
+    if (counterEl) counterEl.textContent = `${slideNumStr} / ${totalNumStr}`;
     if (progressBar) progressBar.style.width = `${((currentIndex + 1) / totalSlides) * 100}%`;
 
     // Update Presenter Notes
@@ -105,9 +222,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Presenter Notes Update
   function updatePresenterNotes() {
+    if (!slides || slides.length === 0) return;
     const currentSlide = slides[currentIndex];
+    if (!currentSlide) return;
+
     const notesEl = currentSlide.querySelector('.speaker-notes-data');
-    const notesText = notesEl ? notesEl.innerHTML : 'このスライドには発表者ノートがありません。';
+    const defaultEmpty = currentConfig?.meta?.notesEmpty || 'このスライドには発表者ノートがありません。';
+    const notesText = notesEl ? notesEl.innerHTML.trim() : defaultEmpty;
 
     if (notesContent) {
       notesContent.innerHTML = notesText;
@@ -162,6 +283,12 @@ document.addEventListener('DOMContentLoaded', () => {
         togglePresenterMode();
         break;
 
+      case 'l':
+      case 'L':
+        e.preventDefault();
+        toggleLanguage();
+        break;
+
       case 'Escape':
         if (document.fullscreenElement) {
           document.exitFullscreen();
@@ -187,6 +314,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Toggle Language
+  function toggleLanguage() {
+    const nextLang = currentLang === 'vi' ? 'ja' : 'vi';
+    renderPresentation(nextLang);
+  }
+
   // Toggle Presenter Drawer
   if (notesBtn && notesDrawer) {
     notesBtn.addEventListener('click', () => {
@@ -204,6 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (prevBtn) prevBtn.addEventListener('click', prevSlide);
   if (nextBtn) nextBtn.addEventListener('click', nextSlide);
   if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullscreen);
+  if (langBtn) langBtn.addEventListener('click', toggleLanguage);
 
   // Presenter Window popup
   function togglePresenterMode() {
@@ -246,6 +380,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Initialize from URL hash
+  // Initialize
+  const initialLang = detectInitialLanguage();
+  renderPresentation(initialLang);
   parseHash();
 });
