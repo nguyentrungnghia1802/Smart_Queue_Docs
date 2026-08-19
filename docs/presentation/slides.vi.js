@@ -91,8 +91,11 @@ window.PRESENTATION_CONFIG_VI = {
       `,
       notes: `
         Xin chào mọi người. Hôm nay em xin trình bày dự án <strong>LINE Smart Queue Assistant</strong>.<br><br>
-        Đây là một hệ thống xếp hàng và quản lý dịch vụ LINE-first, kết nối liền mạch từ lúc khách quét QR tại quầy, đặt dịch vụ qua LINE LIFF, cho đến khi nhân viên gọi số và hệ thống gửi tin nhắn thông báo tự động.<br><br>
-        Buổi trình bày hôm nay gồm 2 phần: 7 phút đầu em sẽ tóm tắt bài toán, luồng hoạt động và kiến trúc kỹ thuật phía sau; sau đó là 8 phút live demo trực tiếp, mọi người có thể quét QR thật bằng điện thoại để trải nghiệm luồng end-to-end.
+        Đây là nền tảng quản lý hàng đợi và số hóa vận hành dịch vụ theo triết lý LINE-first, kết nối liền mạch từ lúc khách quét QR tại quầy, đặt dịch vụ/sản phẩm qua LINE LIFF, cho đến khi nhân viên quầy gọi số và hệ thống gửi tin nhắn thông báo tự động qua LINE.<br><br>
+        Mọi người có thể xem trang web chính thức của dự án tại đường dẫn <code>https://smartqueue.io.vn/</code> ở đầu slide.<br><br>
+        Buổi trình bày hôm nay có tổng thời lượng 15 phút, gồm 2 phần:<br>
+        ・<strong>7 phút đầu:</strong> Tóm tắt bài toán thực tế, hành trình khách hàng và kiến trúc kỹ thuật backend phía sau.<br>
+        ・<strong>8 phút sau:</strong> Trải nghiệm thực tế bằng Live Demo — mọi người có thể dùng chính điện thoại của mình để quét mã QR tham gia xếp hàng trực tiếp.
       `
     },
     {
@@ -128,9 +131,10 @@ window.PRESENTATION_CONFIG_VI = {
         </div>
       `,
       notes: `
-        Chào mọi người. Project cá nhân lần này của em bắt đầu từ một bài toán khá đời thường: tại nhà hàng, clinic, salon hoặc service counter, khách thường phải đứng hoặc ngồi gần quầy chỉ để chờ tới lượt.<br><br>
-        Vấn đề không chỉ là thời gian chờ. Khách không biết còn bao lâu tới lượt, còn staff phải liên tục quản lý thứ tự và gọi khách.<br><br>
-        Vì vậy em thử xây LINE Smart Queue Assistant với một ý tưởng rất đơn giản: khách không cần đứng cạnh quầy; họ chỉ cần biết mình đang ở đâu trong queue và được thông báo khi tới lượt.
+        Dự án bắt đầu từ một bài toán rất phổ biến trong cuộc sống: tại các quán ăn, salon, phòng khám hoặc quầy dịch vụ công, khách hàng thường bị buộc phải đứng hoặc ngồi tập trung gần quầy chỉ để chờ gọi tên.<br><br>
+        Vấn đề ở đây không hẳn là thời gian chờ, mà là <strong>sự không chắc chắn</strong>: khách không biết còn bao lâu nữa thì tới lượt mình, và không dám rời đi vì sợ mất lượt.<br><br>
+        Về phía cửa hàng, nhân viên phải vừa phục vụ vừa liên tục hô tên, quản lý phiếu giấy và giải quyết các trường hợp khách vắng mặt.<br><br>
+        Vì vậy, dự án được xây dựng dựa trên thông điệp cốt lõi: <strong>“Khách hàng không cần phải đứng chờ tại chỗ — họ chỉ cần nắm được tiến độ và nhận thông báo gọi số qua LINE để biết chính xác khi nào cần quay lại.”</strong>
       `
     },
     {
@@ -221,12 +225,12 @@ window.PRESENTATION_CONFIG_VI = {
         </div>
       `,
       notes: `
-        Customer journey em cố giữ rất ngắn.<br><br>
-        Khách quét QR cố định của branch. Hệ thống mở LIFF bên trong LINE, xác thực LINE identity, hiển thị các queue đang hoạt động và catalog tương ứng.<br><br>
-        Khách chọn queue, sản phẩm hoặc service rồi tạo booking.<br><br>
-        Backend tạo order và ticket. Sau đó khách có thể theo dõi people ahead và ETA ngay trên điện thoại.<br><br>
-        Khi Staff Call, Serve hoặc Complete, khách nhận notification qua LINE.<br><br>
-        Điểm chính ở đây là LINE không chỉ là nút login. LINE là một phần của customer experience từ đầu đến cuối.
+        Hành trình khách hàng được thiết kế tối giản, gói gọn trong 4 bước chính:<br><br>
+        <strong>1. Quét QR & Chọn món:</strong> Khách quét mã QR tại chi nhánh, ứng dụng LINE tự động mở LIFF, xác thực tài khoản LINE và hiển thị danh mục dịch vụ/món ăn.<br>
+        <strong>2. Xác nhận đặt chỗ:</strong> Khách gửi yêu cầu và nhận ngay Ticket điện tử có mã số thứ tự.<br>
+        <strong>3. Nhận tin nhắn qua LINE:</strong> Khách có thể tắt màn hình hoặc đi dạo thoải mái; khi nhân viên bấm "Call" tại quầy, tin nhắn gọi số Push Notification sẽ được gửi thẳng vào LINE của khách kèm thông tin số quầy.<br>
+        <strong>4. Hoàn thành:</strong> Nhân viên phục vụ xong và ấn "Complete", khách nhận tin nhắn cảm ơn và kết thúc lượt phục vụ.<br><br>
+        ※ Mọi người có thể bấm trực tiếp vào chiếc điện thoại bên phải để phóng to chuỗi 4 màn hình giao diện thực tế.
       `
     },
     {
@@ -293,12 +297,10 @@ window.PRESENTATION_CONFIG_VI = {
         </div>
       `,
       notes: `
-        Ban đầu em nghĩ đây chỉ là queue app.<br><br>
-        Nhưng khi đi sâu hơn thì một booking liên quan đến identity, order, payment, stock, staff permission và notification.<br><br>
-        Vì vậy project hiện bao gồm multi-tenant organization, branch, nhiều queue, catalog, inventory, booking, staff operation, payment boundary, LINE messaging và realtime update.<br><br>
-        UI hỗ trợ Japanese, Vietnamese và English.<br><br>
-        Tuy nhiên em muốn nói rõ: đây là production-oriented demo. Payment hiện dùng Demo Payment Provider và không chuyển tiền thật.<br><br>
-        Em giữ provider boundary, webhook, reconciliation và refund design để luyện kiến trúc production mà không claim rằng hệ thống đã hoàn tất merchant settlement thật.
+        Thoạt nhìn, hệ thống có vẻ chỉ là một màn hình lấy số thứ tự thông thường. Nhưng để một doanh nghiệp vận hành thực sự trong thực tế, phía sau cần tới <strong>10 domain nghiệp vụ</strong> được tổ chức bài bản.<br><br>
+        Bao gồm: phân quyền đa doanh nghiệp (Multi-tenant), quản lý chi nhánh & nhiều hàng đợi cùng lúc, danh mục sản phẩm, khóa tồn kho theo thời gian thực, không gian làm việc của nhân viên quầy, cổng thanh toán mô phỏng, cơ chế gửi tin LINE tự động và cập nhật real-time bằng SSE, hỗ trợ 3 ngôn ngữ.<br><br>
+        Lưu ý rằng đây là môi trường demo kiến trúc chuẩn production (chưa tích hợp luân chuyển tiền thật), nhưng toàn bộ quy trình Webhook, đối soát giao dịch và hoàn tiền (refund) đều được thiết kế chặt chẽ theo chuẩn thương mại.<br><br>
+        ※ Mọi người có thể bấm vào khung ảnh bên phải để xem gallery 5 màn hình quản trị chi tiết.
       `
     },
     {
@@ -382,13 +384,11 @@ window.PRESENTATION_CONFIG_VI = {
         </div>
       `,
       notes: `
-        Architecture em chọn là TypeScript modular monolith.<br><br>
-        Frontend là React SPA, backend là Express API và PostgreSQL giữ business state chính.<br><br>
-        Em chưa dùng microservices vì project một người chưa có measured reason để đổi lấy thêm operational complexity.<br><br>
-        Redis có mặt nhưng không phải business authority. Nó hỗ trợ cache ngắn, rate limit, Pub/Sub và BullMQ.<br><br>
-        Điểm quan trọng nhất là LINE notification không được gọi trực tiếp trong business transaction.<br><br>
-        Queue state commit vào PostgreSQL trước, đồng thời ghi durable notification intent. Sau đó dispatcher và worker mới gọi LINE API.<br><br>
-        Vì vậy LINE failure không làm rollback một booking hoặc queue transition đã thành công.
+        Về mặt kiến trúc, dự án lựa chọn mô hình <strong>TypeScript Modular Monolith</strong>.<br><br>
+        Frontend là React SPA, backend là Express API, và <strong>PostgreSQL là Source of Truth duy nhất</strong> nắm giữ toàn bộ trạng thái nghiệp vụ.<br><br>
+        Em không chia nhỏ thành microservices vì đối với quy mô này, Modular Monolith giúp kiểm soát chặt chẽ ranh giới code mà không phải gánh thêm chi phí vận hành phân tán phức tạp.<br><br>
+        Redis đóng vai trò là tầng điều phối (Coordination Layer): quản lý hàng đợi BullMQ, điều phối SSE Pub/Sub và cache tạm thời.<br><br>
+        Điểm kiến trúc mấu chốt: <strong>hệ thống không bao giờ gọi LINE API trực tiếp bên trong transaction của database</strong>. Thay vào đó, sau khi commit dữ liệu vào PostgreSQL cùng một bản ghi Durable Outbox, worker nền mới đọc Outbox để gửi tin LINE. Nhờ đó, nếu mạng LINE bị nghẽn, thao tác của khách và nhân viên tại cửa hàng vẫn hoàn toàn không bị ảnh hưởng.
       `
     },
     {
@@ -475,12 +475,10 @@ window.PRESENTATION_CONFIG_VI = {
         </div>
       `,
       notes: `
-        Có ba phần engineering em tập trung nhiều nhất.<br><br>
-        Thứ nhất là transactional correctness. Một booking có thể liên quan tới ticket, order, order item, inventory reservation và payment transaction. Em không muốn nếu một bước fail thì database để lại nửa booking.<br><br>
-        Thứ hai là authorization. Em không tin organizationId, branchId hay queueId từ browser là authority. Backend derive scope lại từ authenticated identity và database.<br><br>
-        Owner, Branch Manager và Staff có scope khác nhau; Staff còn bị giới hạn đúng queue được assign.<br><br>
-        Thứ ba là reliable async delivery. Khi Staff Call một ticket, business transaction phải thành công ngay cả khi LINE đang unavailable.<br><br>
-        Vì vậy notification được lưu durable và gửi sau commit, với event key, retry và idempotent delivery boundary.
+        Trong quá trình phát triển backend, em tập trung giải quyết triệt để 3 bài toán kỹ thuật:<br><br>
+        <strong>1. Transactional Correctness:</strong> Một lượt đặt chỗ có thể kéo theo việc cấp Ticket, ghi nhận Order Items, giữ chỗ tồn kho (Inventory Lock) và cập nhật thanh toán. Tất cả được bao bọc trong một ACID Transaction nguyên tử với Row Lock, đảm bảo không bao giờ xảy ra tình trạng rò rỉ dữ liệu hoặc bán vượt số lượng tồn kho.<br><br>
+        <strong>2. Ranh giới phân quyền (Authorization):</strong> Backend không bao giờ tin tưởng các ID gửi lên từ client. Mọi quyền hạn (Owner, Quản lý chi nhánh, Nhân viên quầy) đều được giải mã trực tiếp từ JWT session và kiểm tra với DB. Nhân viên chỉ được thao tác đúng những hàng đợi được phân công.<br><br>
+        <strong>3. Gửi tin nhắn bất đồng bộ tin cậy:</strong> Khi nhân viên gọi số, trạng thái được commit ngay lập tức vào database cùng bản ghi Outbox. Worker sử dụng cơ chế Retry với Exponential Backoff và Idempotency Key, đảm bảo tin nhắn chắc chắn đến tay khách hàng mà không bị gửi trùng lặp.
       `
     },
     {
@@ -536,13 +534,11 @@ window.PRESENTATION_CONFIG_VI = {
         </div>
       `,
       notes: `
-        Em cũng cố gắng thiết kế failure mode thay vì chỉ happy path.<br><br>
-        Realtime dùng SSE, nhưng event không trực tiếp trở thành business state. Nó chỉ báo rằng dữ liệu thay đổi rồi client refetch REST snapshot.<br><br>
-        Nếu SSE mất thì polling vẫn là recovery path.<br><br>
-        Payment cũng theo nguyên tắc tương tự: browser return hoặc local storage không có quyền tự nói rằng transaction đã paid.<br><br>
-        Project có CI, browser E2E, migration checks, deployment, backup/restore rehearsal và horizontal validation topology.<br><br>
-        Những thứ này chủ yếu để em luyện cách nghĩ về failure và operations, không phải để claim rằng project đã có production-scale capacity.<br><br>
-        <strong>Nhưng thay vì nói thêm về architecture, em nghĩ cách tốt nhất là mọi người dùng thử trực tiếp.</strong>
+        Hệ thống được thiết kế với tư duy <strong>suy thoái êm ái (Graceful Degradation)</strong>, không chỉ chạy tốt ở luồng thuận lợi (Happy Path) mà còn sẵn sàng khi có sự cố:<br><br>
+        ・<strong>Realtime & Polling Fallback:</strong> Server-Sent Events chỉ dùng để gửi tín hiệu làm mới dữ liệu (invalidation hint), client sẽ tự refetch snapshot mới qua REST API. Nếu đường truyền SSE bị đứt, hệ thống tự động chuyển sang chế độ Polling chu kỳ ngắn để đảm bảo dữ liệu luôn cập nhật.<br>
+        ・<strong>Cách ly lỗi dịch vụ ngoài:</strong> Ngay cả khi cổng kết nối LINE tạm thời mất liên lạc, việc quản lý hàng đợi và phục vụ khách tại quầy vẫn diễn ra bình thường.<br>
+        ・<strong>Kiểm thử & Diễn tập vận hành:</strong> Dự án tích hợp CI tự động, E2E test, kiểm tra migration và bài diễn tập sao lưu/phục hồi dữ liệu định kỳ.<br><br>
+        <strong>Và ngay bây giờ, thay vì chỉ nói trên slide, em xin mời tất cả mọi người cùng rút điện thoại ra để trải nghiệm trực tiếp hệ thống trong phần Live Demo!</strong>
       `
     },
     {
@@ -597,12 +593,11 @@ window.PRESENTATION_CONFIG_VI = {
         </div>
       `,
       notes: `
-        Phần còn lại em không muốn chỉ mô tả bằng slide nữa.<br><br>
-        Mọi người có thể lấy điện thoại ra và quét QR trên màn hình.<br><br>
-        Đây là environment đang deploy cho buổi demo. Flow sẽ đi qua LINE / LIFF, backend, PostgreSQL và notification worker như phần em vừa trình bày.<br><br>
-        Mọi người chọn một queue, chọn một item rồi tạo booking.<br><br>
-        Không có tiền thật được charge.<br><br>
-        Sau khi nhận ticket, mọi người không cần giữ màn hình sáng, có thể tắt màn hình hoặc chuyển sang ứng dụng khác; hệ thống sẽ gửi tin nhắn gọi số trực tiếp qua LINE khi tới lượt. Em sẽ chuyển sang phía Staff để xử lý chính những ticket vừa được tạo.
+        Bây giờ chúng ta sẽ bước vào phần <strong>Live Demo 8 phút</strong> trên môi trường thực tế!<br><br>
+        Mọi người vui lòng mở Camera hoặc tính năng quét mã trên LINE để quét mã QR trên màn hình. (※ Có thể bấm trực tiếp vào mã QR để phóng to toàn màn hình).<br><br>
+        Đây là môi trường cloud đang chạy trực tiếp. Luồng đi qua LINE LIFF, Express API, PostgreSQL và Worker nền trong thời gian thực.<br><br>
+        Mọi người chọn một hàng đợi và một món ăn bất kỳ để đặt chỗ (đây là bản demo nên hoàn toàn không trừ tiền thật).<br><br>
+        Sau khi nhận Ticket, mọi người có thể tắt màn hình hoặc chuyển sang ứng dụng khác. Em sẽ chuyển sang màn hình Staff Workspace của nhân viên để trực tiếp bấm <strong>"Call", "Serve", "Complete"</strong> những ticket của mọi người. Xin mời mọi người cùng quan sát tin nhắn gọi số được gửi về tài khoản LINE của mình!
       `
     }
   ]
