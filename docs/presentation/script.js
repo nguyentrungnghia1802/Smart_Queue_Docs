@@ -307,9 +307,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 4. Make all browser frames and media images zoomable into the fullscreen lightbox
+    // 4. Make all browser frames and media images on other slides (e.g. Slide 1, 2, 7) zoomable in single-image mode without arrows
     document.querySelectorAll('.slide .browser-frame, .slide .media-container img').forEach(elem => {
       if (elem.id === 'journey-phone-trigger' || elem.closest('#journey-phone-trigger')) return;
+      if (elem.id === 'scope-gallery-trigger' || elem.closest('#scope-gallery-trigger')) return;
       if (elem.id === 'qr-card-trigger' || elem.closest('#qr-card-trigger')) return;
       elem.style.cursor = 'pointer';
       elem.title = currentConfig?.meta?.lang === 'ja' ? 'クリックで全画面拡大表示' : 'Bấm để phóng to toàn màn hình';
@@ -317,27 +318,20 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
         const img = elem.tagName === 'IMG' ? elem : elem.querySelector('img');
         if (img && img.src && !img.src.endsWith('.svg')) {
-          openScopeModalBySrc(img.src, img.alt || '');
+          openSingleImageModal(img.src, img.alt || '');
         }
       });
     });
   }
 
-  function openScopeModalBySrc(src, title) {
-    if (!scopeModal || !currentConfig || !currentConfig.scopeGallery) return;
-    const gallery = currentConfig.scopeGallery;
-    const foundIdx = gallery.images.findIndex(item => src.includes(item.img.split('/').pop()));
-    if (foundIdx >= 0) {
-      openScopeModal(foundIdx);
-    } else {
-      scopeModal.classList.add('open');
-      if (scopeImg) {
-        scopeImg.src = src;
-        scopeImg.alt = title;
-      }
-      if (scopeName) scopeName.textContent = title;
-      if (scopeCounter) scopeCounter.textContent = '⛶ Zoom';
+  function openSingleImageModal(src, title) {
+    if (!scopeModal) return;
+    scopeModal.classList.add('open', 'single-mode');
+    if (scopeImg) {
+      scopeImg.src = src;
+      scopeImg.alt = title;
     }
+    if (scopeName) scopeName.textContent = title;
   }
 
   function updateModalLanguage() {
@@ -462,13 +456,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openScopeModal(idx = 0) {
     if (!scopeModal) return;
+    scopeModal.classList.remove('single-mode');
     scopeModal.classList.add('open');
     renderScopeImage(idx);
   }
 
   function closeScopeModal() {
     if (!scopeModal) return;
-    scopeModal.classList.remove('open');
+    scopeModal.classList.remove('open', 'single-mode');
   }
 
   function prevScopeImg() {
@@ -561,6 +556,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Scope Gallery Modal controls
     if (scopeModal && scopeModal.classList.contains('open')) {
+      if (scopeModal.classList.contains('single-mode')) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeScopeModal();
+          return;
+        }
+        return;
+      }
       if (e.key === 'ArrowRight' || e.key === ' ') {
         e.preventDefault();
         nextScopeImg();

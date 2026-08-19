@@ -834,6 +834,12 @@ select {
   transition: all 0.25s ease;
 }
 
+/* Single-Image Zoom Mode (Slides other than 3 and 4) */
+#scope-gallery-modal.single-mode .journey-stage-arrow,
+#scope-gallery-modal.single-mode #scope-gallery-counter {
+  display: none !important;
+}
+
 /* ==========================================================================
    QR Zoom Lightbox Modal (Live Demo QR Extra-Large)
    ========================================================================== */

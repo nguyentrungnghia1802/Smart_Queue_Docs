@@ -291,7 +291,7 @@ window.PRESENTATION_CONFIG_VI = {
         <div class="media-container">
           <div class="browser-frame interactive-trigger" id="scope-gallery-trigger" title="Bấm để xem 5 ảnh giao diện quản trị">
             <div class="browser-content">
-              <img src="../images/slide/01-landing-page.png" alt="Tổng quan hệ thống">
+              <img src="../images/slide/owner-organization-dashboard.png" alt="Tổng quan hệ thống">
             </div>
           </div>
         </div>

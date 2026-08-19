@@ -32,7 +32,7 @@ window.PRESENTATION_CONFIG_JA = {
     title: "🖥️ 管理画面・運用UIギャラリー",
     closeBtn: "✕ 閉じる (Esc)",
     images: [
-      { title: "1. 公開トップページ (Landing Page)", img: "../images/slide/01-landing-page.png" },
+      { title: "1. オーナー管理画面", img: "../images/slide/owner-organization-dashboard.png" },
       { title: "2. 商品・メニューカタログ設定 (Owner Catalog)", img: "../images/slide/13-owner-product-catalog.png" },
       { title: "3. 支店・キュー管理ダッシュボード (Branch Manager)", img: "../images/slide/19-branch-manager-dashboard.png" },
       { title: "4. 在庫・引当管理 (Stock Management)", img: "../images/slide/25-branch-stock.png" },
@@ -291,7 +291,7 @@ window.PRESENTATION_CONFIG_JA = {
         <div class="media-container">
           <div class="browser-frame interactive-trigger" id="scope-gallery-trigger" title="クリックで5枚の管理画面を拡大表示">
             <div class="browser-content">
-              <img src="../images/slide/01-landing-page.png" alt="プロダクト管理画面">
+              <img src="../images/slide/owner-organization-dashboard.png" alt="プロダクト管理画面">
             </div>
           </div>
         </div>
