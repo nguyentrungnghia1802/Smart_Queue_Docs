@@ -283,10 +283,6 @@ window.PRESENTATION_CONFIG_VI = {
               <p style="font-size: 11px; line-height: 1.35;">Đa ngôn ngữ xuyên suốt các giao diện</p>
             </div>
           </div>
-          <div style="background: rgba(254, 243, 199, 0.85); border: 1px solid #f59e0b; border-radius: 10px; padding: 7px 12px; font-size: 11px; color: #92400e; display: flex; align-items: center; gap: 8px;">
-            <span style="font-weight: 700;">⚠️ Lưu ý:</span>
-            <span><strong>Production-oriented demo</strong> — không phải real-money production platform.</span>
-          </div>
         </div>
         <div class="media-container">
           <div class="browser-frame interactive-trigger" id="scope-gallery-trigger" title="Bấm để xem 5 ảnh giao diện quản trị">

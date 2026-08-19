@@ -283,10 +283,6 @@ window.PRESENTATION_CONFIG_JA = {
               <p style="font-size: 11px; line-height: 1.35;">日本語・ベトナム語・英語</p>
             </div>
           </div>
-          <div style="background: rgba(254, 243, 199, 0.85); border: 1px solid #f59e0b; border-radius: 10px; padding: 7px 12px; font-size: 11px; color: #92400e; display: flex; align-items: center; gap: 8px;">
-            <span style="font-weight: 700;">⚠️ ご注意:</span>
-            <span><strong>本番アーキテクチャ志向のデモ環境</strong>（実金銭決済は非発生）</span>
-          </div>
         </div>
         <div class="media-container">
           <div class="browser-frame interactive-trigger" id="scope-gallery-trigger" title="クリックで5枚の管理画面を拡大表示">
