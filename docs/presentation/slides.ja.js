@@ -22,10 +22,10 @@ window.PRESENTATION_CONFIG_JA = {
     title: "📱 LINE LIFF 操作フロー (1〜4画面)",
     closeBtn: "✕ 閉じる (Esc)",
     steps: [
-      { title: "ステップ1: 支店QR読取・キュー選択", img: "../images/slide/30-customer-queue-selection-mobile.png" },
-      { title: "ステップ2: メニュー・サービス選択", img: "../images/slide/30-customer-queue-selection-mobile.png" },
-      { title: "ステップ3: 受付情報入力・確定", img: "../images/slide/30-customer-queue-selection-mobile.png" },
-      { title: "ステップ4: チケット確認・通知待機", img: "../images/slide/30-customer-queue-selection-mobile.png" }
+      { title: "ステップ1: QR読取・商品選択", img: "../images/slide/Quet-QR-Chon-San-Pham.png" },
+      { title: "ステップ2: 受付・予約確定", img: "../images/slide/Xac-Nhan-Dat-Cho.png" },
+      { title: "ステップ3: LINE呼出通知", img: "../images/slide/Nhan-thong-bao-tren-line.png" },
+      { title: "ステップ4: 注文・対応完了", img: "../images/slide/Hoan-thanh.png" }
     ]
   },
   scopeGallery: {
@@ -47,8 +47,15 @@ window.PRESENTATION_CONFIG_JA = {
       title: "LINE Smart Queue Assistant",
       subtitle: "LINE連携スマート順番待ち＆現場運用プラットフォーム",
       bodyHtml: `
-        <div class="content-text" style="gap: 14px;">
-          <div style="background: linear-gradient(135deg, rgb(233 250 240 / 0.95), rgb(255 255 255 / 0.8)); border: 1.5px solid var(--line-green); border-radius: 16px; padding: 16px 20px; box-shadow: var(--shadow-sm);">
+        <div class="content-text" style="gap: 12px;">
+          <!-- Dedicated Website Link Card (Separated) -->
+          <div style="display: inline-flex; align-items: center; background: #ffffff; border: 1.5px solid #c2eed3; border-radius: 999px; padding: 6px 16px; box-shadow: 0 4px 14px rgba(6,199,85,0.08); font-family: var(--font-family-code); font-size: 13px; font-weight: 700; width: fit-content;">
+            <span style="color: #475569; margin-right: 6px;">🌐 Website:</span>
+            <a href="https://smartqueue.io.vn/" target="_blank" style="color: #08713d; text-decoration: underline; letter-spacing: 0.01em;">https://smartqueue.io.vn/</a>
+          </div>
+
+          <!-- System Design & Live Demo Card -->
+          <div style="background: linear-gradient(135deg, rgb(233 250 240 / 0.95), rgb(255 255 255 / 0.8)); border: 1.5px solid var(--line-green); border-radius: 16px; padding: 14px 18px; box-shadow: var(--shadow-sm);">
             <div style="display: inline-block; padding: 2px 8px; border-radius: 6px; background: var(--line-green); color: #062b19; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
               System Design &amp; Live Demo
             </div>
@@ -159,20 +166,20 @@ window.PRESENTATION_CONFIG_JA = {
               </div>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">1. QR読取</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">支店固定QR</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">1. QR・商品選択</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">支店QR・商品選択</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">2. 受付・注文</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">キュー・メニュー</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">2. 受付・予約確定</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">発券・注文確定</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">3. 状態確認</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">待ち人数・ETA</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">3. LINE呼出通知</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Pushメッセージ</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">4. 通知受信</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">LINE呼出メッセージ</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">4. 注文完了</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">サービス完了</div>
                 </div>
               </div>
             </div>
@@ -208,7 +215,7 @@ window.PRESENTATION_CONFIG_JA = {
           <div class="phone-mockup interactive-trigger" id="journey-phone-trigger" title="クリックで拡大表示">
             <div class="phone-header-notch"></div>
             <div class="phone-screen">
-              <img src="../images/slide/30-customer-queue-selection-mobile.png" alt="LINE上でのキュー選択画面">
+              <img src="../images/slide/Quet-QR-Chon-San-Pham.png" alt="LINE上でのQR読取・商品選択画面">
             </div>
           </div>
         </div>
@@ -567,7 +574,7 @@ window.PRESENTATION_CONFIG_JA = {
               <li><strong>2. LINEで開く:</strong> LIFFアプリを開き、LINEログイン</li>
               <li><strong>3. キュー選択:</strong> キューおよび体験用メニューを選択</li>
               <li><strong>4. 受付確定:</strong> 受付を確定し、デジタルチケットを発行</li>
-              <li><strong>5. 画面待機:</strong> 画面を開いたままスタッフからの通知を受信</li>
+              <li><strong>5. 呼出通知待機:</strong> LINEで呼出メッセージを受信</li>
             </ol>
           </div>
 
@@ -587,7 +594,7 @@ window.PRESENTATION_CONFIG_JA = {
         お手元のスマートフォンを取り出し、画面上のQRコードを読み取ってください。<br><br>
         これは実際にデプロイされているデモ環境です。先ほどご説明した通り、LINE/LIFF、バックエンド、PostgreSQL、通知ワーカーを経由して動作します。<br><br>
         キューとメニューを1つ選んで受付を行ってください。金銭の請求は一切発生しません。<br><br>
-        チケットが発行されたら画面を開いたままにしてください。スタッフ画面へ切り替え、今作成されたチケットを順次対応していきます。
+        チケットが発行されたら、画面を閉じていても問題ありません。順番が来るとLINEプッシュ通知で呼出メッセージが自動で届きます。スタッフ画面へ切り替え、今作成されたチケットを順次対応していきます。
       `
     }
   ]

@@ -22,10 +22,10 @@ window.PRESENTATION_CONFIG_VI = {
     title: "📱 Luồng trải nghiệm LINE LIFF (1 - 4 bước)",
     closeBtn: "✕ Đóng (Esc)",
     steps: [
-      { title: "Bước 1: Quét QR & Chọn Queue", img: "../images/slide/30-customer-queue-selection-mobile.png" },
-      { title: "Bước 2: Chọn Dịch vụ / Menu", img: "../images/slide/30-customer-queue-selection-mobile.png" },
-      { title: "Bước 3: Xác nhận & Đặt chỗ", img: "../images/slide/30-customer-queue-selection-mobile.png" },
-      { title: "Bước 4: Nhận Ticket & Theo dõi ETA", img: "../images/slide/30-customer-queue-selection-mobile.png" }
+      { title: "Bước 1: Quét QR chọn sản phẩm", img: "../images/slide/Quet-QR-Chon-San-Pham.png" },
+      { title: "Bước 2: Xác nhận đặt chỗ", img: "../images/slide/Xac-Nhan-Dat-Cho.png" },
+      { title: "Bước 3: Nhận thông báo qua LINE", img: "../images/slide/Nhan-thong-bao-tren-line.png" },
+      { title: "Bước 4: Hoàn thành đơn hàng", img: "../images/slide/Hoan-thanh.png" }
     ]
   },
   scopeGallery: {
@@ -47,8 +47,15 @@ window.PRESENTATION_CONFIG_VI = {
       title: "LINE Smart Queue Assistant",
       subtitle: "Trải nghiệm xếp hàng thông minh & số hóa vận hành dịch vụ qua LINE",
       bodyHtml: `
-        <div class="content-text" style="gap: 14px;">
-          <div style="background: linear-gradient(135deg, rgb(233 250 240 / 0.95), rgb(255 255 255 / 0.8)); border: 1.5px solid var(--line-green); border-radius: 16px; padding: 16px 20px; box-shadow: var(--shadow-sm);">
+        <div class="content-text" style="gap: 12px;">
+          <!-- Dedicated Website Link Card (Separated) -->
+          <div style="display: inline-flex; align-items: center; background: #ffffff; border: 1.5px solid #c2eed3; border-radius: 999px; padding: 6px 16px; box-shadow: 0 4px 14px rgba(6,199,85,0.08); font-family: var(--font-family-code); font-size: 13px; font-weight: 700; width: fit-content;">
+            <span style="color: #475569; margin-right: 6px;">🌐 Website:</span>
+            <a href="https://smartqueue.io.vn/" target="_blank" style="color: #08713d; text-decoration: underline; letter-spacing: 0.01em;">https://smartqueue.io.vn/</a>
+          </div>
+
+          <!-- System Design & Live Demo Card -->
+          <div style="background: linear-gradient(135deg, rgb(233 250 240 / 0.95), rgb(255 255 255 / 0.8)); border: 1.5px solid var(--line-green); border-radius: 16px; padding: 14px 18px; box-shadow: var(--shadow-sm);">
             <div style="display: inline-block; padding: 2px 8px; border-radius: 6px; background: var(--line-green); color: #062b19; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
               System Design &amp; Live Demo
             </div>
@@ -159,20 +166,20 @@ window.PRESENTATION_CONFIG_VI = {
               </div>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">1. Scan</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Quét QR Branch</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">1. Quét QR & Chọn món</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Menu / Dịch vụ</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">2. Book</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Chọn Queue/Item</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">2. Xác nhận đặt chỗ</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Cấp Ticket điện tử</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">3. Track Ticket</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Theo dõi ETA</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">3. Nhận tin qua LINE</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Tin nhắn gọi số</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.7); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid rgba(6,199,85,0.15);">
-                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">4. Receive Msg</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Nhận tin LINE</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--brand-deep);">4. Hoàn thành</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Hoàn tất đơn hàng</div>
                 </div>
               </div>
             </div>
@@ -208,7 +215,7 @@ window.PRESENTATION_CONFIG_VI = {
           <div class="phone-mockup interactive-trigger" id="journey-phone-trigger" title="Bấm để phóng to luồng ảnh">
             <div class="phone-header-notch"></div>
             <div class="phone-screen">
-              <img src="../images/slide/30-customer-queue-selection-mobile.png" alt="Màn hình chọn queue trên LINE">
+              <img src="../images/slide/Quet-QR-Chon-San-Pham.png" alt="Màn hình quét QR chọn sản phẩm trên LINE">
             </div>
           </div>
         </div>
@@ -574,7 +581,7 @@ window.PRESENTATION_CONFIG_VI = {
               <li><strong>2. Open in LINE:</strong> Mở ứng dụng LIFF và đăng nhập</li>
               <li><strong>3. Select Queue:</strong> Chọn Hàng đợi và sản phẩm/dịch vụ demo</li>
               <li><strong>4. Submit Booking:</strong> Xác nhận đặt lịch và nhận Ticket điện tử</li>
-              <li><strong>5. Keep Ticket Open:</strong> Giữ màn hình để nhận thông báo từ Staff</li>
+              <li><strong>5. Chờ thông báo tới lượt:</strong> Nhận tin nhắn gọi số qua LINE</li>
             </ol>
           </div>
 
@@ -595,7 +602,7 @@ window.PRESENTATION_CONFIG_VI = {
         Đây là environment đang deploy cho buổi demo. Flow sẽ đi qua LINE / LIFF, backend, PostgreSQL và notification worker như phần em vừa trình bày.<br><br>
         Mọi người chọn một queue, chọn một item rồi tạo booking.<br><br>
         Không có tiền thật được charge.<br><br>
-        Sau khi thấy ticket, mọi người cứ giữ ticket mở. Em sẽ chuyển sang phía Staff để xử lý chính những ticket vừa được tạo.
+        Sau khi nhận ticket, mọi người không cần giữ màn hình sáng, có thể tắt màn hình hoặc chuyển sang ứng dụng khác; hệ thống sẽ gửi tin nhắn gọi số trực tiếp qua LINE khi tới lượt. Em sẽ chuyển sang phía Staff để xử lý chính những ticket vừa được tạo.
       `
     }
   ]
